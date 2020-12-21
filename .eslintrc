@@ -1,0 +1,44 @@
+{
+  "extends": [
+    "airbnb"
+  ],
+  "plugins": [
+    "@typescript-eslint",
+    "unicorn"
+  ],
+  "parser": "@typescript-eslint/parser",
+  "rules": {
+    "indent": [2, 4, { "SwitchCase": 1 }],
+    "max-len": [2, 130],
+    "no-plusplus": 0,
+    "no-useless-constructor": 0,
+    "no-empty-function": 0,
+    "newline-after-var": 2,
+    "newline-before-return": 2,
+    "class-methods-use-this": 0,
+    "padded-blocks": [2, { "classes": "always"}],
+    "no-underscore-dangle": [2, { "allow": ["_id"] }],
+    "object-curly-newline": [2, { "consistent": true }],
+    "import/prefer-default-export": 0,
+    "import/no-unresolved": 0,
+    "import/no-extraneous-dependencies": 0,
+    "import/extensions": [ 0 ],
+    "unicorn/filename-case": [
+      "error",
+      {
+        "case": "kebabCase"
+      }
+    ],
+    "@typescript-eslint/no-unused-vars": ["error", {
+      "vars": "all",
+      "args": "after-used",
+      "ignoreRestSiblings": true
+    }],
+    "linebreak-style": "off"
+  },
+  "env": {
+    "jest": true,
+    "jasmine": true,
+    "browser": true
+  }
+}
