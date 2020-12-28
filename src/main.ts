@@ -1,5 +1,5 @@
 import { NestFactory } from '@nestjs/core';
-import { Logger } from '@nestjs/common';
+import { Logger, ValidationPipe } from '@nestjs/common';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { AppModule } from './app.module';
 
@@ -12,7 +12,7 @@ async function bootstrap() {
     });
 
     app.enableCors();
-    app.setGlobalPrefix('/api');
+    app.useGlobalPipes(new ValidationPipe());
 
     await app.listen(port);
 }
