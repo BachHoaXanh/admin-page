@@ -29,7 +29,7 @@ export class AuthService {
     async validate(username: string, password: string): Promise<UsersInterfaces> {
         const data = await this.users.getByCondition({ username });
 
-        if (!data || await bcrypt.compare(data.password, password)) {
+        if (!data || !await bcrypt.compare(password, await bcrypt.hash(data.password, 10))) {
             throw new UnauthorizedException('Invalid Username or Password');
         }
 
