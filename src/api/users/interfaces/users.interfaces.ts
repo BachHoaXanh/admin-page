@@ -1,4 +1,4 @@
-export class UsersInterfaces {
+export interface UsersInterfaces {
 
   readonly id: number;
 
