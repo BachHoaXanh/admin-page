@@ -14,13 +14,13 @@ export class UsersController {
     }
 
     @Get()
-    findAll() {
-        return this.usersService.findAll();
+    list() {
+        return this.usersService.list();
     }
 
     @Get(':id')
-    findOne(@Param('id') id: string) {
-        return this.usersService.findById(+id);
+    get(@Param('id') id: string) {
+        return this.usersService.getById(+id);
     }
 
     @Put(':id')
@@ -30,7 +30,7 @@ export class UsersController {
 
     @Delete(':id')
     remove(@Param('id') id: string) {
-        return this.usersService.remove(+id);
+        return this.usersService.delete(+id);
     }
 
 }

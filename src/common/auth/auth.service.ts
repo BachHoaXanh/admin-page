@@ -25,14 +25,14 @@ export class AuthService {
      * @param username
      * @param password
      */
-    async validate(username: string, password: string): Promise<any> {
-        const data = await this.users.findByCondition({ username });
+    async validate(username: string, password: string): Promise<UsersInterfaces> {
+        const data = await this.users.getByCondition({ username });
 
         if (!data || data.password !== password) {
             throw new UnauthorizedException('Invalid Username or Password');
         }
 
-        return this.users.findById(data.id);
+        return this.users.getById(data.id);
     }
 
     /**
@@ -50,7 +50,7 @@ export class AuthService {
                 algorithm: ['RS256'],
             });
 
-            return this.users.findById(payload.ownerId);
+            return this.users.getById(payload.ownerId);
         }
 
         const { user } = req;

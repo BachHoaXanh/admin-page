@@ -29,7 +29,7 @@ export class UsersService {
      *
      * @return UsersInterfaces[]
      */
-    async findAll(): Promise<UsersInterfaces[]> {
+    async list(): Promise<UsersInterfaces[]> {
         return this.users.find();
     }
 
@@ -39,7 +39,7 @@ export class UsersService {
      * @param id
      * @return UsersInterfaces
      */
-    async findById(id: number): Promise<UsersInterfaces> {
+    async getById(id: number): Promise<UsersInterfaces> {
         return this.users.findOne({ id });
     }
 
@@ -50,7 +50,7 @@ export class UsersService {
      * @param condition
      * @return UsersInterfaces
      */
-    async findByCondition(condition: any): Promise<UsersInterfaces> {
+    async getByCondition(condition: any): Promise<UsersInterfaces> {
         return this.users.findOne(condition);
     }
 
@@ -73,7 +73,7 @@ export class UsersService {
      * @param id
      * @return boolean
      */
-    async remove(id: number): Promise<{ deleted: boolean }> {
+    async delete(id: number): Promise<{ deleted: boolean }> {
         const data = await this.users.delete({ id });
 
         return { deleted: data.affected === 1 };
