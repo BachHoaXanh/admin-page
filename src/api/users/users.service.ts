@@ -17,11 +17,11 @@ export class UsersService {
     /**
      * Create New User
      *
-     * @param createUserDto
+     * @param body
      * @return UsersInterfaces
      */
-    async create(createUserDto: CreateUserDto): Promise<UsersInterfaces> {
-        return this.users.save(this.users.create(createUserDto));
+    async create(body: CreateUserDto): Promise<UsersInterfaces> {
+        return this.users.save(this.users.create(body));
     }
 
     /**
@@ -50,7 +50,7 @@ export class UsersService {
      * @param condition
      * @return UsersInterfaces
      */
-    async getByCondition(condition: any): Promise<UsersInterfaces> {
+    async getByCondition(condition: {}): Promise<UsersInterfaces> {
         return this.users.findOne(condition);
     }
 
@@ -58,13 +58,13 @@ export class UsersService {
      * Update Existed User
      *
      * @param id
-     * @param updateUserDto
+     * @param body
      * @return UsersInterfaces
      */
-    async update(id: number, updateUserDto: UpdateUserDto): Promise<UsersInterfaces> {
-        await this.users.update({ id }, updateUserDto);
+    async update(id: number, body: UpdateUserDto): Promise<UsersInterfaces> {
+        await this.users.update({ id }, body);
 
-        return this.users.findOne({ id });
+        return this.getById(id);
     }
 
     /**
