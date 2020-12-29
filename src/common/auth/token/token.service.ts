@@ -31,10 +31,6 @@ export class TokenService {
      * @return token: string
      */
     async sign(payload, signOptions): Promise<string> {
-        console.log(payload);
-        console.log(signOptions);
-        console.log(jwt.sign(payload, PRIVATE_KEY, signOptions));
-
         return jwt.sign(payload, PRIVATE_KEY, signOptions);
     }
 
@@ -54,7 +50,6 @@ export class TokenService {
      * @param verifyOptions
      */
     async verify(token, verifyOptions: VerifyOptionsTokenInterface): Promise<any> {
-        console.log('token', token);
         try {
             return jwt.verify(token, PUBLIC_KEY, verifyOptions);
         } catch (e) {

@@ -43,22 +43,15 @@ export class AuthService {
      */
     async login(req, body: LoginDto): Promise<UsersInterfaces> {
         if (req.headers.authorization) {
-            console.log('aaaaaaaaaaaaaaaaaaaaaaaaaaa');
             const token = req.headers.authorization.split('Bearer ').join('');
-
-            console.log(token);
-
             const payload = await this.tokens.verify(token, {
                 subject: 'auth_token',
                 audience: 'User',
                 algorithm: ['RS256'],
             });
 
-            console.log(payload);
-
             return this.users.findById(payload.ownerId);
         }
-        console.log('bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb');
 
         const { user } = req;
         const { token } = await this.tokens.create({
@@ -66,7 +59,7 @@ export class AuthService {
             ...body,
         }, signOptions());
 
-        return { id: 1, username: 'admin', password: 'aa', firstName: '', lastName: '', token };
+        return { ...user, token };
     }
 
 }
