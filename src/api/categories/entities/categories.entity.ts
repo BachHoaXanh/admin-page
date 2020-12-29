@@ -1,5 +1,6 @@
-import { Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
+@Entity()
 export class Categories {
 
   @PrimaryGeneratedColumn()
@@ -7,6 +8,9 @@ export class Categories {
 
   @Column()
   name: string;
+
+  @Column({ default: 0 })
+  parent: number;
 
   @Column({ default: true })
   isActive: boolean;

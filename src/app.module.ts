@@ -7,6 +7,7 @@ import { User } from './api/users/entities/user.entity';
 import { AuthModule } from './common/auth/auth.module';
 import { ApiModule } from './api/api.module';
 import { Token } from './common/auth/token/entities/token.entity';
+import { Categories } from './api/categories/entities/categories.entity';
 
 const configs = new ConfigService('.env');
 
@@ -26,7 +27,7 @@ const DATABASE = configs.get('DATABASE', 'admin-page');
             password: DB_PASSWORD,
             database: DATABASE,
             synchronize: true,
-            entities: [User, Token],
+            entities: [User, Token, Categories],
         }),
         ApiModule,
         AuthModule,
