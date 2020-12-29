@@ -4,9 +4,9 @@ import { NestExpressApplication } from '@nestjs/platform-express';
 import { AppModule } from './app.module';
 
 const logger = new Logger('Bootstrap');
+const port = Number(process.env.PORT) || 3000;
 
 async function bootstrap() {
-    const port = process.env.PORT ? Number(process.env.PORT) : 3000;
     const app = await NestFactory.create<NestExpressApplication>(AppModule, {
         cors: true,
     });
@@ -16,4 +16,4 @@ async function bootstrap() {
 
     await app.listen(port);
 }
-bootstrap().then(() => logger.log('Bach Hoa Xanh bootstrapped.'));
+bootstrap().then(() => logger.log(`Bach Hoa Xanh bootstrapped on port ${port}.`));
