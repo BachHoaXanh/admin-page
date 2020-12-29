@@ -14,8 +14,18 @@ export class User {
   password: string;
 
   @BeforeInsert()
-  async hashPassword() {
-      this.password = await bcrypt.hash(this.password, 10);
+  async hashPassword(next) {
+      // eslint-disable-next-line consistent-return
+      bcrypt.genSalt(10, (err) => {
+          if (err) return next(err);
+          const salt = bcrypt.genSaltSync(10);
+
+          // eslint-disable-next-line consistent-return
+          bcrypt.hash(this.password, salt, ((error, res) => {
+              if (error) return next(error);
+              this.password = res;
+          }));
+      });
   }
 
   @Column()
