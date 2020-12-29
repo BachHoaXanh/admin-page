@@ -4,7 +4,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import * as fs from 'fs';
 import { join } from 'path';
-import { TokenRequest } from './dto/request/token.request';
+import { TokenRequest } from './dto/token.request';
 import { Token } from './entities/token.entity';
 import { SignOptionsTokenInterface, TokenInterface, VerifyOptionsTokenInterface } from './interfaces/token.interface';
 
