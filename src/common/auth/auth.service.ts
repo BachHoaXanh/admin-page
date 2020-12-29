@@ -1,4 +1,5 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
+import * as bcrypt from 'bcryptjs';
 import { UsersService } from '../../api/users/users.service';
 import { TokenService } from './token/token.service';
 import { LoginDto } from './dto/login.dto';
@@ -28,7 +29,7 @@ export class AuthService {
     async validate(username: string, password: string): Promise<UsersInterfaces> {
         const data = await this.users.getByCondition({ username });
 
-        if (!data || data.password !== password) {
+        if (!data || await bcrypt.compare(data.password, password)) {
             throw new UnauthorizedException('Invalid Username or Password');
         }
 
