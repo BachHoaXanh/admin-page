@@ -1,8 +1,8 @@
-import { IsNotEmpty, IsString } from 'class-validator';
+import { IsNotEmpty, IsNumber } from 'class-validator';
 
 export class TokenRequest {
 
-  @IsString()
+  @IsNumber()
   @IsNotEmpty()
   readonly ownerId: string;
 

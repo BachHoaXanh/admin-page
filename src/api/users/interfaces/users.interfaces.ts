@@ -2,7 +2,7 @@ export interface UsersInterfaces {
 
   readonly id: number;
 
-  readonly username: string;
+  readonly email: string;
 
   readonly password: string;
 
@@ -10,6 +10,18 @@ export interface UsersInterfaces {
 
   readonly lastName: string;
 
+  readonly phone: string;
+
+  readonly address: string;
+
+  readonly gender: string;
+
   readonly token?: string;
+
+  readonly isActive: boolean;
+
+  readonly createdAt: string;
+
+  readonly updatedAt: string;
 
 }

@@ -1,37 +1,45 @@
-import { BeforeInsert, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { BeforeInsert, Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 import * as bcrypt from 'bcryptjs';
 
 @Entity('users')
 export class User {
 
-  @PrimaryGeneratedColumn()
-  id: number;
+    @PrimaryGeneratedColumn()
+    id: number;
 
-  @Column({ unique: true })
-  username: string;
+    @Column({ unique: true })
+    email: string;
 
-  @Column()
-  password: string;
+    @Column()
+    password: string;
 
-  @BeforeInsert()
-  async hashPassword(next) {
-      // eslint-disable-next-line consistent-return
-      bcrypt.genSalt(10, (err) => {
-          if (err) return next(err);
-          const salt = bcrypt.genSaltSync(10);
+    @BeforeInsert()
+    async hashPassword() {
+        this.password = await bcrypt.hashSync(this.password, bcrypt.genSaltSync(10));
+    }
 
-          // eslint-disable-next-line consistent-return
-          bcrypt.hash(this.password, salt, ((error, res) => {
-              if (error) return next(error);
-              this.password = res;
-          }));
-      });
-  }
+    @Column({ default: '' })
+    firstName: string;
 
-  @Column()
-  firstName: string;
+    @Column({ default: '' })
+    lastName: string;
 
-  @Column()
-  lastName: string;
+    @Column({ default: '' })
+    phone: string;
+
+    @Column({ default: '' })
+    address: string;
+
+    @Column({ default: 'unknown' })
+    gender: string;
+
+    @Column('boolean', { default: true })
+    isActive: boolean;
+
+    @CreateDateColumn({ type: 'timestamp' })
+    createdAt: string;
+
+    @UpdateDateColumn({ type: 'timestamp' })
+    updatedAt: string;
 
 }

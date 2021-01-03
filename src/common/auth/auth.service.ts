@@ -23,17 +23,28 @@ export class AuthService {
     /**
      * Check User Valid
      *
-     * @param username
+     * @param email
      * @param password
      */
-    async validate(username: string, password: string): Promise<UsersInterfaces> {
-        const data = await this.users.getByCondition({ username });
+    async validate(email: string, password: string): Promise<UsersInterfaces> {
+        const data = await this.users.getByCondition({ email });
 
-        if (!data || !await bcrypt.compare(password, await bcrypt.hash(data.password, 10))) {
-            throw new UnauthorizedException('Invalid Username or Password');
+        if (!data || !await this.comparePassword(password, data.password)) {
+            throw new UnauthorizedException('Invalid Email or Password');
         }
 
         return this.users.getById(data.id);
+    }
+
+    /**
+     * Compare Password
+     *
+     * @param pass1: password get from client
+     * @param pass2: hash password from DB
+     * @return boolean
+     */
+    async comparePassword(pass1: string, pass2: string): Promise<boolean> {
+        return bcrypt.compare(pass1, pass2);
     }
 
     /**

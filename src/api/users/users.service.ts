@@ -3,8 +3,8 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { User } from './entities/user.entity';
 import { UsersInterfaces } from './interfaces/users.interfaces';
+import { User } from './entities/users.entity';
 
 @Injectable()
 export class UsersService {
@@ -45,7 +45,7 @@ export class UsersService {
 
     /**
      * Get User by Other condition
-     * Ex: { username }
+     * Ex: { email }
      *
      * @param condition
      * @return UsersInterfaces
@@ -77,6 +77,24 @@ export class UsersService {
         const data = await this.users.delete({ id });
 
         return { deleted: data.affected === 1 };
+    }
+
+    /**
+     * Lock account user
+     *
+     * @param id
+     */
+    async lock(id: number) {
+        await this.users.update({ id }, { isActive: false });
+    }
+
+    /**
+     * UnLock account user
+     *
+     * @param id
+     */
+    async unlock(id: number) {
+        await this.users.update({ id }, { isActive: true });
     }
 
 }
