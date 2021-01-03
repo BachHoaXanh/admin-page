@@ -6,5 +6,4 @@ import { ProductsModule } from './products/products.module';
 @Module({
     imports: [CategoriesModule, ProductsModule, UsersModule],
 })
-export class ApiModule {
-}
+export class ApiModule {}

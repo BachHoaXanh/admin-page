@@ -1,18 +1,29 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import { IsNumber, IsOptional, IsString } from 'class-validator';
 
-@Entity()
+@Entity('categories')
 export class Categories {
 
-  @PrimaryGeneratedColumn()
-  id: number;
+    @PrimaryGeneratedColumn()
+    id: number;
 
-  @Column()
-  name: string;
+    @IsString()
+    @Column('varchar')
+    name: string;
 
-  @Column({ default: 0 })
-  parent: number;
+    @IsNumber()
+    @IsOptional()
+    @Column({ default: 0 })
+    parent: number;
 
-  @Column({ default: true })
-  isActive: boolean;
+    @IsOptional()
+    @Column('boolean', { default: true })
+    isActive: boolean;
+
+    @CreateDateColumn({ type: 'timestamp' })
+    createdAt: string;
+
+    @UpdateDateColumn({ type: 'timestamp' })
+    updatedAt: string;
 
 }
