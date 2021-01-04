@@ -1,5 +1,4 @@
 import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
-import { IsNumber, IsOptional, IsString } from 'class-validator';
 
 @Entity('categories')
 export class Categories {
@@ -7,16 +6,12 @@ export class Categories {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @IsString()
-    @Column('varchar')
+    @Column('varchar', { nullable: true })
     name: string;
 
-    @IsNumber()
-    @IsOptional()
     @Column({ default: 0 })
     parent: number;
 
-    @IsOptional()
     @Column('boolean', { default: true })
     isActive: boolean;
 

@@ -8,4 +8,8 @@ export interface CategoriesInterface {
 
     readonly isActive: boolean;
 
+    readonly createdAt: string;
+
+    readonly updatedAt: string;
+
 }
