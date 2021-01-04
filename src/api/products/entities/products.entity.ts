@@ -7,7 +7,6 @@ import {
     PrimaryGeneratedColumn,
     UpdateDateColumn,
 } from 'typeorm';
-import { IsOptional, IsString } from 'class-validator';
 import { Categories } from '../../categories/entities/categories.entity';
 
 @Entity('products')
@@ -25,44 +24,34 @@ export class Products {
     @JoinColumn()
     categoryId: number;
 
-    @IsOptional()
     @Column('varchar')
     name: string;
 
-    @IsString()
-    @Column({ unique: true })
+    @Column({ unique: true, nullable: true })
     code: string;
 
-    @IsOptional()
     @Column('double', { default: 0 })
     price: number;
 
-    @IsOptional()
     @Column('float', { default: 0 })
     saleOff: number;
 
-    @IsOptional()
-    @Column('text')
+    @Column('text', { nullable: true })
     description: string;
 
-    @IsOptional()
-    @Column('text')
+    @Column('text', { nullable: true })
     shortDescription: string;
 
-    @IsOptional()
-    @Column('date')
+    @Column('date', { nullable: true })
     mfg: Date;
 
-    @IsOptional()
-    @Column('date')
+    @Column('date', { nullable: true })
     exp: Date;
 
-    @IsOptional()
-    @Column('varchar')
+    @Column('varchar', { nullable: true })
     provider: string;
 
-    @IsOptional()
-    @Column('varchar')
+    @Column('varchar', { nullable: true })
     origination: string;
 
     @CreateDateColumn({ type: 'timestamp' })

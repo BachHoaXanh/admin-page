@@ -14,4 +14,16 @@ export interface ProductsInterface {
 
     readonly shortDescription?: string;
 
+    readonly mfg: Date;
+
+    readonly exp: Date;
+
+    readonly provider: string;
+
+    readonly origination: string;
+
+    readonly createdAt: string;
+
+    readonly updatedAt: string;
+
 }
