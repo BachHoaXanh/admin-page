@@ -27,13 +27,13 @@ export class AuthService {
      * @param password
      */
     async validate(email: string, password: string): Promise<UsersInterfaces> {
-        const data = await this.users.getByCondition({ email });
+        const data = await this.users.findOne({ email });
 
         if (!data || !await this.comparePassword(password, data.password)) {
             throw new UnauthorizedException('Invalid Email or Password');
         }
 
-        return this.users.getById(data.id);
+        return this.users.findOne({ id: data.id });
     }
 
     /**
@@ -62,7 +62,7 @@ export class AuthService {
                 algorithm: ['RS256'],
             });
 
-            return this.users.getById(payload.ownerId);
+            return this.users.findOne({ id: payload.ownerId });
         }
 
         const { user } = req;

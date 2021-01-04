@@ -18,19 +18,19 @@ export class User {
         this.password = await bcrypt.hashSync(this.password, bcrypt.genSaltSync(10));
     }
 
-    @Column({ default: '' })
+    @Column({ nullable: true })
     firstName: string;
 
-    @Column({ default: '' })
+    @Column({ nullable: true })
     lastName: string;
 
-    @Column({ default: '' })
+    @Column({ nullable: true })
     phone: string;
 
-    @Column({ default: '' })
+    @Column({ nullable: true })
     address: string;
 
-    @Column({ default: 'unknown' })
+    @Column({ default: 'unknown', nullable: true })
     gender: string;
 
     @Column('boolean', { default: true })
