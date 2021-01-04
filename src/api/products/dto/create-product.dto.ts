@@ -22,6 +22,10 @@ export class CreateProductDto {
     @IsOptional()
     saleOff: number;
 
+    @IsNumber()
+    @IsOptional()
+    quantity:number;
+
     @IsString()
     @IsOptional()
     description: string;

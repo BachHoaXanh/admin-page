@@ -36,6 +36,9 @@ export class Products {
     @Column('float', { default: 0 })
     saleOff: number;
 
+    @Column({ default: 0 })
+    quantity: number;
+
     @Column('text', { nullable: true })
     description: string;
 

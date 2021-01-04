@@ -10,6 +10,8 @@ export interface ProductsInterface {
 
     readonly saleOff: number;
 
+    readonly quantity: number;
+
     readonly description?: string;
 
     readonly shortDescription?: string;
