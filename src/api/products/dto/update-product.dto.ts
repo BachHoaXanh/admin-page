@@ -1,5 +1,5 @@
 import { PartialType } from '@nestjs/mapped-types';
-import { IsArray, IsDate, IsNumber, IsOptional, IsString } from 'class-validator';
+import { IsDate, IsNumber, IsOptional, IsString } from 'class-validator';
 import { ApiPropertyOptional } from '@nestjs/swagger';
 import { CreateProductDto } from './create-product.dto';
 
@@ -14,11 +14,6 @@ export class UpdateProductDto extends PartialType(CreateProductDto) {
     @IsOptional()
     @ApiPropertyOptional()
     name: string;
-
-    @IsArray()
-    @IsOptional()
-    @ApiPropertyOptional({ type: [String] })
-    images: string[];
 
     @IsString()
     @IsOptional()
