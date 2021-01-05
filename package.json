@@ -1,7 +1,7 @@
 {
   "name": "admin-page",
   "version": "0.0.1",
-  "description": "Bach Hoa Xanh Admin Page",
+  "description": "Ecommerce Admin Page",
   "author": "Thanh Le - Roger",
   "private": true,
   "license": "MIT",
@@ -44,6 +44,7 @@
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
     "rxjs": "^6.6.3",
+    "swagger-ui-express": "^4.1.6",
     "typeorm": "^0.2.29"
   },
   "devDependencies": {
