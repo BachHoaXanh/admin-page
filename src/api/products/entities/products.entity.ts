@@ -15,7 +15,7 @@ export class Products {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column()
+    @Column({ nullable: true })
     @OneToOne(
         () => Categories,
         (category) => category.id,
@@ -26,6 +26,9 @@ export class Products {
 
     @Column('varchar')
     name: string;
+
+    @Column('simple-array', { nullable: true })
+    images: string[];
 
     @Column({ unique: true, nullable: true })
     code: string;
