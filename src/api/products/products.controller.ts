@@ -1,4 +1,4 @@
-import { Body, Controller, Post, UploadedFiles, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, Param, Patch, Post, Put, UploadedFiles, UseInterceptors } from '@nestjs/common';
 import { Crud, CrudRequest, CrudRequestInterceptor, ParsedRequest } from '@nestjsx/crud';
 import { FilesInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
@@ -7,7 +7,7 @@ import { ProductsService } from './products.service';
 import { Products } from './entities/products.entity';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
-import { editFileName, imageFileFilter } from '../../common/upload/file-upload.utils';
+import { editFileName, imageFileFilter, removeFile } from '../../common/upload/file-upload.utils';
 
 @Crud({
     model: {
@@ -49,10 +49,50 @@ export class ProductsController {
         const images: string[] = [];
 
         files.forEach((file) => {
-            images.push(file.path);
+            images.push(JSON.parse(JSON.stringify({
+                originalname: file.originalname,
+                filename: file.filename,
+                mimetype: file.mimetype,
+                path: file.path.toString(),
+            })));
         });
 
         return this.service.createOne(req, { ...body, images });
+    }
+
+    @Put(':id')
+    @UseInterceptors(
+        CrudRequestInterceptor,
+        FilesInterceptor('images', 10, {
+            storage: diskStorage({
+                destination: './upload/products',
+                filename: editFileName,
+            }),
+            fileFilter: imageFileFilter,
+        }),
+    )
+    async update(@Param('id') id: number, @UploadedFiles() files,
+                 @Body() body: CreateProductDto, @ParsedRequest() req: CrudRequest) {
+        const product = await this.service.findOne({ id });
+        const oldImages = JSON.parse(JSON.stringify(product.images));
+
+        // delete old images
+        oldImages.forEach((image) => {
+            removeFile(image.path.replace('/\\/g', '/'));
+        });
+
+        const images: string[] = [];
+
+        files.forEach((file) => {
+            images.push(JSON.parse(JSON.stringify({
+                originalname: file.originalname,
+                filename: file.filename,
+                mimetype: file.mimetype,
+                path: file.path,
+            })));
+        });
+
+        return this.service.updateOne(req, { ...product, ...body, images });
     }
 
 }

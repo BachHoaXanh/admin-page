@@ -1,4 +1,5 @@
 import { extname } from 'path';
+import * as fs from 'fs';
 
 // eslint-disable-next-line consistent-return
 export const imageFileFilter = (req, file, callback) => {
@@ -16,4 +17,14 @@ export const editFileName = (req, file, callback) => {
         .join('');
 
     callback(null, `${name}-${randomName}${extname(file.originalname)}`);
+};
+
+export const removeFile = (path: string) => {
+    fs.exists(path, (exists) => {
+        if (exists) {
+            fs.unlink(path, (err) => {
+                if (err) throw err;
+            });
+        }
+    });
 };

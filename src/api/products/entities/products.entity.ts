@@ -27,7 +27,7 @@ export class Products {
     @Column('varchar')
     name: string;
 
-    @Column('simple-array', { nullable: true })
+    @Column('simple-json', { nullable: true })
     images: string[];
 
     @Column({ unique: true, nullable: true })
