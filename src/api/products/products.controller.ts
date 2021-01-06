@@ -74,23 +74,27 @@ export class ProductsController {
     async update(@Param('id') id: number, @UploadedFiles() files,
                  @Body() body: CreateProductDto, @ParsedRequest() req: CrudRequest) {
         const product = await this.service.findOne({ id });
-        const oldImages = JSON.parse(JSON.stringify(product.images));
+        let newImages: string[] = [];
 
-        // delete old images
-        oldImages.forEach((image) => removeFile(image.path.replace('/\\/g', '/')));
+        // If new Images
+        if (files.length !== 0) {
+            const oldImages = JSON.parse(JSON.stringify(product.images));
 
-        const images: string[] = [];
+            // delete old images
+            oldImages.forEach((image) => removeFile(image.path.replace('/\\/g', '/')));
 
-        files.forEach((file) => {
-            images.push(JSON.parse(JSON.stringify({
-                originalname: file.originalname,
-                filename: file.filename,
-                mimetype: file.mimetype,
-                path: file.path,
-            })));
-        });
+            files.forEach((file) => {
+                newImages.push(JSON.parse(JSON.stringify({
+                    originalname: file.originalname,
+                    filename: file.filename,
+                    mimetype: file.mimetype,
+                    path: file.path,
+                })));
+            });
+        }
+        newImages = newImages.length !== 0 ? newImages : product.images;
 
-        return this.service.updateOne(req, { ...product, ...body, images });
+        return this.service.updateOne(req, { ...product, ...body, images: newImages });
     }
 
 }
