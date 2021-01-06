@@ -1,4 +1,4 @@
-import { Body, Controller, Param, Patch, Post, Put, UploadedFiles, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, Param, Post, Put, UploadedFiles, UseInterceptors } from '@nestjs/common';
 import { Crud, CrudRequest, CrudRequestInterceptor, ParsedRequest } from '@nestjsx/crud';
 import { FilesInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
@@ -77,9 +77,7 @@ export class ProductsController {
         const oldImages = JSON.parse(JSON.stringify(product.images));
 
         // delete old images
-        oldImages.forEach((image) => {
-            removeFile(image.path.replace('/\\/g', '/'));
-        });
+        oldImages.forEach((image) => removeFile(image.path.replace('/\\/g', '/')));
 
         const images: string[] = [];
 
