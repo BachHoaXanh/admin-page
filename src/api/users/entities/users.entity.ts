@@ -21,6 +21,9 @@ export class User {
     @Column()
     password: string;
 
+    @Column('simple-json')
+    avatar: object;
+
     @BeforeInsert()
     @BeforeUpdate()
     async hashPassword() {

@@ -1,4 +1,11 @@
-import { Body, Controller, Param, Patch, UseInterceptors } from '@nestjs/common';
+import {
+    BadRequestException,
+    Body,
+    Controller,
+    Param,
+    Patch, UploadedFile,
+    UseInterceptors,
+} from '@nestjs/common';
 import { Crud, CrudRequest, CrudRequestInterceptor, ParsedRequest } from '@nestjsx/crud';
 import { ApiTags } from '@nestjs/swagger';
 import { FileInterceptor } from '@nestjs/platform-express';
@@ -8,7 +15,7 @@ import { User } from './entities/users.entity';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { ChangePassDto } from './dto/change-pass.dto';
-import { editFileName, imageFileFilter } from '../../common/upload/file-upload.utils';
+import { editFileName, imageFileFilter, removeFile } from '../../common/upload/file-upload.utils';
 
 @Crud({
     model: {
@@ -39,7 +46,13 @@ export class UsersController {
     @UseInterceptors(CrudRequestInterceptor)
     async changePassword(@Param('id') id: number, @Body() body: ChangePassDto,
                          @ParsedRequest() req: CrudRequest) {
-        return this.service.updateOne(req, { password: body.password });
+        const user = await this.service.findOne({ id });
+
+        if (!user || !await this.service.comparePassword(body.oldPassword, user.password)) {
+            throw new BadRequestException('Old Password is not correct');
+        }
+
+        return this.service.updateOne(req, { password: body.newPassword });
     }
 
     @Patch('avatar/:id')
@@ -53,7 +66,27 @@ export class UsersController {
             fileFilter: imageFileFilter,
         }),
     )
-    async uploadAvatar(@Param('id') id: number, @ParsedRequest() req: CrudRequest) {
+    async uploadAvatar(@Param('id') id: number, @UploadedFile() file, @ParsedRequest() req: CrudRequest) {
+        const user = await this.service.findOne({ id });
+        let newImage: object;
+
+        if (file) {
+            const oldImages = JSON.parse(JSON.stringify(user.avatar));
+
+            // delete old avatar
+            removeFile(oldImages.path.replace('/\\/g', '/'));
+
+            newImage = {
+                originalname: file.originalname,
+                filename: file.filename,
+                mimetype: file.mimetype,
+                path: file.path,
+            };
+        }
+
+        newImage = newImage !== undefined ? newImage : user.avatar;
+
+        return this.service.updateOne(req, { avatar: newImage });
 
     }
 

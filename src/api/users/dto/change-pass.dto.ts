@@ -4,6 +4,10 @@ export class ChangePassDto {
 
   @IsString()
   @IsNotEmpty()
-  password: string
+  oldPassword: string;
+
+  @IsString()
+  @IsNotEmpty()
+  newPassword: string
 
 }

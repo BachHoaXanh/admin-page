@@ -1,5 +1,4 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
-import * as bcrypt from 'bcryptjs';
 import { UsersService } from '../../api/users/users.service';
 import { TokenService } from './token/token.service';
 import { LoginDto } from './dto/login.dto';
@@ -29,22 +28,11 @@ export class AuthService {
     async validate(email: string, password: string): Promise<UsersInterfaces> {
         const data = await this.users.findOne({ email });
 
-        if (!data || !await this.comparePassword(password, data.password)) {
+        if (!data || !await this.users.comparePassword(password, data.password)) {
             throw new UnauthorizedException('Invalid Email or Password');
         }
 
         return this.users.findOne({ id: data.id });
-    }
-
-    /**
-     * Compare Password
-     *
-     * @param pass1: password get from client
-     * @param pass2: hash password from DB
-     * @return boolean
-     */
-    async comparePassword(pass1: string, pass2: string): Promise<boolean> {
-        return bcrypt.compare(pass1, pass2);
     }
 
     /**
