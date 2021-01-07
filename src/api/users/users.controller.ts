@@ -16,6 +16,7 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { ChangePassDto } from './dto/change-pass.dto';
 import { editFileName, imageFileFilter, removeFile } from '../../common/upload/file-upload.utils';
+import { SetActivationDto } from './dto/set-activation.dto';
 
 @Crud({
     model: {
@@ -55,6 +56,12 @@ export class UsersController {
         return this.service.updateOne(req, { password: body.newPassword });
     }
 
+    @Patch('reset-password/:id')
+    @UseInterceptors(CrudRequestInterceptor)
+    async resetPassword(@Param('id') id: number, @ParsedRequest() req: CrudRequest) {
+        return this.service.updateOne(req, { password: '123456' });
+    }
+
     @Patch('avatar/:id')
     @UseInterceptors(
         CrudRequestInterceptor,
@@ -87,7 +94,13 @@ export class UsersController {
         newImage = newImage !== undefined ? newImage : user.avatar;
 
         return this.service.updateOne(req, { avatar: newImage });
+    }
 
+    @Patch('set-activation/:id')
+    @UseInterceptors(CrudRequestInterceptor)
+    async setActivation(@Param('id') id: number, @Body() body: SetActivationDto,
+                        @ParsedRequest() req: CrudRequest) {
+        return this.service.updateOne(req, { isActive: body.isActive });
     }
 
 }
