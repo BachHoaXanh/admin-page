@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { MailerModule } from '@nestjs-modules/mailer';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ConfigService } from './common/config/config.service';
@@ -18,6 +19,10 @@ const DB_USERNAME = configs.get('DB_USERNAME', 'root');
 const DB_PASSWORD = configs.get('DB_PASSWORD', 'root');
 const DATABASE = configs.get('DATABASE', 'admin-page');
 
+// Config Email
+const USER = configs.get('USER');
+const PASS = configs.get('PASS');
+
 @Module({
     imports: [
         TypeOrmModule.forRoot({
@@ -29,6 +34,19 @@ const DATABASE = configs.get('DATABASE', 'admin-page');
             database: DATABASE,
             synchronize: true,
             entities: [User, Token, Categories, Products],
+        }),
+        MailerModule.forRoot({
+            transport: {
+                host: 'smtp.gmail.com',
+                port: 587,
+                auth: {
+                    user: USER,
+                    pass: PASS,
+                },
+            },
+            defaults: {
+                from: `"nest-modules" <${USER}>`,
+            },
         }),
         ApiModule,
         AuthModule,
