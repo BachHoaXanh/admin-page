@@ -1,5 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { MailerService } from '@nestjs-modules/mailer';
+import { ConfigService } from './common/config/config.service';
+
+const configs = new ConfigService('.env');
+
+const USER = configs.get('USER');
 
 @Injectable()
 export class AppService {
@@ -8,11 +13,10 @@ export class AppService {
 
     public example() {
         this.mailer.sendMail({
-            to: 'lengoctienthanh@gmail.com',
-            from: 'ntthom1511@gmail.com',
+            to: 'ntthom1511@gmail.com',
+            from: USER,
             subject: 'Testing Nestjs Mailer',
-            text: 'aaaaaaaaaaaaaaaaaaaa',
-            html: '<b> Welcome </b>b>',
+            html: '<b> Welcome </b>',
         }).then((success) => {
             console.log(success);
         }).catch((err) => {

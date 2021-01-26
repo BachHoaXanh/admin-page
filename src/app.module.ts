@@ -43,6 +43,7 @@ const PASS = configs.get('PASS');
                     user: USER,
                     pass: PASS,
                 },
+                secure: false,
             },
             defaults: {
                 from: `"nest-modules" <${USER}>`,
