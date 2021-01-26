@@ -3,11 +3,13 @@ import { Logger, ValidationPipe } from '@nestjs/common';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { AppModule } from './app.module';
+import { ConfigService } from './common/config/config.service';
+const configs = new ConfigService('.env');
 
 const bodyParser = require('body-parser');
 
 const logger = new Logger('Bootstrap');
-const port = Number(process.env.PORT) || 3000;
+const port = configs.get('PORT', 3000);
 
 async function bootstrap() {
     const app = await NestFactory.create<NestExpressApplication>(AppModule, {
