@@ -3,9 +3,9 @@ version: "3.5"
 services:
 
     #MySQL Service
-    admin-page:
+    admin-db:
         image: mysql:5.7.22
-        container_name: admin-page
+        container_name: admin-db
         restart: unless-stopped
         tty: true
         ports:

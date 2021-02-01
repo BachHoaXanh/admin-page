@@ -35,3 +35,4 @@ yarn.lock
 !.vscode/extensions.json
 
 .env
+../.idea
