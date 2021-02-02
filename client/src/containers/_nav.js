@@ -30,6 +30,28 @@ const _nav =  [
   },
   {
     _tag: 'CSidebarNavTitle',
+    _children: ['Management'],
+  },
+  {
+    _tag: 'CSidebarNavItem',
+    name: 'Products',
+    to: '/managements/products',
+    icon: 'cil-cursor'
+  },
+  {
+    _tag: 'CSidebarNavItem',
+    name: 'Categories',
+    to: '/base/breadcrumbs',
+    icon: 'cil-calculator'
+  },
+  {
+    _tag: 'CSidebarNavItem',
+    name: 'Users',
+    to: '/base/cards',
+    icon: 'cil-user'
+  },
+  {
+    _tag: 'CSidebarNavTitle',
     _children: ['Components']
   },
   {
