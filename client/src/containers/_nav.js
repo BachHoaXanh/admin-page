@@ -41,13 +41,13 @@ const _nav =  [
   {
     _tag: 'CSidebarNavItem',
     name: 'Categories',
-    to: '/base/breadcrumbs',
+    to: '/users',
     icon: 'cil-calculator'
   },
   {
     _tag: 'CSidebarNavItem',
     name: 'Users',
-    to: '/base/cards',
+    to: '/users',
     icon: 'cil-user'
   },
   {

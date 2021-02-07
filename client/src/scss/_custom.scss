@@ -1,7 +1,13 @@
 // Here you can add other styles
 .bg-logo {
-  background: url("../Logo_Dai_hoc_Can_Tho.png") no-repeat center;
-  background-color: transparent!important;
-  background-size: contain;
+  background: transparent url("../Logo_Dai_hoc_Can_Tho.png") no-repeat center !important;
+  background-size: contain !important;
   border: none;
+}
+.btn-custom {
+  width: 2rem;
+  left: 10rem;
+  top: .7rem;
+  padding: 0;
+  position: absolute;
 }
