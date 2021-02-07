@@ -8,8 +8,8 @@ import {
   CCol,
   CDataTable,
   CRow,
-  CPagination
-} from '@coreui/react'
+  CPagination, CButton,
+} from '@coreui/react';
 
 import usersData from './UsersData'
 
@@ -39,22 +39,27 @@ const Users = () => {
 
   return (
     <CRow>
-      <CCol xl={6}>
+      <CCol xl={12}>
         <CCard>
           <CCardHeader>
-            Users
-            <small className="text-muted"> example</small>
+            <strong>Users Management</strong>
+            <CButton block variant="outline" color="success" className='btn-custom'>
+              +
+            </CButton>
           </CCardHeader>
           <CCardBody>
           <CDataTable
             items={usersData}
             fields={[
               { key: 'name', _classes: 'font-weight-bold' },
-              'registered', 'role', 'status'
+              'registered',
+              'role',
+              'status',
+              'abc'
             ]}
             hover
             striped
-            itemsPerPage={5}
+            itemsPerPage={15}
             activePage={page}
             clickableRows
             onRowClick={(item) => history.push(`/users/${item.id}`)}
@@ -73,7 +78,7 @@ const Users = () => {
             activePage={page}
             onActivePageChange={pageChange}
             pages={5}
-            doubleArrows={false} 
+            doubleArrows={false}
             align="center"
           />
           </CCardBody>
