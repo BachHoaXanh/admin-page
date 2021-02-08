@@ -15,14 +15,3 @@ services:
             MYSQL_ROOT_PASSWORD: 'root'
             SERVICE_TAGS: dev
             SERVICE_NAME: mysql
-
-#  minio:
-#    image: minio/minio
-#    volumes:
-#      - ./docker/minio/data:/data
-#    ports:
-#      - "9000:9000"
-#    environment:
-#      MINIO_ACCESS_KEY: minio-development
-#      MINIO_SECRET_KEY: minio-secret
-#    command: server /data

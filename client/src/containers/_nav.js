@@ -7,10 +7,6 @@ const _nav =  [
     name: 'Dashboard',
     to: '/dashboard',
     icon: <CIcon name="cil-speedometer" customClasses="c-sidebar-nav-icon"/>,
-    badge: {
-      color: 'info',
-      text: 'NEW',
-    }
   },
   {
     _tag: 'CSidebarNavTitle',
@@ -41,8 +37,8 @@ const _nav =  [
   {
     _tag: 'CSidebarNavItem',
     name: 'Categories',
-    to: '/users',
-    icon: 'cil-calculator'
+    to: '/managements/categories',
+    icon: 'cil-star'
   },
   {
     _tag: 'CSidebarNavItem',
