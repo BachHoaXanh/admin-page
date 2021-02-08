@@ -17,13 +17,13 @@ import {
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
 
-const Product = () => {
+const Create = () => {
   return (
     <>
       <CCol xs="12" md="12">
         <CCard>
           <CCardHeader>
-            <strong><h2>Create New User</h2></strong>
+            <strong><h2>Create New Product</h2></strong>
           </CCardHeader>
           <CCardBody>
             <CForm action="" method="post" encType="multipart/form-data" className="form-horizontal">
@@ -112,4 +112,4 @@ const Product = () => {
   )
 }
 
-export default Product
+export default Create

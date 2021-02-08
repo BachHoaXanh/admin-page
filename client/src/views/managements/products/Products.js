@@ -8,20 +8,20 @@ import {
   CCol,
   CDataTable,
   CRow,
-  CPagination
+  CPagination, CButton
 } from '@coreui/react'
 
 import usersData from './UsersData'
 
 const getBadge = status => {
   switch (status) {
-    case 'Active':
+    case 'Stocking':
       return 'success'
-    case 'Inactive':
+    case 'Coming':
       return 'secondary'
-    case 'Pending':
+    case 'InComing':
       return 'warning'
-    case 'Banned':
+    case 'Sold-out':
       return 'danger'
     default:
       return 'primary'
@@ -29,45 +29,48 @@ const getBadge = status => {
 }
 
 const Products = () => {
-  const history = useHistory()
-  const queryPage = useLocation().search.match(/page=([0-9]+)/, '')
-  const currentPage = Number(queryPage && queryPage[1] ? queryPage[1] : 1)
-  const [page, setPage] = useState(currentPage)
+  const history = useHistory();
+  const queryPage = useLocation().search.match(/page=([0-9]+)/, '');
+  const currentPage = Number(queryPage && queryPage[1] ? queryPage[1] : 1);
+  const [page, setPage] = useState(currentPage);
 
   const pageChange = newPage => {
-    currentPage !== newPage && history.push(`/users?page=${newPage}`)
-  }
+    currentPage !== newPage && history.push(`/managements/products?page=${newPage}`)
+  };
 
   useEffect(() => {
     currentPage !== page && setPage(currentPage)
-  }, [currentPage, page])
+  }, [currentPage, page]);
 
   return (
     <CRow>
       <CCol xl={12}>
         <CCard>
           <CCardHeader>
-            <strong>Products
-              <small className="text-muted"> Management</small>
-            </strong>
+            <strong>Products Management</strong>
+            <CButton onClick={() => history.push('/managements/products/create')}
+                     block variant="outline" color="success" className='btn-custom' style={{left: '11.4rem'}}>
+              +
+            </CButton>
           </CCardHeader>
           <CCardBody>
             <CDataTable
               items={usersData}
               fields={[
-                {key: 'name', _classes: 'font-weight-bold'},
                 'images',
+                'name',
                 'code',
-                'price',
-                'saleOff',
+                { key: 'price', label: 'Price (VND)' },
                 'quantity',
+                { key: 'saleOff', label: 'Sale (%)' },
+                'status',
               ]}
               hover
               striped
-              itemsPerPage={5}
+              itemsPerPage={15}
               activePage={page}
               clickableRows
-              onRowClick={(item) => history.push(`/users/${item.id}`)}
+              onRowClick={(item) => history.push(`/managements/products/${item.id}`)}
               scopedSlots={{
                 'status':
                   (item) => (
@@ -90,7 +93,7 @@ const Products = () => {
         </CCard>
       </CCol>
     </CRow>
-  )
+  );
 }
 
 export default Products

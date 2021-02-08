@@ -37,7 +37,14 @@ const Typography = React.lazy(() => import('./views/theme/typography/Typography'
 const Widgets = React.lazy(() => import('./views/widgets/Widgets'));
 const Users = React.lazy(() => import('./views/users/Users'));
 const User = React.lazy(() => import('./views/users/User'));
+// Categories
+const Categories = React.lazy(() => import('./views/managements/categories/Categories'));
+const CreateCategories = React.lazy(() => import('./views/managements/categories/Create'));
+// Products
 const Products = React.lazy(() => import('./views/managements/products/Products'));
+const CreateProduct = React.lazy(() => import('./views/managements/products/Create'));
+// Users
+const CreateUser = React.lazy(() => import('./views/managements/users/Create'));
 // const Users = React.lazy(() => import('./views/managements/users/Users'));
 
 const routes = [
@@ -81,8 +88,15 @@ const routes = [
   { path: '/widgets', name: 'Widgets', component: Widgets },
   { path: '/users', exact: true,  name: 'Users', component: Users },
   { path: '/users/:id', exact: true, name: 'User Details', component: User },
+  // Categories
+  { path: '/managements/categories', exact: true, name: 'Products', component: Categories},
+  { path: '/managements/categories/create', exact: true, name: 'Create Product', component: CreateCategories },
+  // Products
   { path: '/managements/products', exact: true, name: 'Products', component: Products},
+  { path: '/managements/products/create', exact: true, name: 'Create Product', component: CreateProduct },
+  // Users
   { path: '/managements/users', exact: true, name: 'Users', component: Users},
+  { path: '/managements/users/create', exact: true, name: 'Create User', component: CreateUser },
 ];
 
 export default routes;
