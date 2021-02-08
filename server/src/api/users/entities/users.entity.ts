@@ -8,6 +8,7 @@ import {
     UpdateDateColumn,
 } from 'typeorm';
 import * as bcrypt from 'bcryptjs';
+import { RolesEnum } from '../roles.enum';
 
 @Entity('users')
 export class User {
@@ -44,6 +45,9 @@ export class User {
 
     @Column({ default: 'unknown', nullable: true })
     gender: string;
+
+    @Column({ nullable: true })
+    role: RolesEnum;
 
     @Column('boolean', { default: true })
     isActive: boolean;

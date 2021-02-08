@@ -14,7 +14,7 @@ const User = ({match}) => {
       <CCol lg={12}>
         <CCard>
           <CCardHeader>
-            User id: {match.params.id}
+            <strong>User</strong>
           </CCardHeader>
           <CCardBody>
             <table className="table table-striped table-hover">
