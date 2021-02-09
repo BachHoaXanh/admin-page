@@ -30,15 +30,15 @@ const _nav =  [
   },
   {
     _tag: 'CSidebarNavItem',
-    name: 'Products',
-    to: '/managements/products',
-    icon: 'cil-cursor'
-  },
-  {
-    _tag: 'CSidebarNavItem',
     name: 'Categories',
     to: '/managements/categories',
     icon: 'cil-star'
+  },
+  {
+    _tag: 'CSidebarNavItem',
+    name: 'Products',
+    to: '/managements/products',
+    icon: 'cil-cursor'
   },
   {
     _tag: 'CSidebarNavItem',

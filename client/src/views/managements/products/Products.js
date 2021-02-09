@@ -8,7 +8,7 @@ import {
   CCol,
   CDataTable,
   CRow,
-  CPagination, CButton
+  CPagination, CButton, CImg
 } from '@coreui/react'
 
 import usersData from './UsersData'
@@ -79,7 +79,13 @@ const Products = () => {
                         {item.status}
                       </CBadge>
                     </td>
-                  )
+                  ),
+                'images':
+                  (item) => (
+                    <td>
+                      <CImg src={item.avatar} className="c-avatar-img" style={{ maxWidth: '4rem'}} />
+                    </td>
+                  ),
               }}
             />
             <CPagination

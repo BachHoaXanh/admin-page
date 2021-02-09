@@ -32,7 +32,7 @@ const Create = () => {
                   <CLabel htmlFor="text-input">First Name</CLabel>
                 </CCol>
                 <CCol xs="12" md="9">
-                  <CInput id="text-input" name="text-input" placeholder="First Name"/>
+                  <CInput id="first_name" name="text-input" placeholder="First Name"/>
                   <CFormText>Please enter your first name</CFormText>
                 </CCol>
               </CFormGroup>
@@ -41,7 +41,7 @@ const Create = () => {
                   <CLabel htmlFor="text-input">Last Name</CLabel>
                 </CCol>
                 <CCol xs="12" md="9">
-                  <CInput id="text-input" name="text-input" placeholder="Last Name"/>
+                  <CInput id="last_name" name="text-input" placeholder="Last Name"/>
                   <CFormText>Please enter your last name</CFormText>
                 </CCol>
               </CFormGroup>

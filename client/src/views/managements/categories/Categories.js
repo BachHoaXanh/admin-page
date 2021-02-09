@@ -19,10 +19,6 @@ const getBadge = status => {
       return 'success'
     case 'Inactive':
       return 'secondary'
-    case 'Pending':
-      return 'warning'
-    case 'Banned':
-      return 'danger'
     default:
       return 'primary'
   }
@@ -57,12 +53,9 @@ const Categories = () => {
             <CDataTable
               items={usersData}
               fields={[
-                'images',
                 'name',
-                'code',
-                'price',
-                'quantity',
-                'saleOff',
+                'parent',
+                { key: 'isActive', label: 'Status' },
               ]}
               hover
               striped
@@ -71,11 +64,11 @@ const Categories = () => {
               clickableRows
               onRowClick={(item) => history.push(`/managements/categories/${item.id}`)}
               scopedSlots={{
-                'status':
+                'isActive':
                   (item) => (
                     <td>
-                      <CBadge color={getBadge(item.status)}>
-                        {item.status}
+                      <CBadge color={getBadge(item.isActive)}>
+                        {item.isActive}
                       </CBadge>
                     </td>
                   )
