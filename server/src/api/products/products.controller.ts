@@ -48,14 +48,16 @@ export class ProductsController {
     async create(@UploadedFiles() files, @Body() body: CreateProductDto, @ParsedRequest() req: CrudRequest) {
         const images: string[] = [];
 
-        files.forEach((file) => {
-            images.push(JSON.parse(JSON.stringify({
-                originalname: file.originalname,
-                filename: file.filename,
-                mimetype: file.mimetype,
-                path: file.path.toString(),
-            })));
-        });
+        if (files?.length !== 0) {
+            files?.forEach((file) => {
+                images.push(JSON.parse(JSON.stringify({
+                    originalname: file.originalname,
+                    filename: file.filename,
+                    mimetype: file.mimetype,
+                    path: file.path.toString(),
+                })));
+            });
+        }
 
         return this.service.createOne(req, { ...body, images });
     }

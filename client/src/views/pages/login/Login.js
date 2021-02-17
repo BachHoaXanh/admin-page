@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import {
   CButton,
   CCard,
@@ -14,8 +14,41 @@ import {
   CRow
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
+import axios from 'axios';
+import { errorMessage, setUserSession } from '../../../common';
 
-const Login = () => {
+const useFormInput = initialValue => {
+  const [value, setValue] = useState(initialValue);
+  return { value, onChange: e => setValue(e.target.value) };
+}
+
+const Login = (props) => {
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+
+  // Get Form value
+  const email = useFormInput('');
+  const password = useFormInput('');
+
+  const handleLogin = () => {
+    setError(null);
+    setLoading(true);
+
+    // Call API
+    axios.post(`${process.env.REACT_APP_SERVER_URL}:${process.env.REACT_APP_SERVER_PORT}/auth/login`, {
+      email: email.value,
+      password: password.value
+    }).then((res) => {
+      setLoading(false);
+      setUserSession(res.data.token, res.data.email);
+      props.history.push('/');
+    }).catch(error => {
+      setLoading(false);
+      setError(error.response.status === 401
+        ? error.response.data.message : errorMessage);
+    });
+  };
+
   return (
     <div className="c-app c-default-layout flex-row align-items-center">
       <CContainer>
@@ -33,7 +66,7 @@ const Login = () => {
                           <CIcon name="cil-user" />
                         </CInputGroupText>
                       </CInputGroupPrepend>
-                      <CInput type="text" placeholder="Username" autoComplete="username" />
+                      <CInput type="text" placeholder="Username" autoComplete="email" {...email} />
                     </CInputGroup>
                     <CInputGroup className="mb-4">
                       <CInputGroupPrepend>
@@ -41,14 +74,13 @@ const Login = () => {
                           <CIcon name="cil-lock-locked" />
                         </CInputGroupText>
                       </CInputGroupPrepend>
-                      <CInput type="password" placeholder="Password" autoComplete="current-password" />
+                      <CInput type="password" placeholder="Password" autoComplete="password" {...password} />
                     </CInputGroup>
+                    {error && <><div style={{ color: 'red' }}><strong>{error}</strong></div><br /></>}<br />
                     <CRow>
                       <CCol xs="6">
-                        <CButton color="primary" className="px-4">Login</CButton>
-                      </CCol>
-                      <CCol xs="6" className="text-right">
-                        <CButton color="link" className="px-0">Forgot password?</CButton>
+                        <CButton color="primary" className="px-4" value={loading ? 'Loading...' : 'Login'}
+                                 onClick={handleLogin} disabled={loading}>Login</CButton>
                       </CCol>
                     </CRow>
                   </CForm>

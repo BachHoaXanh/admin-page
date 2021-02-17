@@ -89,7 +89,7 @@ const routes = [
   { path: '/users', exact: true,  name: 'Users', component: Users },
   { path: '/users/:id', exact: true, name: 'User Details', component: User },
   // Categories
-  { path: '/managements/categories', exact: true, name: 'Products', component: Categories},
+  { path: '/managements/categories', exact: true, name: 'Categories', component: Categories},
   { path: '/managements/categories/create', exact: true, name: 'Create Product', component: CreateCategories },
   // Products
   { path: '/managements/products', exact: true, name: 'Products', component: Products},

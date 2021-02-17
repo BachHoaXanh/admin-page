@@ -1,4 +1,4 @@
-import http from '../http-common';
+import http from '../common';
 
 export async function list() {
   const res = await fetch('api/users');

@@ -8,6 +8,7 @@ import {
     UpdateDateColumn,
 } from 'typeorm';
 import { Categories } from '../../categories/entities/categories.entity';
+import { ProductsStatusEnum } from '../products.enum';
 
 @Entity('products')
 export class Products {
@@ -16,13 +17,8 @@ export class Products {
     id: number;
 
     @Column({ nullable: true })
-    @OneToOne(
-        () => Categories,
-        (category) => category.id,
-        { cascade: true },
-    )
     @JoinColumn()
-    categoryId: number;
+    categoryId: string;
 
     @Column('varchar')
     name: string;
@@ -65,5 +61,8 @@ export class Products {
 
     @UpdateDateColumn({ type: 'timestamp' })
     updatedAt: string;
+
+    @Column({ nullable: true })
+    status: ProductsStatusEnum;
 
 }

@@ -11,7 +11,8 @@ import {
   CPagination, CButton, CImg
 } from '@coreui/react'
 
-import usersData from './UsersData'
+import axios from 'axios';
+import { errorMessage, limit, totalPages } from '../../../common';
 
 const getBadge = status => {
   switch (status) {
@@ -33,14 +34,35 @@ const Products = () => {
   const queryPage = useLocation().search.match(/page=([0-9]+)/, '');
   const currentPage = Number(queryPage && queryPage[1] ? queryPage[1] : 1);
   const [page, setPage] = useState(currentPage);
+  const [pages, setPages] = useState(1);
+  const [products, setProducts] = useState([]);
 
   const pageChange = newPage => {
     currentPage !== newPage && history.push(`/managements/products?page=${newPage}`)
   };
 
-  useEffect(() => {
-    currentPage !== page && setPage(currentPage)
-  }, [currentPage, page]);
+  // Call API
+  const list = (props) => {
+    axios.get(`${process.env.REACT_APP_SERVER_URL}:${process.env.REACT_APP_SERVER_PORT}/api/products`)
+      .then((res) => {
+        setProducts(res.data);
+        setPages(totalPages(res.data.length, limit));
+      }).catch(error => {
+      alert(errorMessage);
+      props.history.push('/');
+      console.log(error);
+    });
+  };
+
+  useEffect((props) => {
+    list(props);
+    const interval = setInterval(async () => {
+      await list();
+    }, 10000);
+
+    currentPage !== page && setPage(currentPage);
+    return () => clearInterval(interval);
+  }, [ currentPage, page ]);
 
   return (
     <CRow>
@@ -55,7 +77,7 @@ const Products = () => {
           </CCardHeader>
           <CCardBody>
             <CDataTable
-              items={usersData}
+              items={products}
               fields={[
                 'images',
                 'name',
@@ -67,7 +89,7 @@ const Products = () => {
               ]}
               hover
               striped
-              itemsPerPage={15}
+              itemsPerPage={limit}
               activePage={page}
               clickableRows
               onRowClick={(item) => history.push(`/managements/products/${item.id}`)}
@@ -91,7 +113,7 @@ const Products = () => {
             <CPagination
               activePage={page}
               onActivePageChange={pageChange}
-              pages={5}
+              pages={pages}
               doubleArrows={false}
               align="center"
             />

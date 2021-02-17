@@ -1,14 +1,15 @@
 import { PartialType } from '@nestjs/mapped-types';
-import { IsDate, IsNumber, IsOptional, IsString } from 'class-validator';
+import { IsDate, IsEnum, IsNumber, IsOptional, IsString } from 'class-validator';
 import { ApiPropertyOptional } from '@nestjs/swagger';
 import { CreateProductDto } from './create-product.dto';
+import { ProductsStatusEnum } from '../products.enum';
 
 export class UpdateProductDto extends PartialType(CreateProductDto) {
 
-    @IsNumber()
+    @IsString()
     @IsOptional()
     @ApiPropertyOptional()
-    categoryId: number;
+    categoryId: string;
 
     @IsString()
     @IsOptional()
@@ -64,5 +65,10 @@ export class UpdateProductDto extends PartialType(CreateProductDto) {
     @IsOptional()
     @ApiPropertyOptional()
     origination: string;
+
+    @IsString()
+    @IsOptional()
+    @IsEnum(ProductsStatusEnum)
+    status: ProductsStatusEnum;
 
 }

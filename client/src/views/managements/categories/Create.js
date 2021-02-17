@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import {
   CButton,
   CCard,
@@ -12,26 +12,42 @@ import {
   CInput,
   CLabel,
   CSelect,
+  CAlert
   } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
 import axios from "axios";
+import { errorMessage, successMessage } from '../../../common';
 
 const Create = (props) => {
-  let name = useFormInput('');
-  let parent = useFormInput('');
+  const name = useFormInput('');
+  const parent = useFormInput('');
+  const [error, setError] = useState(null);
+  const [categories, setCategories] = useState([]);
 
   const handleSubmit = () => {
-    axios.post('http://localhost:3000/api/categories', {
+    setError(null);
+
+    axios.post(`${process.env.REACT_APP_SERVER_URL}:${process.env.REACT_APP_SERVER_PORT}/api/categories`, {
       name: name.value,
-      parent: parseInt(parent.value.toString())
+      parent: +parent.value
     }).then(() => {
-      alert('Successfully');
+      alert(successMessage);
       props.history.push('/managements/categories');
     }).catch((error) => {
-      alert('Something went wrong');
-      console.log(error);
+      setError(error.response.status === 401
+        ? error.response.data.message : errorMessage);
     });
   };
+
+  useEffect(() => {
+    // Get All Categories
+    axios.get(`${process.env.REACT_APP_SERVER_URL}:${process.env.REACT_APP_SERVER_PORT}/api/categories`)
+      .then((res) => {
+        setCategories(res.data);
+      }).catch(() => {
+      alert(errorMessage);
+    });
+  }, [categories])
 
   return (
     <>
@@ -39,6 +55,7 @@ const Create = (props) => {
         <CCard>
           <CCardHeader>
             <strong><h2>Create New Category</h2></strong>
+            {error && <><CAlert color="danger">{error}</CAlert></>}
           </CCardHeader>
           <CCardBody>
             <CForm action="" method="post" encType="multipart/form-data" className="form-horizontal">
@@ -58,7 +75,7 @@ const Create = (props) => {
                 </CCol>
                 <CCol xs="12" md="9">
                   <CSelect custom name="select" id="select" {...parent}>
-                    <option value="0">Please select Category Parent</option>
+                    <option value="">Select Category Parent</option>
                     <option value="1">1</option>
                     <option value="2">2</option>
                     <option value="3">3</option>

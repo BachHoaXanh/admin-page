@@ -11,13 +11,14 @@ import {
   CPagination, CButton
 } from '@coreui/react'
 
-import usersData from './UsersData'
+import axios from 'axios';
+import { errorMessage, limit, totalPages } from '../../../common';
 
 const getBadge = status => {
   switch (status) {
-    case 'Active':
+    case true:
       return 'success'
-    case 'Inactive':
+    case false:
       return 'secondary'
     default:
       return 'primary'
@@ -28,14 +29,34 @@ const Categories = () => {
   const history = useHistory();
   const queryPage = useLocation().search.match(/page=([0-9]+)/, '');
   const currentPage = Number(queryPage && queryPage[1] ? queryPage[1] : 1);
-  const [ page, setPage ] = useState(currentPage);
+  const [page, setPage] = useState(currentPage);
+  const [pages, setPages] = useState(1);
+  const [categories, setCategories] = useState([]);
 
   const pageChange = newPage => {
     currentPage !== newPage && history.push(`/managements/categories?page=${newPage}`)
   };
 
-  useEffect(() => {
-    currentPage !== page && setPage(currentPage)
+  // Call API
+  const list = (props) => {
+    axios.get(`${process.env.REACT_APP_SERVER_URL}:${process.env.REACT_APP_SERVER_PORT}/api/categories`)
+      .then((res) => {
+        setCategories(res.data);
+        setPages(totalPages(res.data.length, limit));
+      }).catch(error => {
+      alert(errorMessage);
+      props.history.push('/');
+    });
+  };
+
+  useEffect((props) => {
+    list(props);
+    const interval = setInterval(async () => {
+      await list();
+    }, 10000);
+
+    currentPage !== page && setPage(currentPage);
+    return () => clearInterval(interval);
   }, [ currentPage, page ]);
 
   return (
@@ -51,15 +72,15 @@ const Categories = () => {
           </CCardHeader>
           <CCardBody>
             <CDataTable
-              items={usersData}
+              items={categories}
               fields={[
                 'name',
                 'parent',
-                { key: 'isActive', label: 'Status' },
+                { key: 'isActive', label: 'Active' },
               ]}
               hover
               striped
-              itemsPerPage={15}
+              itemsPerPage={limit}
               activePage={page}
               clickableRows
               onRowClick={(item) => history.push(`/managements/categories/${item.id}`)}
@@ -68,7 +89,7 @@ const Categories = () => {
                   (item) => (
                     <td>
                       <CBadge color={getBadge(item.isActive)}>
-                        {item.isActive}
+                        {item.isActive.toString()}
                       </CBadge>
                     </td>
                   )
@@ -77,7 +98,7 @@ const Categories = () => {
             <CPagination
               activePage={page}
               onActivePageChange={pageChange}
-              pages={5}
+              pages={pages}
               doubleArrows={false}
               align="center"
             />

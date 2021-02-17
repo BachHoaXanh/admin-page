@@ -70,4 +70,14 @@ export class TokenService {
         return this.tokens.save(this.tokens.create({ ...body, token }));
     }
 
+    /**
+     * Remove token
+     *
+     * @param token
+     * @return
+     */
+    async remove(token: string) {
+        return this.tokens.delete({ token });
+    }
+
 }

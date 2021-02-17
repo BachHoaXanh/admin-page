@@ -1,12 +1,13 @@
-import { IsDate, IsNotEmpty, IsNumber, IsOptional, IsString } from 'class-validator';
+import { IsDate, IsEnum, IsNotEmpty, IsNumber, IsOptional, IsString } from 'class-validator';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import { ProductsStatusEnum } from '../products.enum';
 
 export class CreateProductDto {
 
-    @IsNumber()
+    @IsString()
     @IsOptional()
     @ApiPropertyOptional()
-    categoryId: number;
+    categoryId: string;
 
     @IsString()
     @IsNotEmpty()
@@ -62,5 +63,10 @@ export class CreateProductDto {
     @IsOptional()
     @ApiPropertyOptional()
     origination: string;
+
+    @IsString()
+    @IsOptional()
+    @IsEnum(ProductsStatusEnum)
+    status: ProductsStatusEnum;
 
 }
