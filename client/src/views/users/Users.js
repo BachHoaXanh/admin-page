@@ -87,6 +87,7 @@ const Users = () => {
                 { key: 'isActive', label: 'Active' },
               ]}
               hover
+              sorter
               striped
               itemsPerPage={limit}
               activePage={page}

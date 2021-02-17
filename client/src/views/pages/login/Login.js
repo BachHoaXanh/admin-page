@@ -15,12 +15,7 @@ import {
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
 import axios from 'axios';
-import { errorMessage, setUserSession } from '../../../common';
-
-const useFormInput = initialValue => {
-  const [value, setValue] = useState(initialValue);
-  return { value, onChange: e => setValue(e.target.value) };
-}
+import { errorMessage, setUserSession, useFormInput } from '../../../common';
 
 const Login = (props) => {
   const [loading, setLoading] = useState(false);

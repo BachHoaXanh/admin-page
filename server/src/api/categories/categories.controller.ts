@@ -24,6 +24,12 @@ import { UpdateCategoriesDto } from './dto/update-categories.dto';
         update: UpdateCategoriesDto,
         replace: UpdateCategoriesDto,
     },
+    query: {
+        sort: [{
+            field: 'updatedAt',
+            order: 'DESC',
+        }],
+    },
 })
 @ApiTags('Categories')
 @Controller('api/categories')

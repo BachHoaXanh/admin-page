@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState, useEffect} from 'react'
 import {
   CButton,
   CCard,
@@ -16,8 +16,37 @@ import {
   CSwitch
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
+import {errorMessage, useFormInput} from "../../../common";
+import axios from "axios";
 
 const Create = () => {
+  const categoryId = useFormInput('');
+  const name = useFormInput('');
+  const code = useFormInput('');
+  const price = useFormInput('');
+  const saleOff = useFormInput('');
+  const quantity = useFormInput('');
+  const description = useFormInput('');
+  const shortDescription = useFormInput('');
+  const mfg = useFormInput('');
+  const exp = useFormInput('');
+  const provider = useFormInput('');
+  const origination = useFormInput('');
+
+  const [error, setError] = useState(null);
+  const [categories, setCategories] = useState([]);
+
+  const handleSubmit = () => {
+    axios.post(`${process.env.REACT_APP_SERVER_URL}:${process.env.REACT_APP_SERVER_PORT}/api/products`, {
+
+    }).then((res) => {
+
+    }).catch((error) => {
+      setError(error.response.status === 401
+        ? error.response.data.message : errorMessage);
+    });
+  };
+
   return (
     <>
       <CCol xs="12" md="12">
@@ -79,7 +108,7 @@ const Create = () => {
                 </CCol>
               </CFormGroup>
               <CFormGroup row>
-                <CLabel col md="3" htmlFor="file-input">Avatar</CLabel>
+                <CLabel col md="3" htmlFor="file-input">Images</CLabel>
                 <CCol xs="12" md="9">
                   <CInputFile id="file-input" name="file-input"/>
                 </CCol>

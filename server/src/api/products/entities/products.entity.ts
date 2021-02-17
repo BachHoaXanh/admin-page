@@ -3,11 +3,9 @@ import {
     CreateDateColumn,
     Entity,
     JoinColumn,
-    OneToOne,
     PrimaryGeneratedColumn,
     UpdateDateColumn,
 } from 'typeorm';
-import { Categories } from '../../categories/entities/categories.entity';
 import { ProductsStatusEnum } from '../products.enum';
 
 @Entity('products')

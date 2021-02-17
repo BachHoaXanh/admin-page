@@ -1,4 +1,5 @@
 import axios from 'axios';
+import React, {useState} from 'react'
 import { Route, Redirect } from 'react-router-dom';
 
 export default axios.create({
@@ -52,4 +53,9 @@ export const totalPages = (records, limit) => Math.ceil(records / limit);
 export const errorMessage = 'Something went wrong. Please try again later';
 
 export const successMessage = 'Successfully';
+
+export const useFormInput = initialValue => {
+  const [value, setValue] = useState(initialValue);
+  return { value, onChange: e => setValue(e.target.value) };
+}
 

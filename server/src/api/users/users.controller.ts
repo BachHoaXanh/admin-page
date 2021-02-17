@@ -36,6 +36,12 @@ import { SetActivationDto } from './dto/set-activation.dto';
         update: UpdateUserDto,
         replace: UpdateUserDto,
     },
+    query: {
+        sort: [{
+            field: 'updatedAt',
+            order: 'DESC',
+        }],
+    },
 })
 @ApiTags('Users')
 @Controller('api/users')

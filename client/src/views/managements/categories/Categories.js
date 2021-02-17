@@ -38,18 +38,23 @@ const Categories = () => {
   };
 
   // Call API
-  const list = (props) => {
+  const list = props => {
     axios.get(`${process.env.REACT_APP_SERVER_URL}:${process.env.REACT_APP_SERVER_PORT}/api/categories`)
-      .then((res) => {
+      .then(res => {
         setCategories(res.data);
         setPages(totalPages(res.data.length, limit));
-      }).catch(error => {
+      }).catch(() => {
       alert(errorMessage);
       props.history.push('/');
     });
   };
 
-  useEffect((props) => {
+  const getCategoryName = id => {
+    const category = categories.find(each => each.id === id);
+    return category?.name;
+  }
+
+  useEffect(props => {
     list(props);
     const interval = setInterval(async () => {
       await list();
@@ -79,20 +84,23 @@ const Categories = () => {
                 { key: 'isActive', label: 'Active' },
               ]}
               hover
+              sorter
               striped
               itemsPerPage={limit}
               activePage={page}
               clickableRows
               onRowClick={(item) => history.push(`/managements/categories/${item.id}`)}
               scopedSlots={{
-                'isActive':
-                  (item) => (
-                    <td>
-                      <CBadge color={getBadge(item.isActive)}>
-                        {item.isActive.toString()}
-                      </CBadge>
-                    </td>
-                  )
+                'isActive': (item) => (
+                  <td>
+                    <CBadge color={getBadge(item.isActive)}>
+                      {item.isActive.toString()}
+                    </CBadge>
+                  </td>
+                ),
+                'parent': (item) => (
+                  <td> {getCategoryName(item.parent)} </td>
+                )
               }}
             />
             <CPagination

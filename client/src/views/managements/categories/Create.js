@@ -16,7 +16,7 @@ import {
   } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
 import axios from "axios";
-import { errorMessage, successMessage } from '../../../common';
+import { errorMessage, successMessage, useFormInput } from '../../../common';
 
 const Create = (props) => {
   const name = useFormInput('');
@@ -49,6 +49,11 @@ const Create = (props) => {
     });
   }, [categories])
 
+  const getCategoryName = id => {
+    const category = categories.find(each => each.id === id);
+    return category?.name;
+  }
+
   return (
     <>
       <CCol xs="12" md="12">
@@ -74,11 +79,11 @@ const Create = (props) => {
                   <CLabel htmlFor="select">Parent</CLabel>
                 </CCol>
                 <CCol xs="12" md="9">
-                  <CSelect custom name="select" id="select" {...parent}>
+                  <CSelect custom name="select" id="select" {...parent} options={categories}>
                     <option value="">Select Category Parent</option>
                     <option value="1">1</option>
                     <option value="2">2</option>
-                    <option value="3">3</option>
+                    <option value="13">3</option>
                   </CSelect>
                 </CCol>
               </CFormGroup>
@@ -92,11 +97,6 @@ const Create = (props) => {
       </CCol>
     </>
   )
-}
-
-const useFormInput = initialValue => {
-  const [value, setValue] = useState(initialValue);
-  return { value, onChange: e => setValue(e.target.value) };
 }
 
 export default Create

@@ -27,6 +27,12 @@ import { editFileName, imageFileFilter, removeFile } from '../../common/upload/f
         update: UpdateProductDto,
         replace: UpdateProductDto,
     },
+    query: {
+        sort: [{
+            field: 'updatedAt',
+            order: 'DESC',
+        }],
+    },
 })
 @ApiTags('Products')
 @Controller('api/products')

@@ -36,6 +36,7 @@ const Products = () => {
   const [page, setPage] = useState(currentPage);
   const [pages, setPages] = useState(1);
   const [products, setProducts] = useState([]);
+  const [categories, setCategories] = useState([]);
 
   const pageChange = newPage => {
     currentPage !== newPage && history.push(`/managements/products?page=${newPage}`)
@@ -47,22 +48,36 @@ const Products = () => {
       .then((res) => {
         setProducts(res.data);
         setPages(totalPages(res.data.length, limit));
-      }).catch(error => {
+      }).catch(() => {
       alert(errorMessage);
       props.history.push('/');
-      console.log(error);
     });
   };
 
+  const getAllCategories = () => {
+    axios.get(`${process.env.REACT_APP_SERVER_URL}:${process.env.REACT_APP_SERVER_PORT}/api/categories`)
+      .then(res => {
+        setCategories(res.data);
+      }).catch(() => {
+      alert(errorMessage);
+    });
+  }
+
   useEffect((props) => {
+    getAllCategories();
     list(props);
     const interval = setInterval(async () => {
       await list();
-    }, 10000);
+    }, 8000);
 
     currentPage !== page && setPage(currentPage);
     return () => clearInterval(interval);
   }, [ currentPage, page ]);
+
+  const getCategoryName = (id) => {
+    const category = categories.find(each => each.id === parseInt(id.toString()));
+    return category?.name;
+  }
 
   return (
     <CRow>
@@ -80,6 +95,7 @@ const Products = () => {
               items={products}
               fields={[
                 'images',
+                { key: 'categoryId', label: 'Category'},
                 'name',
                 'code',
                 { key: 'price', label: 'Price (VND)' },
@@ -88,26 +104,28 @@ const Products = () => {
                 'status',
               ]}
               hover
+              sorter
               striped
               itemsPerPage={limit}
               activePage={page}
               clickableRows
               onRowClick={(item) => history.push(`/managements/products/${item.id}`)}
               scopedSlots={{
-                'status':
-                  (item) => (
-                    <td>
-                      <CBadge color={getBadge(item.status)}>
-                        {item.status}
-                      </CBadge>
-                    </td>
-                  ),
-                'images':
-                  (item) => (
-                    <td>
-                      <CImg src={item.avatar} className="c-avatar-img" style={{ maxWidth: '4rem'}} />
-                    </td>
-                  ),
+                'categoryId': (item) => (
+                  <td> {getCategoryName(item.categoryId || '')} </td>
+                ),
+                'status': (item) => (
+                  <td>
+                    <CBadge color={getBadge(item.status)}>
+                      {item.status}
+                    </CBadge>
+                  </td>
+                ),
+                'images': (item) => (
+                  <td>
+                    <CImg src={'../server/'+item?.images[0]?.path} className="c-avatar-img" style={{maxWidth: '4rem'}}/>
+                  </td>
+                ),
               }}
             />
             <CPagination
