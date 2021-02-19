@@ -38,11 +38,15 @@ const Widgets = React.lazy(() => import('./views/widgets/Widgets'));
 const Users = React.lazy(() => import('./views/users/Users'));
 const User = React.lazy(() => import('./views/users/User'));
 // Categories
+const Category = React.lazy(() => import('./views/managements/categories/Category'));
 const Categories = React.lazy(() => import('./views/managements/categories/Categories'));
-const CreateCategories = React.lazy(() => import('./views/managements/categories/Create'));
+const CreateCategory = React.lazy(() => import('./views/managements/categories/Create'));
+const UpdateCategory = React.lazy(() => import('./views/managements/categories/Update'));
 // Products
+const Product = React.lazy(() => import('./views/managements/products/Product'));
 const Products = React.lazy(() => import('./views/managements/products/Products'));
 const CreateProduct = React.lazy(() => import('./views/managements/products/Create'));
+const UpdateProduct = React.lazy(() => import('./views/managements/products/Update'));
 // Users
 const CreateUser = React.lazy(() => import('./views/managements/users/Create'));
 // const Users = React.lazy(() => import('./views/managements/users/Users'));
@@ -90,10 +94,14 @@ const routes = [
   { path: '/users/:id', exact: true, name: 'User Details', component: User },
   // Categories
   { path: '/managements/categories', exact: true, name: 'Categories', component: Categories},
-  { path: '/managements/categories/create', exact: true, name: 'Create Product', component: CreateCategories },
+  { path: '/managements/categories/:id', exact: true, name: 'Category Information', component: Category },
+  { path: '/managements/categories/create', exact: true, name: 'Create Category', component: CreateCategory },
+  { path: '/managements/categories/update/:id', exact: true, name: 'Create Category', component: UpdateCategory },
   // Products
   { path: '/managements/products', exact: true, name: 'Products', component: Products},
+  { path: '/managements/products/:id', exact: true, name: 'Product Information', component: Product },
   { path: '/managements/products/create', exact: true, name: 'Create Product', component: CreateProduct },
+  { path: '/managements/products/update/:id', exact: true, name: 'Create Product', component: UpdateProduct },
   // Users
   { path: '/managements/users', exact: true, name: 'Users', component: Users},
   { path: '/managements/users/create', exact: true, name: 'Create User', component: CreateUser },

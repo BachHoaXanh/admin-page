@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import {
   CButton,
   CCard,
@@ -10,30 +10,43 @@ import {
   CFormGroup,
   CFormText,
   CInput,
-  CInputFile,
   CLabel,
   CSelect,
   CSwitch
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
 import axios from "axios";
+import {API_CATEGORIES} from "../../../api.common";
+import {ERROR_MESSAGE} from "../../../common";
 
 const Create = (props) => {
   let name = useFormInput('');
   let parent = useFormInput('');
+  const [error, setError] = useState(null);
+  const [categories, setCategories] = useState([]);
 
   const handleSubmit = () => {
-    axios.post('http://localhost:3000/api/categories', {
+    setError(null);
+
+    axios.post(`${API_CATEGORIES}`, {
       name: name.value,
       parent: parent.value
     }).then((res) => {
       alert('Successfully');
       props.history.push('/managements/categories');
     }).catch((error) => {
-      alert('Something went wrong');
-      console.log(error);
+      setError(error.response.status === 401
+        ? error.response.data.message : ERROR_MESSAGE);
     });
   };
+
+  useEffect(() => {
+    // Get All Categories
+    axios.get(`${API_CATEGORIES}`)
+      .then((res) => {
+        setCategories(res.data);
+      }).catch(() => alert(ERROR_MESSAGE));
+  }, [categories])
 
   return (
     <>
@@ -53,26 +66,17 @@ const Create = (props) => {
                   <CFormText>Please enter Category name</CFormText>
                 </CCol>
               </CFormGroup>
-              <CFormGroup row>
-                <CCol md="3">
-                  <CLabel htmlFor="text-input">Category Parent</CLabel>
-                </CCol>
-                <CCol xs="12" md="9">
-                  <CInput id="last-name" name="text-input" placeholder="Last Name" {...parent}/>
-                  <CFormText>Please enter Category parent</CFormText>
-                </CCol>
-              </CFormGroup>
 
               <CFormGroup row>
                 <CCol md="3">
-                  <CLabel htmlFor="select">Role</CLabel>
+                  <CLabel htmlFor="select">Parent</CLabel>
                 </CCol>
                 <CCol xs="12" md="9">
-                  <CSelect custom name="select" id="select">
-                    <option value="0">Please select role</option>
-                    <option value="admin">Admin</option>
-                    <option value="teacher">Teacher</option>
-                    <option value="student">Student</option>
+                  <CSelect custom name="select" id="select" {...parent}>
+                    <option value="">Select Category Parent</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="13">3</option>
                   </CSelect>
                 </CCol>
               </CFormGroup>

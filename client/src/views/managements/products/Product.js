@@ -1,31 +1,16 @@
 import React, {useState, useEffect} from 'react'
 import { useHistory } from 'react-router-dom';
-import {CAlert, CButton, CCard, CCardBody, CCardHeader, CCol, CRow} from '@coreui/react'
+import {CButton, CCard, CCardBody, CCardHeader, CCol, CRow} from '@coreui/react'
 import CIcon from '@coreui/icons-react'
 
 import axios from "axios";
-import {ERROR_MESSAGE} from "../../common";
-import {API_USER} from "../../api.common";
+import {API_CATEGORIES, API_PRODUCTS} from "../../../api.common";
+import {ERROR_MESSAGE} from '../../../common';
 
 const User = ({match}) => {
+  console.log(match)
   const history = useHistory();
-  const [user, setUser] = useState();
-  const [error, setError] = useState(null);
-  const [passwordUpdated, setPasswordUpdated] = useState(null);
-
-  // Call API
-  const handleResetPassword = () => {
-    setError(null);
-    setPasswordUpdated(null);
-
-    axios.patch(`${API_USER}/reset-password/${match.params.id}`)
-      .then((res) => {
-        setPasswordUpdated(`New Password is ${res?.data.newPassword}`);
-      }).catch(() => {
-      setError(error.response.status === 401 ? error.response.data.message : ERROR_MESSAGE);
-      alert(ERROR_MESSAGE);
-    });
-  };
+  const [product, setProduct] = useState();
 
   const handleEdit = () => {
     console.log(history)
@@ -33,14 +18,19 @@ const User = ({match}) => {
   }
 
   useEffect(() => {
-    axios.get(`${API_USER}/${match.params.id}`)
+    axios.get(`${API_PRODUCTS}/${match.params.id}`)
       .then((res) => {
-        const {id, password, ...user} = res.data;
-        setUser(user);
+        // Get Category
+        axios.get(`${API_CATEGORIES}/${res.data.categoryId}`)
+          .then((data) => {
+            // TODO: Find way to show images
+            const {id, categoryId, images, ...product} = res.data;
+            setProduct({ category: data.data.name, ...product});
+          }).catch(() => alert(ERROR_MESSAGE));
       }).catch(() => alert(ERROR_MESSAGE));
   }, [match.params.id]);
-
-  const userDetails = user ? Object.entries(user) :
+  console.log(product)
+  const productDetails = product ? Object.entries(product) :
     [[(<span><CIcon className="text-muted" name="cui-icon-ban" /> Not found</span>)]];
 
   return (
@@ -50,33 +40,26 @@ const User = ({match}) => {
           <CCardHeader>
             <CRow className="align-items-center">
               <CCol col="1" sm="2" md="2" xl className="mb-3 mb-xl-0">
-                <h4><strong>User Information</strong></h4>
+                <h4><strong>Product Information</strong></h4>
               </CCol>
               <CCol col="1" sm="2" md="2" xl className="mb-3 mb-xl-0"/>
               <CCol col="1" sm="2" md="2" xl className="mb-3 mb-xl-0"/>
-              <CCol col="5" sm="4" md="3" className="mb-3 mb-xl-0" style={{maxWidth: 'max-content'}}>
-                <CButton variant="ghost" color="info" onClick={handleResetPassword}>
-                  <CIcon size={'sm'} name="cilSettings"/> Reset Password
-                </CButton>
-              </CCol>
               <CCol col="2" sm="2" md="2" className="mb-3 mb-xl-0" style={{maxWidth: 'max-content'}}>
                 <CButton variant="ghost" color="success" onClick={handleEdit}>
                   <CIcon name="cil-pencil"/> Edit
                 </CButton>
               </CCol>
             </CRow>
-            {passwordUpdated && <><br/><CAlert color="success">{passwordUpdated}</CAlert></>}
-            {error && <><br/><CAlert color="danger">{error}</CAlert></>}
           </CCardHeader>
           <CCardBody>
             <table className="table table-striped table-hover">
               <tbody>
               {
-                userDetails.map(([key, value], index) => {
+                productDetails.map(([key, value], index) => {
                   return (
                     <tr key={index.toString()}>
                       <td>{`${key}:`}</td>
-                      <td><strong>{value}</strong></td>
+                      <td><strong>{value?.toString()}</strong></td>
                     </tr>
                   );
                 })

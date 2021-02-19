@@ -9,7 +9,11 @@ export default axios.create({
   }
 })
 
-export const limit = 15;
+export const LIMIT_RECORDS = 15;
+
+// Message
+export const SUCCESS_MESSAGE = 'Successfully';
+export const ERROR_MESSAGE = 'Something went wrong. Please try again later';
 
 // return the user data from the session storage
 export const getUser = () => {
@@ -49,10 +53,6 @@ export const PublicRoute = ({ component: Component, ...rest }) => (
 );
 
 export const totalPages = (records, limit) => Math.ceil(records / limit);
-
-export const errorMessage = 'Something went wrong. Please try again later';
-
-export const successMessage = 'Successfully';
 
 export const useFormInput = initialValue => {
   const [value, setValue] = useState(initialValue);

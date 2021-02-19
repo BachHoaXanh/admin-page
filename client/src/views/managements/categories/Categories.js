@@ -12,7 +12,8 @@ import {
 } from '@coreui/react'
 
 import axios from 'axios';
-import { errorMessage, limit, totalPages } from '../../../common';
+import {ERROR_MESSAGE, LIMIT_RECORDS, totalPages} from '../../../common';
+import {API_CATEGORIES} from "../../../api.common";
 
 const getBadge = status => {
   switch (status) {
@@ -39,12 +40,12 @@ const Categories = () => {
 
   // Call API
   const list = props => {
-    axios.get(`${process.env.REACT_APP_SERVER_URL}:${process.env.REACT_APP_SERVER_PORT}/api/categories`)
+    axios.get(`${API_CATEGORIES}`)
       .then(res => {
         setCategories(res.data);
-        setPages(totalPages(res.data.length, limit));
+        setPages(totalPages(res.data.length, LIMIT_RECORDS));
       }).catch(() => {
-      alert(errorMessage);
+      alert(ERROR_MESSAGE);
       props.history.push('/');
     });
   };
@@ -52,7 +53,7 @@ const Categories = () => {
   const getCategoryName = id => {
     const category = categories.find(each => each.id === id);
     return category?.name;
-  }
+  };
 
   useEffect(props => {
     list(props);
@@ -86,7 +87,7 @@ const Categories = () => {
               hover
               sorter
               striped
-              itemsPerPage={limit}
+              itemsPerPage={LIMIT_RECORDS}
               activePage={page}
               clickableRows
               onRowClick={(item) => history.push(`/managements/categories/${item.id}`)}

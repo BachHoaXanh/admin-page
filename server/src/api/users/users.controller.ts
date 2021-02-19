@@ -65,7 +65,13 @@ export class UsersController {
     @Patch('reset-password/:id')
     @UseInterceptors(CrudRequestInterceptor)
     async resetPassword(@Param('id') id: number, @ParsedRequest() req: CrudRequest) {
-        return this.service.updateOne(req, { password: '123456' });
+        const newPassword = Math.floor(Math.random() * Math.floor(999999));
+
+        await this.service.updateOne(req, { password: newPassword.toString() });
+
+        // TODO: Send mail to user
+
+        return { newPassword };
     }
 
     @Patch('avatar/:id')

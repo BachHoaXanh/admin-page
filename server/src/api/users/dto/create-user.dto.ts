@@ -39,4 +39,9 @@ export class CreateUserDto {
   @ApiPropertyOptional()
   gender: string;
 
+  @IsString()
+  @IsNotEmpty()
+  @ApiProperty()
+  role: string;
+
 }

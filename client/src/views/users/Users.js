@@ -13,7 +13,8 @@ import {
 } from '@coreui/react';
 
 import axios from 'axios';
-import { errorMessage, limit, totalPages } from '../../common';
+import {ERROR_MESSAGE, LIMIT_RECORDS, totalPages} from '../../common';
+import {API_USER} from "../../api.common";
 
 const getBadge = status => {
   switch (status) {
@@ -40,12 +41,12 @@ const Users = () => {
 
   // Call API
   const list = (props) => {
-    axios.get(`${process.env.REACT_APP_SERVER_URL}:${process.env.REACT_APP_SERVER_PORT}/api/users`)
+    axios.get(`${API_USER}`)
       .then((res) => {
         setUsers(res.data);
-        setPages(totalPages(res.data.length, limit));
+        setPages(totalPages(res.data.length, LIMIT_RECORDS));
       }).catch(error => {
-      alert(errorMessage);
+      alert(ERROR_MESSAGE);
       props.history.push('/');
       console.log(error);
     });
@@ -58,6 +59,7 @@ const Users = () => {
     }, 5000);
 
     currentPage !== page && setPage(currentPage);
+
     return () => clearInterval(interval);
   }, [ currentPage, page ]);
 
@@ -89,7 +91,7 @@ const Users = () => {
               hover
               sorter
               striped
-              itemsPerPage={limit}
+              itemsPerPage={LIMIT_RECORDS}
               activePage={page}
               clickableRows
               onRowClick={(item) => history.push(`/users/${item.id}`)}

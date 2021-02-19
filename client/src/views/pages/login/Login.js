@@ -15,7 +15,7 @@ import {
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
 import axios from 'axios';
-import { errorMessage, setUserSession, useFormInput } from '../../../common';
+import { ERROR_MESSAGE, setUserSession, useFormInput } from '../../../common';
 
 const Login = (props) => {
   const [loading, setLoading] = useState(false);
@@ -40,7 +40,7 @@ const Login = (props) => {
     }).catch(error => {
       setLoading(false);
       setError(error.response.status === 401
-        ? error.response.data.message : errorMessage);
+        ? error.response.data.message : ERROR_MESSAGE);
     });
   };
 
