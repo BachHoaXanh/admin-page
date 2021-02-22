@@ -8,22 +8,29 @@ import {
   CImg,
 } from '@coreui/react';
 import CIcon from '@coreui/icons-react'
-import { getToken, removeUserSession } from '../common';
+import { getToken, getUserSession, removeUserSession } from '../common';
 import axios from 'axios';
+import { HOST } from '../api.common';
+import { useHistory } from 'react-router-dom';
 
-const TheHeaderDropdown = (props) => {
+const TheHeaderDropdown = () => {
+  const history = useHistory();
+
   const handleLogout = () => {
-    // Call API
-    axios.post('http://localhost:3000/auth/logout', {
+    axios.post(`${HOST}/auth/logout`, {
       token: getToken()
-    }).then((res) => {
-      if (res.status === 201) {
+    }).then(() => {
         removeUserSession();
-        console.log(this.props);
-        props.history.push('/login');
-      }
+        history.push('/login');
     });
   };
+
+  const getProfile = () => {
+    const user = getUserSession();
+
+    if (user.user) history.push(`/managements/users/${user.user}`);
+    else history.push('/login');
+  }
 
   return (
     <CDropdown
@@ -50,11 +57,20 @@ const TheHeaderDropdown = (props) => {
           <strong>Account</strong>
         </CDropdownItem>
         <CDropdownItem>
-          <CIcon name="cil-user" className="mfe-2" />Profile
+          <CButton onClick={getProfile}>
+            <CIcon name="cil-pencil" className="mfe-2" />Update Avatar
+          </CButton>
+        </CDropdownItem>
+        <CDropdownItem>
+          <CButton onClick={getProfile}>
+            <CIcon name="cil-user" className="mfe-2" />Profile
+          </CButton>
         </CDropdownItem>
         <CDropdownItem divider />
         <CDropdownItem>
-          <CButton color="primary" className="px-4" onClick={handleLogout}>Logout</CButton>
+          <CButton className="px-4" onClick={handleLogout}>
+            Logout
+          </CButton>
         </CDropdownItem>
       </CDropdownMenu>
     </CDropdown>

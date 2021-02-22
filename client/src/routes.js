@@ -35,8 +35,7 @@ const Modals = React.lazy(() => import('./views/notifications/modals/Modals'));
 const Colors = React.lazy(() => import('./views/theme/colors/Colors'));
 const Typography = React.lazy(() => import('./views/theme/typography/Typography'));
 const Widgets = React.lazy(() => import('./views/widgets/Widgets'));
-const Users = React.lazy(() => import('./views/users/Users'));
-const User = React.lazy(() => import('./views/users/User'));
+
 // Categories
 const Category = React.lazy(() => import('./views/managements/categories/Category'));
 const Categories = React.lazy(() => import('./views/managements/categories/Categories'));
@@ -48,8 +47,10 @@ const Products = React.lazy(() => import('./views/managements/products/Products'
 const CreateProduct = React.lazy(() => import('./views/managements/products/Create'));
 const UpdateProduct = React.lazy(() => import('./views/managements/products/Update'));
 // Users
+const User = React.lazy(() => import('./views/managements/users/User'));
+const Users = React.lazy(() => import('./views/managements/users/Users'));
 const CreateUser = React.lazy(() => import('./views/managements/users/Create'));
-// const Users = React.lazy(() => import('./views/managements/users/Users'));
+const UpdateUser = React.lazy(() => import('./views/managements/users/Update'));
 
 const routes = [
   { path: '/', exact: true, name: 'Home' },
@@ -90,21 +91,22 @@ const routes = [
   { path: '/notifications/modals', name: 'Modals', component: Modals },
   { path: '/notifications/toaster', name: 'Toaster', component: Toaster },
   { path: '/widgets', name: 'Widgets', component: Widgets },
-  { path: '/users', exact: true,  name: 'Users', component: Users },
-  { path: '/users/:id', exact: true, name: 'User Details', component: User },
+
   // Categories
   { path: '/managements/categories', exact: true, name: 'Categories', component: Categories},
-  { path: '/managements/categories/:id', exact: true, name: 'Category Information', component: Category },
   { path: '/managements/categories/create', exact: true, name: 'Create Category', component: CreateCategory },
-  { path: '/managements/categories/update/:id', exact: true, name: 'Create Category', component: UpdateCategory },
+  { path: '/managements/categories/update/:id', exact: true, name: 'Update Category', component: UpdateCategory },
+  { path: '/managements/categories/:id', exact: true, name: 'Category Information', component: Category },
   // Products
   { path: '/managements/products', exact: true, name: 'Products', component: Products},
-  { path: '/managements/products/:id', exact: true, name: 'Product Information', component: Product },
   { path: '/managements/products/create', exact: true, name: 'Create Product', component: CreateProduct },
-  { path: '/managements/products/update/:id', exact: true, name: 'Create Product', component: UpdateProduct },
+  { path: '/managements/products/update/:id', exact: true, name: 'Update Product', component: UpdateProduct },
+  { path: '/managements/products/:id', exact: true, name: 'Product Information', component: Product },
   // Users
   { path: '/managements/users', exact: true, name: 'Users', component: Users},
   { path: '/managements/users/create', exact: true, name: 'Create User', component: CreateUser },
+  { path: '/managements/users/update/:id', exact: true, name: 'Update User', component: UpdateUser },
+  { path: '/managements/users/:id', exact: true, name: 'User Information', component: User },
 ];
 
 export default routes;

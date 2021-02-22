@@ -1,5 +1,5 @@
-import React, {useState, useEffect} from 'react'
-import {useHistory, useLocation} from 'react-router-dom'
+import React, { useState, useEffect } from 'react';
+import { useHistory, useLocation } from 'react-router-dom';
 import {
   CBadge,
   CCard,
@@ -8,23 +8,22 @@ import {
   CCol,
   CDataTable,
   CRow,
-  CPagination, CButton
-} from '@coreui/react'
-
+  CPagination, CButton,
+} from '@coreui/react';
 import axios from 'axios';
-import {ERROR_MESSAGE, LIMIT_RECORDS, totalPages} from '../../../common';
-import {API_CATEGORIES} from "../../../api.common";
+import { ERROR_MESSAGE, LIMIT_RECORDS, totalPages } from '../../../common';
+import { API_CATEGORIES } from '../../../api.common';
 
 const getBadge = status => {
   switch (status) {
     case true:
-      return 'success'
+      return 'success';
     case false:
-      return 'secondary'
+      return 'secondary';
     default:
-      return 'primary'
+      return 'primary';
   }
-}
+};
 
 const Categories = () => {
   const history = useHistory();
@@ -35,10 +34,9 @@ const Categories = () => {
   const [categories, setCategories] = useState([]);
 
   const pageChange = newPage => {
-    currentPage !== newPage && history.push(`/managements/categories?page=${newPage}`)
+    currentPage !== newPage && history.push(`/managements/categories?page=${newPage}`);
   };
 
-  // Call API
   const list = props => {
     axios.get(`${API_CATEGORIES}`)
       .then(res => {
@@ -63,7 +61,7 @@ const Categories = () => {
 
     currentPage !== page && setPage(currentPage);
     return () => clearInterval(interval);
-  }, [ currentPage, page ]);
+  }, [currentPage, page]);
 
   return (
     <CRow>
@@ -72,7 +70,7 @@ const Categories = () => {
           <CCardHeader>
             <strong>Categories Management</strong>
             <CButton onClick={() => history.push('/managements/categories/create')}
-                     block variant="outline" color="success" className='btn-custom' style={{left: '12rem'}}>
+                     block variant="outline" color="success" className='btn-custom' style={{ left: '12rem' }}>
               +
             </CButton>
           </CCardHeader>
@@ -101,7 +99,7 @@ const Categories = () => {
                 ),
                 'parent': (item) => (
                   <td> {getCategoryName(item.parent)} </td>
-                )
+                ),
               }}
             />
             <CPagination
@@ -116,6 +114,6 @@ const Categories = () => {
       </CCol>
     </CRow>
   );
-}
+};
 
-export default Categories
+export default Categories;

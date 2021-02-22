@@ -16,6 +16,7 @@ import {
 import CIcon from '@coreui/icons-react'
 import axios from 'axios';
 import { ERROR_MESSAGE, setUserSession, useFormInput } from '../../../common';
+import { HOST } from '../../../api.common';
 
 const Login = (props) => {
   const [loading, setLoading] = useState(false);
@@ -29,13 +30,12 @@ const Login = (props) => {
     setError(null);
     setLoading(true);
 
-    // Call API
-    axios.post(`${process.env.REACT_APP_SERVER_URL}:${process.env.REACT_APP_SERVER_PORT}/auth/login`, {
+    axios.post(`${HOST}/auth/login`, {
       email: email.value,
       password: password.value
     }).then((res) => {
       setLoading(false);
-      setUserSession(res.data.token, res.data.email);
+      setUserSession(res.data.token, res.data.id);
       props.history.push('/');
     }).catch(error => {
       setLoading(false);

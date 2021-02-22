@@ -38,6 +38,13 @@ export const setUserSession = (token, user) => {
   sessionStorage.setItem('user', JSON.stringify(user));
 }
 
+export const getUserSession = () => {
+  return {
+    user: sessionStorage.getItem('user'),
+    token: sessionStorage.getItem('token')
+  }
+}
+
 export const PrivateRoute = ({ component: Component, ...rest }) => (
   <Route {...rest} render={(props) => getToken()
       ? <Component {...props} />

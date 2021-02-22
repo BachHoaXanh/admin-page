@@ -1,37 +1,40 @@
-import React, {useState, useEffect} from 'react'
+import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
-import {CButton, CCard, CCardBody, CCardHeader, CCol, CRow} from '@coreui/react'
-import CIcon from '@coreui/icons-react'
+import { CButton, CCard, CCardBody, CCardHeader, CCol, CRow } from '@coreui/react';
+import CIcon from '@coreui/icons-react';
 
-import axios from "axios";
-import {API_CATEGORIES, API_PRODUCTS} from "../../../api.common";
-import {ERROR_MESSAGE} from '../../../common';
+import axios from 'axios';
+import { API_CATEGORIES, API_PRODUCTS } from '../../../api.common';
+import { ERROR_MESSAGE } from '../../../common';
 
-const User = ({match}) => {
-  console.log(match)
+const User = ({ match }) => {
+  console.log(match);
   const history = useHistory();
   const [product, setProduct] = useState();
 
   const handleEdit = () => {
-    console.log(history)
-    history.push('/managements/categories/Create')
-  }
+    history.push(`/managements/products/update/${match.params.id}`);
+  };
 
   useEffect(() => {
     axios.get(`${API_PRODUCTS}/${match.params.id}`)
       .then((res) => {
-        // Get Category
-        axios.get(`${API_CATEGORIES}/${res.data.categoryId}`)
-          .then((data) => {
-            // TODO: Find way to show images
-            const {id, categoryId, images, ...product} = res.data;
-            setProduct({ category: data.data.name, ...product});
-          }).catch(() => alert(ERROR_MESSAGE));
+        const { id, categoryId, images, createdAt, updatedAt, ...product } = res.data;
+
+        if (res?.data.categoryId) {
+          axios.get(`${API_CATEGORIES}/${res.data.categoryId}`)
+            .then((data) => {
+              // TODO: Find way to show images
+              setProduct({ category: data.data.name, ...product });
+            }).catch(() => alert(ERROR_MESSAGE));
+        } else {
+          setProduct(product);
+        }
       }).catch(() => alert(ERROR_MESSAGE));
   }, [match.params.id]);
-  console.log(product)
+  console.log(product);
   const productDetails = product ? Object.entries(product) :
-    [[(<span><CIcon className="text-muted" name="cui-icon-ban" /> Not found</span>)]];
+    [[(<span><CIcon className="text-muted" name="cui-icon-ban"/> Not found</span>)]];
 
   return (
     <CRow>
@@ -44,7 +47,7 @@ const User = ({match}) => {
               </CCol>
               <CCol col="1" sm="2" md="2" xl className="mb-3 mb-xl-0"/>
               <CCol col="1" sm="2" md="2" xl className="mb-3 mb-xl-0"/>
-              <CCol col="2" sm="2" md="2" className="mb-3 mb-xl-0" style={{maxWidth: 'max-content'}}>
+              <CCol col="2" sm="2" md="2" className="mb-3 mb-xl-0" style={{ maxWidth: 'max-content' }}>
                 <CButton variant="ghost" color="success" onClick={handleEdit}>
                   <CIcon name="cil-pencil"/> Edit
                 </CButton>
@@ -70,7 +73,7 @@ const User = ({match}) => {
         </CCard>
       </CCol>
     </CRow>
-  )
-}
+  );
+};
 
-export default User
+export default User;

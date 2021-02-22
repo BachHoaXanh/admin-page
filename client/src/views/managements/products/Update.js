@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react'
+import React, { useState, useEffect } from 'react';
 import {
   CButton,
   CCard,
@@ -13,12 +13,12 @@ import {
   CInputFile,
   CLabel,
   CSelect,
-  CSwitch
-} from '@coreui/react'
-import CIcon from '@coreui/icons-react'
-import {ERROR_MESSAGE, useFormInput} from "../../../common";
-import {API_PRODUCTS} from "../../../api.common";
-import axios from "axios";
+  CSwitch,
+} from '@coreui/react';
+import CIcon from '@coreui/icons-react';
+import { ERROR_MESSAGE, useFormInput } from '../../../common';
+import { API_PRODUCTS } from '../../../api.common';
+import axios from 'axios';
 
 const Create = () => {
   const categoryId = useFormInput('');
@@ -38,9 +38,7 @@ const Create = () => {
   const [categories, setCategories] = useState([]);
 
   const handleSubmit = () => {
-    axios.post(`${API_PRODUCTS}`, {
-
-    }).then((res) => {
+    axios.post(`${API_PRODUCTS}`, {}).then((res) => {
 
     }).catch((error) => {
       setError(error.response.status === 401
@@ -131,7 +129,7 @@ const Create = () => {
             </CForm>
           </CCardBody>
           <CCardFooter>
-            <CButton type="submit" size="sm" color="primary" style={{marginRight: '1rem'}}>
+            <CButton type="submit" size="sm" color="primary" style={{ marginRight: '1rem' }}>
               <CIcon name="cil-scrubber"/> Submit</CButton>
             <CButton type="reset" size="sm" color="danger">
               <CIcon name="cil-ban"/> Reset</CButton>
@@ -139,7 +137,7 @@ const Create = () => {
         </CCard>
       </CCol>
     </>
-  )
-}
+  );
+};
 
-export default Create
+export default Create;

@@ -1,5 +1,6 @@
-import React, {useState, useEffect} from 'react'
+import React, { useState, useEffect } from 'react';
 import {
+  CAlert,
   CButton,
   CCard,
   CCardBody,
@@ -12,14 +13,14 @@ import {
   CInput,
   CLabel,
   CSelect,
-  CSwitch
-} from '@coreui/react'
-import CIcon from '@coreui/icons-react'
-import axios from "axios";
-import {API_CATEGORIES} from "../../../api.common";
-import {ERROR_MESSAGE} from "../../../common";
+  CSwitch,
+} from '@coreui/react';
+import CIcon from '@coreui/icons-react';
+import axios from 'axios';
+import { API_CATEGORIES } from '../../../api.common';
+import { ERROR_MESSAGE, SUCCESS_MESSAGE } from '../../../common';
 
-const Create = (props) => {
+const Update = (props) => {
   let name = useFormInput('');
   let parent = useFormInput('');
   const [error, setError] = useState(null);
@@ -30,9 +31,9 @@ const Create = (props) => {
 
     axios.post(`${API_CATEGORIES}`, {
       name: name.value,
-      parent: parent.value
+      parent: parent.valuen,
     }).then((res) => {
-      alert('Successfully');
+      alert(SUCCESS_MESSAGE);
       props.history.push('/managements/categories');
     }).catch((error) => {
       setError(error.response.status === 401
@@ -46,14 +47,20 @@ const Create = (props) => {
       .then((res) => {
         setCategories(res.data);
       }).catch(() => alert(ERROR_MESSAGE));
-  }, [categories])
+  }, [setCategories]);
+
+  const getCategoryName = id => {
+    const category = categories.find(each => each.id === id);
+    return category?.name;
+  };
 
   return (
     <>
       <CCol xs="12" md="12">
         <CCard>
           <CCardHeader>
-            <strong><h2>Create New Category</h2></strong>
+            <strong><h2>Update Category</h2></strong>
+            {error && <><br/><CAlert color="danger">{error}</CAlert></>}
           </CCardHeader>
           <CCardBody>
             <CForm action="" method="post" encType="multipart/form-data" className="form-horizontal">
@@ -97,14 +104,14 @@ const Create = (props) => {
             </CForm>
           </CCardBody>
           <CCardFooter>
-            <CButton type="submit" size="sm" color="primary" style={{marginRight: '1rem'}} onClick={handleSubmit}>
+            <CButton type="submit" size="sm" color="primary" style={{ marginRight: '1rem' }} onClick={handleSubmit}>
               <CIcon name="cil-scrubber"/> Submit</CButton>
           </CCardFooter>
         </CCard>
       </CCol>
     </>
-  )
-}
+  );
+};
 
 const useFormInput = initialValue => {
   const [value, setValue] = useState(initialValue);
@@ -113,6 +120,6 @@ const useFormInput = initialValue => {
   };
 
   return { value, onChange: handleChange };
-}
+};
 
-export default Create
+export default Update;

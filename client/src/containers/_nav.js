@@ -26,7 +26,7 @@ const _nav =  [
   },
   {
     _tag: 'CSidebarNavTitle',
-    _children: ['Management'],
+    _children: ['Managements'],
   },
   {
     _tag: 'CSidebarNavItem',
@@ -43,8 +43,24 @@ const _nav =  [
   {
     _tag: 'CSidebarNavItem',
     name: 'Users',
-    to: '/users',
-    icon: 'cil-user'
+    to: '/managements/users',
+    icon: 'cil-people'
+  },
+  {
+    _tag: 'CSidebarNavItem',
+    name: 'Roles',
+    to: '/managements/roles',
+    icon: 'cil-check'
+  },
+  {
+    _tag: 'CSidebarNavTitle',
+    _children: ['Orders'],
+  },
+  {
+    _tag: 'CSidebarNavItem',
+    name: 'Orders',
+    to: '/managements/orders',
+    icon: 'cil-notes'
   },
   {
     _tag: 'CSidebarNavTitle',

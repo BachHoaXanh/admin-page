@@ -1,19 +1,18 @@
-import React, {useState, useEffect} from 'react'
+import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
-import {CAlert, CButton, CCard, CCardBody, CCardHeader, CCol, CRow} from '@coreui/react'
-import CIcon from '@coreui/icons-react'
+import { CAlert, CButton, CCard, CCardBody, CCardHeader, CCol, CRow } from '@coreui/react';
+import CIcon from '@coreui/icons-react';
 
-import axios from "axios";
-import {ERROR_MESSAGE} from "../../common";
-import {API_USER} from "../../api.common";
+import axios from 'axios';
+import { ERROR_MESSAGE } from '../../../common';
+import { API_USER } from '../../../api.common';
 
-const User = ({match}) => {
+const User = ({ match }) => {
   const history = useHistory();
   const [user, setUser] = useState();
   const [error, setError] = useState(null);
   const [passwordUpdated, setPasswordUpdated] = useState(null);
 
-  // Call API
   const handleResetPassword = () => {
     setError(null);
     setPasswordUpdated(null);
@@ -28,20 +27,19 @@ const User = ({match}) => {
   };
 
   const handleEdit = () => {
-    console.log(history)
-    history.push('/managements/categories/Create')
-  }
+    history.push(`/managements/users/update/${match.params.id}`);
+  };
 
   useEffect(() => {
     axios.get(`${API_USER}/${match.params.id}`)
       .then((res) => {
-        const {id, password, ...user} = res.data;
-        setUser(user);
+        const { id, password, avatar, isActive, createdAt, updatedAt, ...user } = res.data;
+        setUser({ ...user, active: isActive });
       }).catch(() => alert(ERROR_MESSAGE));
   }, [match.params.id]);
 
   const userDetails = user ? Object.entries(user) :
-    [[(<span><CIcon className="text-muted" name="cui-icon-ban" /> Not found</span>)]];
+    [[(<span><CIcon className="text-muted" name="cui-icon-ban"/> Not found</span>)]];
 
   return (
     <CRow>
@@ -54,12 +52,12 @@ const User = ({match}) => {
               </CCol>
               <CCol col="1" sm="2" md="2" xl className="mb-3 mb-xl-0"/>
               <CCol col="1" sm="2" md="2" xl className="mb-3 mb-xl-0"/>
-              <CCol col="5" sm="4" md="3" className="mb-3 mb-xl-0" style={{maxWidth: 'max-content'}}>
+              <CCol col="5" sm="4" md="3" className="mb-3 mb-xl-0" style={{ maxWidth: 'max-content' }}>
                 <CButton variant="ghost" color="info" onClick={handleResetPassword}>
                   <CIcon size={'sm'} name="cilSettings"/> Reset Password
                 </CButton>
               </CCol>
-              <CCol col="2" sm="2" md="2" className="mb-3 mb-xl-0" style={{maxWidth: 'max-content'}}>
+              <CCol col="2" sm="2" md="2" className="mb-3 mb-xl-0" style={{ maxWidth: 'max-content' }}>
                 <CButton variant="ghost" color="success" onClick={handleEdit}>
                   <CIcon name="cil-pencil"/> Edit
                 </CButton>
@@ -76,7 +74,7 @@ const User = ({match}) => {
                   return (
                     <tr key={index.toString()}>
                       <td>{`${key}:`}</td>
-                      <td><strong>{value}</strong></td>
+                      <td><strong>{value?.toString()}</strong></td>
                     </tr>
                   );
                 })
@@ -87,7 +85,7 @@ const User = ({match}) => {
         </CCard>
       </CCol>
     </CRow>
-  )
-}
+  );
+};
 
-export default User
+export default User;

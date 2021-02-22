@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react'
+import React, { useState, useEffect } from 'react';
 import {
   CButton,
   CCard,
@@ -12,12 +12,12 @@ import {
   CInput,
   CLabel,
   CSelect,
-  CAlert
-  } from '@coreui/react'
-import CIcon from '@coreui/icons-react'
-import axios from "axios";
-import {ERROR_MESSAGE, SUCCESS_MESSAGE, useFormInput} from '../../../common';
-import {API_CATEGORIES} from "../../../api.common";
+  CAlert,
+} from '@coreui/react';
+import CIcon from '@coreui/icons-react';
+import axios from 'axios';
+import { ERROR_MESSAGE, SUCCESS_MESSAGE, useFormInput } from '../../../common';
+import { API_CATEGORIES } from '../../../api.common';
 
 const Create = (props) => {
   const name = useFormInput('');
@@ -30,7 +30,7 @@ const Create = (props) => {
 
     axios.post(`${API_CATEGORIES}`, {
       name: name.value,
-      parent: +parent.value
+      parent: +parent.value,
     }).then(() => {
       alert(SUCCESS_MESSAGE);
       props.history.push('/managements/categories');
@@ -46,12 +46,12 @@ const Create = (props) => {
       .then((res) => {
         setCategories(res.data);
       }).catch(() => alert(ERROR_MESSAGE));
-  }, [categories])
+  }, [setCategories]);
 
   const getCategoryName = id => {
     const category = categories.find(each => each.id === id);
     return category?.name;
-  }
+  };
 
   return (
     <>
@@ -78,7 +78,7 @@ const Create = (props) => {
                   <CLabel htmlFor="select">Parent</CLabel>
                 </CCol>
                 <CCol xs="12" md="9">
-                  <CSelect custom name="select" id="select" {...parent}>
+                  <CSelect custom name="select" id="select" {...parent} option>
                     <option value="">Select Category Parent</option>
                     <option value="1">1</option>
                     <option value="2">2</option>
@@ -89,13 +89,13 @@ const Create = (props) => {
             </CForm>
           </CCardBody>
           <CCardFooter>
-            <CButton type="submit" size="sm" color="primary" style={{marginRight: '1rem'}} onClick={handleSubmit}>
+            <CButton type="submit" size="sm" color="primary" style={{ marginRight: '1rem' }} onClick={handleSubmit}>
               <CIcon name="cil-scrubber"/> Submit</CButton>
           </CCardFooter>
         </CCard>
       </CCol>
     </>
-  )
-}
+  );
+};
 
-export default Create
+export default Create;
