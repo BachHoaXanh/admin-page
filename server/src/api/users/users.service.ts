@@ -3,8 +3,18 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { TypeOrmCrudService } from '@nestjsx/crud-typeorm';
 import * as bcrypt from 'bcryptjs';
+import { Crud } from '@nestjsx/crud';
 import { User } from './entities/users.entity';
+import { CreateUserDto } from './dto/create-user.dto';
+import { UpdateUserDto } from './dto/update-user.dto';
 
+@Crud({
+    model: { type: User },
+    dto: {
+        create: CreateUserDto,
+        update: UpdateUserDto,
+    },
+})
 @Injectable()
 export class UsersService extends TypeOrmCrudService<User> {
 

@@ -40,6 +40,13 @@ export class ProductsController {
 
     constructor(public service: ProductsService) {}
 
+    /**
+     * Create New Product
+     *
+     * @param files
+     * @param body
+     * @param req
+     */
     @Post()
     @UseInterceptors(
         CrudRequestInterceptor,
@@ -68,11 +75,20 @@ export class ProductsController {
         return this.service.createOne(req, { ...body, images });
     }
 
+    /**
+     * Update Product Info
+     *
+     * @param id
+     * @param files
+     * @param body
+     * @param req
+     */
     @Put(':id')
     @UseInterceptors(
         CrudRequestInterceptor,
         FilesInterceptor('images', 10, {
             storage: diskStorage({
+                // TODO: new generateFolderUpload()
                 destination: './upload/products',
                 filename: editFileName,
             }),

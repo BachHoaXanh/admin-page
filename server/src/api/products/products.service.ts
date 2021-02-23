@@ -5,12 +5,13 @@ import { TypeOrmCrudService } from '@nestjsx/crud-typeorm';
 import { Crud } from '@nestjsx/crud';
 import { Products } from './entities/products.entity';
 import { CreateProductDto } from './dto/create-product.dto';
+import { UpdateOrderDto } from '../orders/dto/update-order.dto';
 
 @Crud({
     model: { type: Products },
     dto: {
         create: CreateProductDto,
-        update: CreateProductDto,
+        update: UpdateOrderDto,
     },
 })
 @Injectable()

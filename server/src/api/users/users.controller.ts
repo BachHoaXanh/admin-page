@@ -18,6 +18,7 @@ import { ChangePassDto } from './dto/change-pass.dto';
 import { editFileName, imageFileFilter, removeFile } from '../../common/upload/file-upload.utils';
 import { SetActivationDto } from './dto/set-activation.dto';
 import { MailService } from '../../common/mailer/mail.service';
+import { UsersInterfaces } from './interfaces/users.interfaces';
 
 const getValue = (value) => value || '';
 
@@ -58,7 +59,7 @@ export class UsersController {
       public mail: MailService,
     ) {}
 
-    // TODO: create Role Management and replace role -> getRole()
+    // TODO: create getRole() from enum
     // const content = `
     //     <b>Your Account Information is changed Successfully.</b> <br/><br/>
     //     Email: ${getValue(updatedUser.email)} <br/>
@@ -71,6 +72,13 @@ export class UsersController {
     //
     // this.mail.send(updatedUser.email, 'Change Account Information', content);
 
+    /**
+     * Change User Password
+     *
+     * @param id
+     * @param body
+     * @param req
+     */
     @Patch('change-password/:id')
     @UseInterceptors(CrudRequestInterceptor)
     async changePassword(@Param('id') id: number, @Body() body: ChangePassDto,
@@ -88,9 +96,15 @@ export class UsersController {
         return updatedUser;
     }
 
+    /**
+     * Reset User Password
+     *
+     * @param id
+     * @param req
+     */
     @Patch('reset-password/:id')
     @UseInterceptors(CrudRequestInterceptor)
-    async resetPassword(@Param('id') id: number, @ParsedRequest() req: CrudRequest) {
+    async resetPassword(@Param('id') id: number, @ParsedRequest() req: CrudRequest): Promise<Object> {
         const newPassword = Math.floor(Math.random() * Math.floor(999999));
         const updatedUser = await this.service.updateOne(req, { password: newPassword.toString() });
 
@@ -99,6 +113,13 @@ export class UsersController {
         return { newPassword };
     }
 
+    /**
+     * Upload User Avatar
+     *
+     * @param id
+     * @param file
+     * @param req
+     */
     @Patch('avatar/:id')
     @UseInterceptors(
         CrudRequestInterceptor,
@@ -110,7 +131,8 @@ export class UsersController {
             fileFilter: imageFileFilter,
         }),
     )
-    async uploadAvatar(@Param('id') id: number, @UploadedFile() file, @ParsedRequest() req: CrudRequest) {
+    async uploadAvatar(@Param('id') id: number, @UploadedFile() file,
+                       @ParsedRequest() req: CrudRequest): Promise<UsersInterfaces> {
         const user = await this.service.findOne({ id });
         let newImage: object;
 
@@ -133,10 +155,17 @@ export class UsersController {
         return this.service.updateOne(req, { avatar: newImage });
     }
 
+    /**
+     * Active or Block User
+     *
+     * @param id
+     * @param body
+     * @param req
+     */
     @Patch('set-activation/:id')
     @UseInterceptors(CrudRequestInterceptor)
     async setActivation(@Param('id') id: number, @Body() body: SetActivationDto,
-                        @ParsedRequest() req: CrudRequest) {
+                        @ParsedRequest() req: CrudRequest): Promise<UsersInterfaces> {
         const updatedUser = await this.service.updateOne(req, { isActive: body.isActive });
         const content = `<b>Your Account has been ${body.isActive === true ? 'activated' : 'blocked'}.</b> <br/><br/>`;
 

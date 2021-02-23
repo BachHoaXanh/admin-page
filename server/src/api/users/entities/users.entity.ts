@@ -46,7 +46,7 @@ export class User {
     @Column({ default: 'unknown', nullable: true })
     gender: string;
 
-    @Column({ nullable: true })
+    @Column({ default: RolesEnum.USER })
     role: RolesEnum;
 
     @Column('boolean', { default: true })

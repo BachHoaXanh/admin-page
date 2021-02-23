@@ -11,6 +11,8 @@ import { Token } from './common/auth/token/entities/token.entity';
 import { Categories } from './api/categories/entities/categories.entity';
 import { Products } from './api/products/entities/products.entity';
 import { MailModule } from './common/mailer/mail.module';
+import { Orders } from './api/orders/entities/orders.entity';
+import { Information } from './api/information/entities/information.entity';
 
 const configs = new ConfigService('.env');
 
@@ -34,7 +36,7 @@ const PASS = configs.get('PASS');
             password: DB_PASSWORD,
             database: DATABASE,
             synchronize: true,
-            entities: [User, Token, Categories, Products],
+            entities: [User, Token, Categories, Products, Orders, Information],
         }),
         MailerModule.forRoot({
             transport: {
