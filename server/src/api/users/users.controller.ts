@@ -17,6 +17,12 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { ChangePassDto } from './dto/change-pass.dto';
 import { editFileName, imageFileFilter, removeFile } from '../../common/upload/file-upload.utils';
 import { SetActivationDto } from './dto/set-activation.dto';
+import { MailService } from '../../common/mailer/mail.service';
+
+const getValue = (value) => value || '';
+
+const contentChangePassword = (value) => `<b>Your account has successfully changed password</b> <br/><br/>
+    New Password is <p style="color: green;">${value}</p>`;
 
 @Crud({
     model: {
@@ -47,7 +53,23 @@ import { SetActivationDto } from './dto/set-activation.dto';
 @Controller('api/users')
 export class UsersController {
 
-    constructor(public service: UsersService) {}
+    constructor(
+      public service: UsersService,
+      public mail: MailService,
+    ) {}
+
+    // TODO: create Role Management and replace role -> getRole()
+    // const content = `
+    //     <b>Your Account Information is changed Successfully.</b> <br/><br/>
+    //     Email: ${getValue(updatedUser.email)} <br/>
+    //     First Name: ${getValue(updatedUser.firstName)} <br/>
+    //     Last Name: ${getValue(updatedUser.lastName)} <br/>
+    //     Phone: ${getValue(updatedUser.phone)} <br/>
+    //     Address: ${getValue(updatedUser.address)} <br/>
+    //     Gender: ${getValue(updatedUser.gender)} <br/>
+    //     Role: ${getValue(updatedUser.role)} <br/>`;
+    //
+    // this.mail.send(updatedUser.email, 'Change Account Information', content);
 
     @Patch('change-password/:id')
     @UseInterceptors(CrudRequestInterceptor)
@@ -59,17 +81,20 @@ export class UsersController {
             throw new BadRequestException('Old Password is not correct');
         }
 
-        return this.service.updateOne(req, { password: body.newPassword });
+        const updatedUser = await this.service.updateOne(req, { password: body.newPassword });
+
+        this.mail.send(updatedUser.email, 'Change Account Password', contentChangePassword(body.newPassword));
+
+        return updatedUser;
     }
 
     @Patch('reset-password/:id')
     @UseInterceptors(CrudRequestInterceptor)
     async resetPassword(@Param('id') id: number, @ParsedRequest() req: CrudRequest) {
         const newPassword = Math.floor(Math.random() * Math.floor(999999));
+        const updatedUser = await this.service.updateOne(req, { password: newPassword.toString() });
 
-        await this.service.updateOne(req, { password: newPassword.toString() });
-
-        // TODO: Send mail to user
+        this.mail.send(updatedUser.email, 'Reset Account Password', contentChangePassword(newPassword));
 
         return { newPassword };
     }
@@ -112,7 +137,12 @@ export class UsersController {
     @UseInterceptors(CrudRequestInterceptor)
     async setActivation(@Param('id') id: number, @Body() body: SetActivationDto,
                         @ParsedRequest() req: CrudRequest) {
-        return this.service.updateOne(req, { isActive: body.isActive });
+        const updatedUser = await this.service.updateOne(req, { isActive: body.isActive });
+        const content = `<b>Your Account has been ${body.isActive === true ? 'activated' : 'blocked'}.</b> <br/><br/>`;
+
+        this.mail.send(updatedUser.email, 'Set Account Activation', content);
+
+        return updatedUser;
     }
 
 }

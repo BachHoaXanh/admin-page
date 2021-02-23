@@ -63,7 +63,7 @@ const User = ({ match }) => {
                 </CButton>
               </CCol>
             </CRow>
-            {passwordUpdated && <><br/><CAlert color="success">{passwordUpdated}</CAlert></>}
+            {passwordUpdated && <><br/><CAlert color="success">Successfully. Please check your email.</CAlert></>}
             {error && <><br/><CAlert color="danger">{error}</CAlert></>}
           </CCardHeader>
           <CCardBody>

@@ -13,7 +13,6 @@ import {
 import axios from 'axios';
 import { ERROR_MESSAGE, LIMIT_RECORDS, totalPages } from '../../../common';
 import { API_USER } from '../../../api.common';
-import CIcon from '@coreui/icons-react';
 
 const getBadge = status => {
   switch (status) {

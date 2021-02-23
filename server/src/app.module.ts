@@ -10,6 +10,7 @@ import { ApiModule } from './api/api.module';
 import { Token } from './common/auth/token/entities/token.entity';
 import { Categories } from './api/categories/entities/categories.entity';
 import { Products } from './api/products/entities/products.entity';
+import { MailModule } from './common/mailer/mail.module';
 
 const configs = new ConfigService('.env');
 
@@ -51,6 +52,7 @@ const PASS = configs.get('PASS');
         }),
         ApiModule,
         AuthModule,
+        MailModule,
     ],
     controllers: [AppController],
     providers: [AppService],
