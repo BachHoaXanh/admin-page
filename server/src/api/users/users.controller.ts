@@ -3,7 +3,8 @@ import {
     Body,
     Controller,
     Param,
-    Patch, UploadedFile,
+    Patch,
+    UploadedFile,
     UseInterceptors,
 } from '@nestjs/common';
 import { Crud, CrudRequest, CrudRequestInterceptor, ParsedRequest } from '@nestjsx/crud';
