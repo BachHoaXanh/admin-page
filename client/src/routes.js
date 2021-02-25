@@ -41,16 +41,24 @@ const Category = React.lazy(() => import('./views/managements/categories/Categor
 const Categories = React.lazy(() => import('./views/managements/categories/Categories'));
 const CreateCategory = React.lazy(() => import('./views/managements/categories/Create'));
 const UpdateCategory = React.lazy(() => import('./views/managements/categories/Update'));
+
 // Products
 const Product = React.lazy(() => import('./views/managements/products/Product'));
 const Products = React.lazy(() => import('./views/managements/products/Products'));
 const CreateProduct = React.lazy(() => import('./views/managements/products/Create'));
 const UpdateProduct = React.lazy(() => import('./views/managements/products/Update'));
+
 // Users
 const User = React.lazy(() => import('./views/managements/users/User'));
 const Users = React.lazy(() => import('./views/managements/users/Users'));
 const CreateUser = React.lazy(() => import('./views/managements/users/Create'));
 const UpdateUser = React.lazy(() => import('./views/managements/users/Update'));
+
+// Orders
+const Order = React.lazy(() => import('./views/managements/orders/Order'));
+const Orders = React.lazy(() => import('./views/managements/orders/Orders'));
+const CreateOrder = React.lazy(() => import('./views/managements/orders/Create'));
+const UpdateOrder = React.lazy(() => import('./views/managements/orders/Update'));
 
 const routes = [
   { path: '/', exact: true, name: 'Home' },
@@ -107,6 +115,11 @@ const routes = [
   { path: '/managements/users/create', exact: true, name: 'Create User', component: CreateUser },
   { path: '/managements/users/update/:id', exact: true, name: 'Update User', component: UpdateUser },
   { path: '/managements/users/:id', exact: true, name: 'User Information', component: User },
+  // Orders
+  { path: '/managements/orders', exact: true, name: 'Users', component: Orders},
+  { path: '/managements/orders/create', exact: true, name: 'Create User', component: CreateOrder },
+  { path: '/managements/orders/update/:id', exact: true, name: 'Update User', component: UpdateOrder },
+  { path: '/managements/orders/:id', exact: true, name: 'User Information', component: Order },
 ];
 
 export default routes;

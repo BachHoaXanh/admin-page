@@ -13,7 +13,7 @@ import {
 
 import axios from 'axios';
 import { ERROR_MESSAGE, LIMIT_RECORDS, totalPages } from '../../../common';
-import { API_CATEGORIES, API_PRODUCTS } from '../../../api.common';
+import { API_CATEGORIES, API_ORDERS, API_PRODUCTS } from '../../../api.common';
 
 const getBadge = status => {
   switch (status) {
@@ -36,8 +36,9 @@ const Orders = () => {
   const currentPage = Number(queryPage && queryPage[1] ? queryPage[1] : 1);
   const [page, setPage] = useState(currentPage);
   const [pages, setPages] = useState(1);
+  const [users, setUsers] = useState();
+  const [orders, setOrders] = useState([]);
   const [products, setProducts] = useState([]);
-  const [categories, setCategories] = useState([]);
 
   const pageChange = newPage => {
     currentPage !== newPage && history.push(`/managements/products?page=${newPage}`);
@@ -45,9 +46,9 @@ const Orders = () => {
 
   // Call API
   const list = (props) => {
-    axios.get(`${API_PRODUCTS}`)
+    axios.get(`${API_ORDERS}`)
       .then((res) => {
-        setProducts(res.data);
+        setOrders(res.data);
         setPages(totalPages(res.data.length, LIMIT_RECORDS));
       }).catch(() => {
       alert(ERROR_MESSAGE);
@@ -56,8 +57,8 @@ const Orders = () => {
   };
 
   const getAllCategories = () => {
-    axios.get(`${API_CATEGORIES}`)
-      .then(res => setCategories(res.data))
+    axios.get(`${API_ORDERS}`)
+      .then(res => setProducts(res.data))
       .catch(() => alert(ERROR_MESSAGE));
   };
 
@@ -73,7 +74,7 @@ const Orders = () => {
   }, [currentPage, page]);
 
   const getCategoryName = (id) => {
-    const category = categories.find(each => each.id === parseInt(id.toString()));
+    const category = products.find(each => each.id === parseInt(id.toString()));
     return category?.name;
   };
 
@@ -83,22 +84,20 @@ const Orders = () => {
         <CCard>
           <CCardHeader>
             <strong>Orders Management</strong>
-            <CButton onClick={() => history.push('/managements/products/create')}
-                     block variant="outline" color="success" className='btn-custom' style={{ left: '11.4rem' }}>
+            <CButton onClick={() => history.push('/managements/orders/create')}
+                     block variant="outline" color="success" className='btn-custom' style={{ left: '10.4rem' }}>
               +
             </CButton>
           </CCardHeader>
           <CCardBody>
             <CDataTable
-              items={products}
+              items={orders}
               fields={[
                 'images',
-                { key: 'categoryId', label: 'Category' },
-                'name',
-                'code',
-                { key: 'price', label: 'Price (VND)' },
-                'quantity',
-                { key: 'saleOff', label: 'Sale (%)' },
+                'staffId',
+                'customerId',
+                'products',
+                { key: 'totalPrice', label: 'Total Price (VND)' },
                 'status',
               ]}
               hover
