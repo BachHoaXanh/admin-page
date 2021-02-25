@@ -116,10 +116,10 @@ const routes = [
   { path: '/managements/users/update/:id', exact: true, name: 'Update User', component: UpdateUser },
   { path: '/managements/users/:id', exact: true, name: 'User Information', component: User },
   // Orders
-  { path: '/managements/orders', exact: true, name: 'Users', component: Orders},
-  { path: '/managements/orders/create', exact: true, name: 'Create User', component: CreateOrder },
-  { path: '/managements/orders/update/:id', exact: true, name: 'Update User', component: UpdateOrder },
-  { path: '/managements/orders/:id', exact: true, name: 'User Information', component: Order },
+  { path: '/managements/orders', exact: true, name: 'Orders', component: Orders},
+  { path: '/managements/orders/create', exact: true, name: 'Create Order', component: CreateOrder },
+  { path: '/managements/orders/update/:id', exact: true, name: 'Update Order', component: UpdateOrder },
+  { path: '/managements/orders/:id', exact: true, name: 'Order Information', component: Order },
 ];
 
 export default routes;

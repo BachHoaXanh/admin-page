@@ -12,7 +12,7 @@ import {
 } from '@coreui/react';
 import axios from 'axios';
 import { ERROR_MESSAGE, LIMIT_RECORDS, totalPages } from '../../../common';
-import { API_USER } from '../../../api.common';
+import { API_USERS } from '../../../api.common';
 
 const getBadge = status => {
   switch (status) {
@@ -33,12 +33,10 @@ const Users = () => {
   const [pages, setPages] = useState(1);
   const [users, setUsers] = useState([]);
 
-  const pageChange = newPage => {
-    currentPage !== newPage && history.push(`/users?page=${newPage}`);
-  };
+  const pageChange = page => currentPage !== page && history.push(`/users?page=${page}`);
 
   const list = (props) => {
-    axios.get(`${API_USER}`)
+    axios.get(`${API_USERS}`)
       .then((res) => {
         setUsers(res.data);
         setPages(totalPages(res.data.length, LIMIT_RECORDS));
@@ -47,6 +45,10 @@ const Users = () => {
         alert(ERROR_MESSAGE);
         props.history.push('/');
       });
+  };
+
+  const handleRemove = () => {
+
   };
 
   useEffect((props) => {

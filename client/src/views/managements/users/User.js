@@ -5,7 +5,7 @@ import CIcon from '@coreui/icons-react';
 
 import axios from 'axios';
 import { ERROR_MESSAGE } from '../../../common';
-import { API_USER } from '../../../api.common';
+import { API_USERS } from '../../../api.common';
 
 const User = ({ match }) => {
   const history = useHistory();
@@ -17,7 +17,7 @@ const User = ({ match }) => {
     setError(null);
     setPasswordUpdated(null);
 
-    axios.patch(`${API_USER}/reset-password/${match.params.id}`)
+    axios.patch(`${API_USERS}/reset-password/${match.params.id}`)
       .then((res) => {
         setPasswordUpdated(`New Password is ${res?.data.newPassword}`);
       }).catch(() => {
@@ -31,7 +31,7 @@ const User = ({ match }) => {
   };
 
   useEffect(() => {
-    axios.get(`${API_USER}/${match.params.id}`)
+    axios.get(`${API_USERS}/${match.params.id}`)
       .then((res) => {
         const { id, password, avatar, isActive, createdAt, updatedAt, ...user } = res.data;
         setUser({ ...user, active: isActive });

@@ -14,7 +14,17 @@ const User = ({ match }) => {
     history.push(`/managements/categories/update/${match.params.id}`);
   };
 
+  const handleRemove = () => {
+    axios.delete(`${API_CATEGORIES}/${match.params.id}`)
+      .then(() => history.push('/managements/categories'))
+      .catch(() => {
+        alert(ERROR_MESSAGE);
+        history.push('/managements/categories');
+      });
+  };
+
   useEffect(() => {
+    // Get Categories
     axios.get(`${API_CATEGORIES}/${match.params.id}`)
       .then((res) => {
         let { id, createdAt, updatedAt, parent, isActive, ...category } = res.data;
@@ -24,7 +34,7 @@ const User = ({ match }) => {
             .then((data) => {
               category = { ...category, parent: data.data.name, active: isActive };
               setCategory(category);
-            }).catch(() => alert(ERROR_MESSAGE));
+            });
         } else {
           setCategory({ ...category, active: isActive });
         }
@@ -45,9 +55,12 @@ const User = ({ match }) => {
               </CCol>
               <CCol col="1" sm="2" md="2" xl className="mb-3 mb-xl-0"/>
               <CCol col="1" sm="2" md="2" xl className="mb-3 mb-xl-0"/>
-              <CCol col="2" sm="2" md="2" className="mb-3 mb-xl-0" style={{ maxWidth: 'max-content' }}>
+              <CCol col="2" sm="4" md="2" className="mb-3 mb-xl-0" style={{ maxWidth: 'max-content' }}>
                 <CButton variant="ghost" color="success" onClick={handleEdit}>
                   <CIcon name="cil-pencil"/> Edit
+                </CButton>
+                <CButton variant="ghost" color="danger" onClick={handleRemove}>
+                  <CIcon name="cil-x"/> Delete
                 </CButton>
               </CCol>
             </CRow>

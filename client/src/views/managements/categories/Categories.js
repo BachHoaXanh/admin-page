@@ -33,9 +33,7 @@ const Categories = () => {
   const [pages, setPages] = useState(1);
   const [categories, setCategories] = useState([]);
 
-  const pageChange = newPage => {
-    currentPage !== newPage && history.push(`/managements/categories?page=${newPage}`);
-  };
+  const pageChange = page => currentPage !== page && history.push(`/managements/categories?page=${page}`);
 
   const list = props => {
     axios.get(`${API_CATEGORIES}`)

@@ -39,11 +39,8 @@ const Products = () => {
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
 
-  const pageChange = newPage => {
-    currentPage !== newPage && history.push(`/managements/products?page=${newPage}`);
-  };
+  const pageChange = page => currentPage !== page && history.push(`/managements/products?page=${page}`);
 
-  // Call API
   const list = (props) => {
     axios.get(`${API_PRODUCTS}`)
       .then((res) => {
@@ -55,20 +52,26 @@ const Products = () => {
     });
   };
 
-  const getAllCategories = () => {
+  const getCategories = () => {
     axios.get(`${API_CATEGORIES}`)
       .then(res => setCategories(res.data))
       .catch(() => alert(ERROR_MESSAGE));
   };
 
+  const handleRemove = () => {
+
+  };
+
   useEffect((props) => {
-    getAllCategories();
+    getCategories();
     list(props);
+
     const interval = setInterval(async () => {
       await list();
     }, 8000);
 
     currentPage !== page && setPage(currentPage);
+
     return () => clearInterval(interval);
   }, [currentPage, page]);
 

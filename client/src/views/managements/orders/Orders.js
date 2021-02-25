@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { useHistory, useLocation } from 'react-router-dom';
+import React, {useState, useEffect} from 'react';
+import {useHistory, useLocation} from 'react-router-dom';
 import {
   CBadge,
   CCard,
@@ -8,12 +8,12 @@ import {
   CCol,
   CDataTable,
   CRow,
-  CPagination, CButton, CImg,
+  CPagination, CButton,
 } from '@coreui/react';
 
 import axios from 'axios';
 import { ERROR_MESSAGE, LIMIT_RECORDS, totalPages } from '../../../common';
-import { API_CATEGORIES, API_ORDERS, API_PRODUCTS } from '../../../api.common';
+import { API_ORDERS, API_USERS } from '../../../api.common';
 
 const getBadge = status => {
   switch (status) {
@@ -38,13 +38,9 @@ const Orders = () => {
   const [pages, setPages] = useState(1);
   const [users, setUsers] = useState();
   const [orders, setOrders] = useState([]);
-  const [products, setProducts] = useState([]);
 
-  const pageChange = newPage => {
-    currentPage !== newPage && history.push(`/managements/products?page=${newPage}`);
-  };
+  const pageChange = page => currentPage !== page && history.push(`/managements/orders?page=${page}`);
 
-  // Call API
   const list = (props) => {
     axios.get(`${API_ORDERS}`)
       .then((res) => {
@@ -56,27 +52,22 @@ const Orders = () => {
     });
   };
 
-  const getAllCategories = () => {
-    axios.get(`${API_ORDERS}`)
-      .then(res => setProducts(res.data))
-      .catch(() => alert(ERROR_MESSAGE));
-  };
-
   useEffect((props) => {
-    getAllCategories();
     list(props);
+
+    // Get Users
+    axios.get(`${API_USERS}`)
+      .then((res) => setUsers(res.data))
+      .catch(() => alert(ERROR_MESSAGE));
+
     const interval = setInterval(async () => {
       await list();
     }, 8000);
 
     currentPage !== page && setPage(currentPage);
+
     return () => clearInterval(interval);
   }, [currentPage, page]);
-
-  const getCategoryName = (id) => {
-    const category = products.find(each => each.id === parseInt(id.toString()));
-    return category?.name;
-  };
 
   return (
     <CRow>
@@ -85,7 +76,7 @@ const Orders = () => {
           <CCardHeader>
             <strong>Orders Management</strong>
             <CButton onClick={() => history.push('/managements/orders/create')}
-                     block variant="outline" color="success" className='btn-custom' style={{ left: '10.4rem' }}>
+                     block variant="outline" color="success" className='btn-custom' style={{left: '10.4rem'}}>
               +
             </CButton>
           </CCardHeader>
@@ -96,8 +87,7 @@ const Orders = () => {
                 'images',
                 'staffId',
                 'customerId',
-                'products',
-                { key: 'totalPrice', label: 'Total Price (VND)' },
+                {key: 'totalPrice', label: 'Total Price (VND)'},
                 'status',
               ]}
               hover
@@ -106,22 +96,13 @@ const Orders = () => {
               itemsPerPage={LIMIT_RECORDS}
               activePage={page}
               clickableRows
-              onRowClick={(item) => history.push(`/managements/products/${item.id}`)}
+              onRowClick={(item) => history.push(`/managements/orders/${item.id}`)}
               scopedSlots={{
-                'categoryId': (item) => (
-                  <td> {getCategoryName(item.categoryId || '')} </td>
-                ),
                 'status': (item) => (
                   <td>
                     <CBadge color={getBadge(item.status)}>
                       {item.status}
                     </CBadge>
-                  </td>
-                ),
-                'images': (item) => (
-                  <td>
-                    <CImg src={'../server/' + item?.images[0]?.path} className="c-avatar-img"
-                          style={{ maxWidth: '4rem' }}/>
                   </td>
                 ),
               }}
