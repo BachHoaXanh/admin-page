@@ -5,7 +5,7 @@ import CIcon from '@coreui/icons-react';
 
 import axios from 'axios';
 import { ERROR_MESSAGE } from '../../../common';
-import { API_USERS } from '../../../api.common';
+import { API_USERS} from '../../../api.common';
 
 const User = ({ match }) => {
   const history = useHistory();
@@ -28,6 +28,15 @@ const User = ({ match }) => {
 
   const handleEdit = () => {
     history.push(`/managements/users/update/${match.params.id}`);
+  };
+
+  const handleRemove = () => {
+    axios.delete(`${API_USERS}/${match.params.id}`)
+      .then(() => history.push('/managements/users'))
+      .catch(() => {
+        alert(ERROR_MESSAGE);
+        history.push('/managements/users');
+      });
   };
 
   useEffect(() => {
@@ -60,6 +69,9 @@ const User = ({ match }) => {
               <CCol col="2" sm="2" md="2" className="mb-3 mb-xl-0" style={{ maxWidth: 'max-content' }}>
                 <CButton variant="ghost" color="success" onClick={handleEdit}>
                   <CIcon name="cil-pencil"/> Edit
+                </CButton>
+                <CButton variant="ghost" color="danger" onClick={handleRemove}>
+                  <CIcon name="cil-x"/> Delete
                 </CButton>
               </CCol>
             </CRow>

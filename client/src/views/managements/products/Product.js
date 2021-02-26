@@ -16,6 +16,15 @@ const User = ({ match }) => {
     history.push(`/managements/products/update/${match.params.id}`);
   };
 
+  const handleRemove = () => {
+    axios.delete(`${API_PRODUCTS}/${match.params.id}`)
+      .then(() => history.push('/managements/products'))
+      .catch(() => {
+        alert(ERROR_MESSAGE);
+        history.push('/managements/products');
+      });
+  };
+
   useEffect(() => {
     axios.get(`${API_PRODUCTS}/${match.params.id}`)
       .then((res) => {
@@ -50,6 +59,9 @@ const User = ({ match }) => {
               <CCol col="2" sm="2" md="2" className="mb-3 mb-xl-0" style={{ maxWidth: 'max-content' }}>
                 <CButton variant="ghost" color="success" onClick={handleEdit}>
                   <CIcon name="cil-pencil"/> Edit
+                </CButton>
+                <CButton variant="ghost" color="danger" onClick={handleRemove}>
+                  <CIcon name="cil-x"/> Delete
                 </CButton>
               </CCol>
             </CRow>

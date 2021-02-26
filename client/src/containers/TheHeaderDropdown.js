@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React from 'react'
 import {
   CButton,
   CDropdown,
@@ -27,37 +27,26 @@ const TheHeaderDropdown = () => {
 
   const getProfile = () => {
     const user = getUserSession();
+    history.push(user.user ? `/managements/users/${user.user}` : '/login');
+  }
 
-    if (user.user) history.push(`/managements/users/${user.user}`);
-    else history.push('/login');
+  const updateAvatar = () => {
+    alert('This feature is coming soon...');
   }
 
   return (
-    <CDropdown
-      inNav
-      className="c-header-nav-items mx-2"
-      direction="down"
-    >
+    <CDropdown inNav className="c-header-nav-items mx-2" direction="down">
       <CDropdownToggle className="c-header-nav-link" caret={false}>
         <div className="c-avatar">
-          <CImg
-            src={'avatars/6.jpg'}
-            className="c-avatar-img"
-            alt="admin@bootstrapmaster.com"
-          />
+          <CImg src={'avatars/6.jpg'} className="c-avatar-img" alt="admin@bootstrapmaster.com"/>
         </div>
       </CDropdownToggle>
       <CDropdownMenu className="pt-0" placement="bottom-end">
-        <CDropdownItem
-          header
-          tag="div"
-          color="light"
-          className="text-center"
-        >
+        <CDropdownItem header tag="div" color="light" className="text-center">
           <strong>Account</strong>
         </CDropdownItem>
         <CDropdownItem>
-          <CButton onClick={getProfile}>
+          <CButton onClick={updateAvatar}>
             <CIcon name="cil-pencil" className="mfe-2" />Update Avatar
           </CButton>
         </CDropdownItem>

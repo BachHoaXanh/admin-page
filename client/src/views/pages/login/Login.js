@@ -19,12 +19,10 @@ import { ERROR_MESSAGE, setUserSession, useFormInput } from '../../../common';
 import { HOST } from '../../../api.common';
 
 const Login = (props) => {
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
-
-  // Get Form value
   const email = useFormInput('');
   const password = useFormInput('');
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const handleLogin = () => {
     setError(null);
@@ -39,8 +37,7 @@ const Login = (props) => {
       props.history.push('/');
     }).catch(error => {
       setLoading(false);
-      setError(error.response.status === 401
-        ? error.response.data.message : ERROR_MESSAGE);
+      setError(error.response.status === 401 ? error.response.data.message : ERROR_MESSAGE);
     });
   };
 

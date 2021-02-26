@@ -36,7 +36,7 @@ const Orders = () => {
   const currentPage = Number(queryPage && queryPage[1] ? queryPage[1] : 1);
   const [page, setPage] = useState(currentPage);
   const [pages, setPages] = useState(1);
-  const [users, setUsers] = useState();
+  const [users, setUsers] = useState([]);
   const [orders, setOrders] = useState([]);
 
   const pageChange = page => currentPage !== page && history.push(`/managements/orders?page=${page}`);
@@ -87,7 +87,7 @@ const Orders = () => {
                 'images',
                 'staffId',
                 'customerId',
-                {key: 'totalPrice', label: 'Total Price (VND)'},
+                { key: 'totalPrice', label: 'Total Price (VND)' },
                 'status',
               ]}
               hover
