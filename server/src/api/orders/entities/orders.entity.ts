@@ -20,7 +20,7 @@ export class Orders {
     @Column({ default: 0 })
     totalPrice: number;
 
-    @Column({ nullable: true })
+    @Column({ nullable: true, default: OrdersStatusEnum.PROCESSING })
     status: OrdersStatusEnum;
 
     @CreateDateColumn({ type: 'timestamp' })

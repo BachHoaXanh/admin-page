@@ -18,7 +18,7 @@ export class Products {
     @JoinColumn()
     categoryId: string;
 
-    @Column('varchar')
+    @Column('text')
     name: string;
 
     @Column('simple-json', { nullable: true })

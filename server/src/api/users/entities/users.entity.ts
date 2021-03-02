@@ -31,16 +31,16 @@ export class User {
         this.password = await bcrypt.hashSync(this.password, bcrypt.genSaltSync(10));
     }
 
-    @Column({ nullable: true })
+    @Column('text', { nullable: true })
     firstName: string;
 
-    @Column({ nullable: true })
+    @Column('text', { nullable: true })
     lastName: string;
 
     @Column({ nullable: true })
     phone: string;
 
-    @Column({ nullable: true })
+    @Column('text', { nullable: true })
     address: string;
 
     @Column({ default: 'unknown', nullable: true })
