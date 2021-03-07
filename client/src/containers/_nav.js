@@ -25,10 +25,6 @@ const _nav =  [
     icon: 'cil-pencil',
   },
   {
-    _tag: 'CSidebarNavTitle',
-    _children: ['Managements'],
-  },
-  {
     _tag: 'CSidebarNavItem',
     name: 'Categories',
     to: '/managements/categories',
@@ -45,16 +41,6 @@ const _nav =  [
     name: 'Users',
     to: '/managements/users',
     icon: 'cil-people'
-  },
-  {
-    _tag: 'CSidebarNavItem',
-    name: 'Roles',
-    to: '/managements/roles',
-    icon: 'cil-check'
-  },
-  {
-    _tag: 'CSidebarNavTitle',
-    _children: ['Orders'],
   },
   {
     _tag: 'CSidebarNavItem',

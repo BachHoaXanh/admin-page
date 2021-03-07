@@ -52,7 +52,7 @@ export class ProductsController {
         CrudRequestInterceptor,
         FilesInterceptor('images', 10, {
             storage: diskStorage({
-                destination: './upload/products',
+                destination: 'C:/upload/products',
                 filename: editFileName,
             }),
             fileFilter: imageFileFilter,

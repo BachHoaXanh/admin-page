@@ -1,6 +1,6 @@
-import { IsBoolean, IsNumber, IsOptional, IsString } from 'class-validator';
+import { IsBoolean, IsNotEmpty, IsNumber, IsOptional, IsString } from 'class-validator';
 import { PartialType } from '@nestjs/mapped-types';
-import { ApiPropertyOptional } from '@nestjs/swagger';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { CreateCategoriesDto } from './create-categories.dto';
 
 export class UpdateCategoriesDto extends PartialType(CreateCategoriesDto) {
@@ -10,10 +10,10 @@ export class UpdateCategoriesDto extends PartialType(CreateCategoriesDto) {
     @ApiPropertyOptional()
     name: string;
 
-    @IsNumber()
+    @IsString()
     @IsOptional()
-    @ApiPropertyOptional()
-    parent: number;
+    @ApiProperty()
+    slug: string;
 
     @IsBoolean()
     @IsOptional()

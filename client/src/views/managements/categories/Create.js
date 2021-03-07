@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import {
   CButton,
   CCard,
@@ -11,46 +11,28 @@ import {
   CFormText,
   CInput,
   CLabel,
-  CSelect,
   CAlert,
 } from '@coreui/react';
 import CIcon from '@coreui/icons-react';
 import axios from 'axios';
-import { ERROR_MESSAGE, SUCCESS_MESSAGE, useFormInput } from '../../../common';
+import { ERROR_MESSAGE, kebabCase, SUCCESS_MESSAGE, useFormInput } from '../../../common';
 import { API_CATEGORIES } from '../../../api.common';
 
 const Create = (props) => {
   const name = useFormInput('');
-  const parent = useFormInput('');
+  const slug = useFormInput('');
   const [error, setError] = useState(null);
-  const [categories, setCategories] = useState([]);
 
   const handleSubmit = () => {
     setError(null);
 
     axios.post(`${API_CATEGORIES}`, {
       name: name.value,
-      parent: +parent.value,
+      slug: slug.value !== '' ? slug.value : `${kebabCase(name.value)}-${new Date().getTime()}`,
     }).then(() => {
       alert(SUCCESS_MESSAGE);
       props.history.push('/managements/categories');
-    }).catch((error) => {
-      setError(error.response.status === 401
-        ? error.response.data.message : ERROR_MESSAGE);
-    });
-  };
-
-  useEffect(() => {
-    // Get All Categories
-    axios.get(`${API_CATEGORIES}`)
-      .then((res) => {
-        setCategories(res.data);
-      }).catch(() => alert(ERROR_MESSAGE));
-  }, [setCategories]);
-
-  const getCategoryName = id => {
-    const category = categories.find(each => each.id === id);
-    return category?.name;
+    }).catch((error) => setError(error.response.status === 401 ? error.response.data.message : ERROR_MESSAGE));
   };
 
   return (
@@ -65,25 +47,20 @@ const Create = (props) => {
             <CForm action="" method="post" encType="multipart/form-data" className="form-horizontal">
               <CFormGroup row>
                 <CCol md="3">
-                  <CLabel htmlFor="text-input">Name</CLabel>
+                  <CLabel htmlFor="text-input">Category Name<label style={{ color: 'red' }}>*</label></CLabel>
                 </CCol>
                 <CCol xs="12" md="9">
-                  <CInput id="first-name" name="text-input" placeholder="Name" {...name}/>
+                  <CInput id="first-name" name="text-input" placeholder="Category Name" {...name}/>
                   <CFormText>Please enter Category name</CFormText>
                 </CCol>
               </CFormGroup>
-
               <CFormGroup row>
                 <CCol md="3">
-                  <CLabel htmlFor="select">Parent</CLabel>
+                  <CLabel htmlFor="text-input">Slug</CLabel>
                 </CCol>
                 <CCol xs="12" md="9">
-                  <CSelect custom name="select" id="select" {...parent} option>
-                    <option value="">Select Category Parent</option>
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="13">3</option>
-                  </CSelect>
+                  <CInput id="slug" name="text-input" placeholder="Category Slug" {...slug}/>
+                  <CFormText>Please enter Category Slug</CFormText>
                 </CCol>
               </CFormGroup>
             </CForm>

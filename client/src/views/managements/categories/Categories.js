@@ -46,18 +46,14 @@ const Categories = () => {
     });
   };
 
-  const getCategoryName = id => {
-    const category = categories.find(each => each.id === id);
-    return category?.name;
-  };
-
   useEffect(props => {
     list(props);
+    currentPage !== page && setPage(currentPage);
+
     const interval = setInterval(async () => {
       await list();
     }, 10000);
 
-    currentPage !== page && setPage(currentPage);
     return () => clearInterval(interval);
   }, [currentPage, page]);
 
@@ -77,7 +73,7 @@ const Categories = () => {
               items={categories}
               fields={[
                 'name',
-                'parent',
+                'slug',
                 { key: 'isActive', label: 'Active' },
               ]}
               hover
@@ -94,9 +90,6 @@ const Categories = () => {
                       {item.isActive.toString()}
                     </CBadge>
                   </td>
-                ),
-                'parent': (item) => (
-                  <td> {getCategoryName(item.parent)} </td>
                 ),
               }}
             />

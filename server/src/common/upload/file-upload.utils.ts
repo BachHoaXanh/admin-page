@@ -28,3 +28,7 @@ export const removeFile = (path: string) => {
         }
     });
 };
+
+export const createDir = (path: string) => {
+    if (!fs.existsSync(path)) fs.mkdirSync(path);
+};

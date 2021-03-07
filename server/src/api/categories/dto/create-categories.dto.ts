@@ -8,9 +8,9 @@ export class CreateCategoriesDto {
     @ApiProperty()
     name: string;
 
-    @IsNumber()
-    @IsOptional()
-    @ApiPropertyOptional({ default: 0 })
-    parent: number;
+    @IsString()
+    @IsNotEmpty()
+    @ApiProperty()
+    slug: string;
 
 }

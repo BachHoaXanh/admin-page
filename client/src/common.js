@@ -64,3 +64,5 @@ export const useFormInput = initialValue => {
   return { value, onChange: e => setValue(e.target.value) };
 }
 
+export const kebabCase = string => string.replace(/([a-z])([A-Z])/g, '$1-$2').replace(/\s+/g, '-').toLowerCase();
+

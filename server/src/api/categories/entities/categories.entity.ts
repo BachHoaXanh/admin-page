@@ -9,8 +9,8 @@ export class Categories {
     @Column('text', { nullable: true })
     name: string;
 
-    @Column({ default: 0 })
-    parent: number;
+    @Column({ unique: true })
+    slug: string;
 
     @Column('boolean', { default: true })
     isActive: boolean;

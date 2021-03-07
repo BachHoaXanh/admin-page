@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
+import { withRouter } from "react-router";
 import { CButton, CCard, CCardBody, CCardHeader, CCol, CRow } from '@coreui/react';
 import CIcon from '@coreui/icons-react';
 import axios from 'axios';
 import { API_CATEGORIES } from '../../../api.common';
 import { ERROR_MESSAGE } from '../../../common';
 
-const User = ({ match }) => {
+const Category = ({ match }) => {
   const history = useHistory();
   const [category, setCategory] = useState();
 
@@ -29,15 +30,7 @@ const User = ({ match }) => {
       .then((res) => {
         let { id, createdAt, updatedAt, parent, isActive, ...category } = res.data;
 
-        if (res?.data.parent) {
-          axios.get(`${API_CATEGORIES}/${res.data.parent}`)
-            .then((data) => {
-              category = { ...category, parent: data.data.name, active: isActive };
-              setCategory(category);
-            });
-        } else {
-          setCategory({ ...category, active: isActive });
-        }
+        setCategory({ ...category, active: isActive });
       }).catch(() => alert(ERROR_MESSAGE));
   }, [match.params.id]);
 
@@ -87,4 +80,4 @@ const User = ({ match }) => {
   );
 };
 
-export default User;
+export default withRouter(Category);

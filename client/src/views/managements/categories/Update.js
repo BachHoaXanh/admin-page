@@ -13,45 +13,39 @@ import {
   CInput,
   CLabel,
   CSelect,
-  CSwitch,
 } from '@coreui/react';
 import CIcon from '@coreui/icons-react';
 import axios from 'axios';
 import { API_CATEGORIES } from '../../../api.common';
-import { ERROR_MESSAGE, SUCCESS_MESSAGE } from '../../../common';
+import { ERROR_MESSAGE, kebabCase, SUCCESS_MESSAGE } from '../../../common';
 
 const Update = (props) => {
-  let name = useFormInput('');
-  let parent = useFormInput('');
+  const [name, setName] = useState('');
+  const [slug, setSlug] = useState('');
   const [error, setError] = useState(null);
-  const [categories, setCategories] = useState([]);
+  const [isActive, setActive] = useState(false);
+
+  useEffect(() => {
+    // Get Categories
+    axios.get(`${API_CATEGORIES}/${props.match.params.id}`)
+      .then((res) => {
+        setName(res.data.name);
+        setSlug(res.data.slug);
+        setActive(res.data.isActive);
+      }).catch(() => alert(ERROR_MESSAGE));
+  }, [props.match.params.id]);
 
   const handleSubmit = () => {
     setError(null);
 
-    axios.post(`${API_CATEGORIES}`, {
-      name: name.value,
-      parent: parent.valuen,
-    }).then((res) => {
+    axios.put(`${API_CATEGORIES}/${props.match.params.id}`, {
+      name,
+      slug: slug !== '' ? slug : `${kebabCase(name)}-${new Date().getTime()}`,
+      isActive: (isActive === 'true'),
+    }).then(() => {
       alert(SUCCESS_MESSAGE);
       props.history.push('/managements/categories');
-    }).catch((error) => {
-      setError(error.response.status === 401
-        ? error.response.data.message : ERROR_MESSAGE);
-    });
-  };
-
-  useEffect(() => {
-    // Get All Categories
-    axios.get(`${API_CATEGORIES}`)
-      .then((res) => {
-        setCategories(res.data);
-      }).catch(() => alert(ERROR_MESSAGE));
-  }, [setCategories]);
-
-  const getCategoryName = id => {
-    const category = categories.find(each => each.id === id);
-    return category?.name;
+    }).catch((error) => setError(error.response.status === 401 ? error.response.data.message : ERROR_MESSAGE));
   };
 
   return (
@@ -69,36 +63,30 @@ const Update = (props) => {
                   <CLabel htmlFor="text-input">Name</CLabel>
                 </CCol>
                 <CCol xs="12" md="9">
-                  <CInput id="first-name" name="text-input" placeholder="First Name" {...name}/>
+                  <CInput id="first-name" name="text-input" placeholder="Category Name" value={name}
+                          onChange={e => setName(e.target.value)}/>
                   <CFormText>Please enter Category name</CFormText>
                 </CCol>
               </CFormGroup>
-
               <CFormGroup row>
                 <CCol md="3">
-                  <CLabel htmlFor="select">Parent</CLabel>
+                  <CLabel htmlFor="text-input">Category Slug</CLabel>
                 </CCol>
                 <CCol xs="12" md="9">
-                  <CSelect custom name="select" id="select" {...parent}>
-                    <option value="">Select Category Parent</option>
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="13">3</option>
-                  </CSelect>
+                  <CInput id="slug" name="text-input" placeholder="Slug" value={slug}
+                          onChange={e => setSlug(e.target.value)}/>
+                  <CFormText>Please enter Category Slug</CFormText>
                 </CCol>
               </CFormGroup>
               <CFormGroup row>
-                <CCol tag="label" sm="3" className="col-form-label">
-                  Active
+                <CCol md="3">
+                  <CLabel htmlFor="text-input">Name</CLabel>
                 </CCol>
-                <CCol sm="9">
-                  <CSwitch
-                    className="mr-1"
-                    color="dark"
-                    defaultChecked
-                    shape="pill"
-                    variant="opposite"
-                  />
+                <CCol xs="12" md="9">
+                  <CSelect custom name="select" id="select" value={isActive} onChange={e => setActive(e.target.value)}>
+                    <option value={true}>True</option>
+                    <option value={false}>False</option>
+                  </CSelect>
                 </CCol>
               </CFormGroup>
             </CForm>
@@ -111,15 +99,6 @@ const Update = (props) => {
       </CCol>
     </>
   );
-};
-
-const useFormInput = initialValue => {
-  const [value, setValue] = useState(initialValue);
-  const handleChange = e => {
-    setValue(e.target.value);
-  };
-
-  return { value, onChange: handleChange };
 };
 
 export default Update;
