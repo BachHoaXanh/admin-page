@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   CButton,
   CCard,
@@ -16,23 +16,24 @@ import {
   CSwitch,
 } from '@coreui/react';
 import CIcon from '@coreui/icons-react';
-import { ERROR_MESSAGE, useFormInput } from '../../../common';
-import { API_PRODUCTS } from '../../../api.common';
+import {ERROR_MESSAGE, useFormInput} from '../../../common';
+import {API_CATEGORIES, API_PRODUCTS} from '../../../api.common';
 import axios from 'axios';
 
 const Create = () => {
   const categoryId = useFormInput('');
   const name = useFormInput('');
   const code = useFormInput('');
-  const price = useFormInput('');
-  const saleOff = useFormInput('');
-  const quantity = useFormInput('');
+  const price = useFormInput(0);
+  const saleOff = useFormInput(0);
+  const quantity = useFormInput(0);
   const description = useFormInput('');
   const shortDescription = useFormInput('');
-  const mfg = useFormInput('');
-  const exp = useFormInput('');
+  const mfg = useFormInput(new Date().toLocaleDateString());
+  const exp = useFormInput(new Date().toLocaleDateString());
   const provider = useFormInput('');
   const origination = useFormInput('');
+  const [files, setFiles] = useState();
 
   const [error, setError] = useState(null);
   const [categories, setCategories] = useState([]);
@@ -45,6 +46,12 @@ const Create = () => {
         ? error.response.data.message : ERROR_MESSAGE);
     });
   };
+  console.log('cateId', price)
+
+  useEffect(() => {
+    // Get Activate Category
+    axios.get(`${API_CATEGORIES}`).then(res => setCategories(res.data.filter(item => item.isActive)));
+  }, []);
 
   return (
     <>
@@ -57,59 +64,49 @@ const Create = () => {
             <CForm action="" method="post" encType="multipart/form-data" className="form-horizontal">
               <CFormGroup row>
                 <CCol md="3">
-                  <CLabel htmlFor="text-input">First Name</CLabel>
+                  <CLabel htmlFor="text-input">Name</CLabel>
                 </CCol>
                 <CCol xs="12" md="9">
-                  <CInput id="first_name" name="text-input" placeholder="First Name"/>
-                  <CFormText>Please enter your first name</CFormText>
+                  <CInput id="product_name" name="text-input" placeholder="Product Name" {...name}/>
+                  <CFormText>Please enter Product Name</CFormText>
                 </CCol>
               </CFormGroup>
               <CFormGroup row>
                 <CCol md="3">
-                  <CLabel htmlFor="text-input">Last Name</CLabel>
+                  <CLabel htmlFor="text-input">Code</CLabel>
                 </CCol>
                 <CCol xs="12" md="9">
-                  <CInput id="last_name" name="text-input" placeholder="Last Name"/>
-                  <CFormText>Please enter your last name</CFormText>
+                  <CInput id="product_code" name="text-input" placeholder="Product Code" {...code}/>
+                  <CFormText>Please enter Product Code</CFormText>
                 </CCol>
               </CFormGroup>
               <CFormGroup row>
                 <CCol md="3">
-                  <CLabel htmlFor="email-input">Email</CLabel>
+                  <CLabel htmlFor="price-input">Price</CLabel>
                 </CCol>
                 <CCol xs="12" md="9">
-                  <CInput type="email" id="email-input" name="email-input" placeholder="Email"
-                          autoComplete="email"/>
-                  <CFormText className="help-block">Please enter your email</CFormText>
-                </CCol>
-              </CFormGroup>
-              <CFormGroup row>
-                <CCol md="3">
-                  <CLabel htmlFor="password-input">Password</CLabel>
-                </CCol>
-                <CCol xs="12" md="9">
-                  <CInput type="password" id="password-input" name="password-input" placeholder="Password"
-                          autoComplete="new-password"/>
+                  <CInput id="product_price" type="number" name="text-input" placeholder="Product Price" {...price}/>
                   <CFormText className="help-block">Please enter a complex password</CFormText>
                 </CCol>
               </CFormGroup>
               <CFormGroup row>
                 <CCol md="3">
-                  <CLabel htmlFor="select">Role</CLabel>
+                  <CLabel htmlFor="select">Category</CLabel>
                 </CCol>
                 <CCol xs="12" md="9">
-                  <CSelect custom name="select" id="select">
-                    <option value="0">Please select role</option>
-                    <option value="admin">Admin</option>
-                    <option value="teacher">Teacher</option>
-                    <option value="student">Student</option>
+                  <CSelect custom name="select" id="select" {...categoryId}>
+                    <option value="">Please select Category</option>
+                    {
+                      categories.length > 0 &&
+                      categories.map((item, index) => <option key={index} value={item.id}>{item.name}</option>)
+                    }
                   </CSelect>
                 </CCol>
               </CFormGroup>
               <CFormGroup row>
                 <CLabel col md="3" htmlFor="file-input">Images</CLabel>
                 <CCol xs="12" md="9">
-                  <CInputFile id="file-input" name="file-input"/>
+                  <CInputFile id="file-input" multiple name="file-input"/>
                 </CCol>
               </CFormGroup>
               <CFormGroup row>
@@ -129,10 +126,9 @@ const Create = () => {
             </CForm>
           </CCardBody>
           <CCardFooter>
-            <CButton type="submit" size="sm" color="primary" style={{ marginRight: '1rem' }}>
-              <CIcon name="cil-scrubber"/> Submit</CButton>
-            <CButton type="reset" size="sm" color="danger">
-              <CIcon name="cil-ban"/> Reset</CButton>
+            <CButton type="submit" size="sm" color="primary" style={{marginRight: '1rem'}} onClick={handleSubmit}>
+              <CIcon name="cil-scrubber"/> Submit
+            </CButton>
           </CCardFooter>
         </CCard>
       </CCol>
