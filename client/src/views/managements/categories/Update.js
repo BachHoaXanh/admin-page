@@ -17,7 +17,7 @@ import {
 import CIcon from '@coreui/icons-react';
 import axios from 'axios';
 import { API_CATEGORIES } from '../../../api.common';
-import { ERROR_MESSAGE, kebabCase, SUCCESS_MESSAGE } from '../../../common';
+import { ERROR_MESSAGE, slugify, SUCCESS_MESSAGE } from '../../../common';
 
 const Update = (props) => {
   const [name, setName] = useState('');
@@ -40,7 +40,7 @@ const Update = (props) => {
 
     axios.put(`${API_CATEGORIES}/${props.match.params.id}`, {
       name,
-      slug: slug !== '' ? slug : `${kebabCase(name)}-${new Date().getTime()}`,
+      slug: slug !== '' ? slug : `${slugify(name)}-${new Date().getTime()}`,
       isActive: (isActive === 'true'),
     }).then(() => {
       alert(SUCCESS_MESSAGE);

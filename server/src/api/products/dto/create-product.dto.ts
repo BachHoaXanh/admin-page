@@ -66,6 +66,7 @@ export class CreateProductDto {
 
     @IsString()
     @IsOptional()
+    @ApiPropertyOptional()
     @IsEnum(ProductsStatusEnum)
     status: ProductsStatusEnum;
 

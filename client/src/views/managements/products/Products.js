@@ -48,7 +48,7 @@ const Products = () => {
         setPages(totalPages(res.data.length, LIMIT_RECORDS));
       }).catch(() => {
       alert(ERROR_MESSAGE);
-      props.history.push('/');
+      history.push('/');
     });
   };
 
@@ -117,14 +117,12 @@ const Products = () => {
                 ),
                 'status': (item) => (
                   <td>
-                    <CBadge color={getBadge(item.status)}>
-                      {item.status}
-                    </CBadge>
+                    <CBadge color={getBadge(item.status)}>{item.status}</CBadge>
                   </td>
                 ),
                 'images': (item) => (
                   <td>
-                    <CImg src={'../server/' + item?.images[0]?.path} className="c-avatar-img"
+                    <CImg src={'../server/' + item.images?.length > 0 && item.images[0]?.path} className="c-avatar-img"
                           style={{ maxWidth: '4rem' }}/>
                   </td>
                 ),

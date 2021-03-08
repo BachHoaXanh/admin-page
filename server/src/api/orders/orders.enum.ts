@@ -5,3 +5,8 @@ export enum OrdersStatusEnum {
     DONE = 'done',
     CANCEL = 'cancel'
 }
+
+export enum OrdersPaymentEnum {
+    COD = 'COD',
+    ATM = 'ATM'
+}

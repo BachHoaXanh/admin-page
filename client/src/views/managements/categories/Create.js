@@ -15,7 +15,7 @@ import {
 } from '@coreui/react';
 import CIcon from '@coreui/icons-react';
 import axios from 'axios';
-import { ERROR_MESSAGE, kebabCase, SUCCESS_MESSAGE, useFormInput } from '../../../common';
+import { ERROR_MESSAGE, slugify, SUCCESS_MESSAGE, useFormInput } from '../../../common';
 import { API_CATEGORIES } from '../../../api.common';
 
 const Create = (props) => {
@@ -28,7 +28,7 @@ const Create = (props) => {
 
     axios.post(`${API_CATEGORIES}`, {
       name: name.value,
-      slug: slug.value !== '' ? slug.value : `${kebabCase(name.value)}-${new Date().getTime()}`,
+      slug: slug.value !== '' ? slug.value : `${slugify(name.value)}-${new Date().getTime()}`,
     }).then(() => {
       alert(SUCCESS_MESSAGE);
       props.history.push('/managements/categories');

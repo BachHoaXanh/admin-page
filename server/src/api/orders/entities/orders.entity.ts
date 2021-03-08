@@ -1,6 +1,6 @@
 import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 import { Products } from '../../products/entities/products.entity';
-import { OrdersStatusEnum } from '../orders.enum';
+import { OrdersPaymentEnum, OrdersStatusEnum } from '../orders.enum';
 
 @Entity('orders')
 export class Orders {
@@ -14,8 +14,29 @@ export class Orders {
     @Column({ default: 0 })
     customerId: number;
 
+    @Column()
+    name: string;
+
+    @Column()
+    phone: string;
+
+    @Column()
+    email: string;
+
+    @Column('text')
+    address: string;
+
+    @Column('text')
+    note: string;
+
+    @Column('text')
+    shippingNote: string;
+
     @Column('simple-json', { nullable: true })
     products: Products[];
+
+    @Column({ default: OrdersPaymentEnum.COD })
+    payment: OrdersPaymentEnum;
 
     @Column({ default: 0 })
     totalPrice: number;
