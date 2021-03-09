@@ -1,6 +1,8 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { MailerModule } from '@nestjs-modules/mailer';
+import { ServeStaticModule } from '@nestjs/serve-static';
+import { join } from 'path';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ConfigService } from './common/config/config.service';
@@ -51,6 +53,9 @@ const PASS = configs.get('PASS');
             defaults: {
                 from: `"nest-modules" <${USER}>`,
             },
+        }),
+        ServeStaticModule.forRoot({
+            rootPath: join(__dirname, '..', 'upload'),
         }),
         ApiModule,
         AuthModule,

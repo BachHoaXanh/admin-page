@@ -65,6 +65,8 @@ $ cd my-project
 
 # install app's dependencies
 $ npm install
+-- or --
+$ yarn install
 ```
 
 ### Copy and Paste
@@ -77,6 +79,8 @@ $ cd my-project
 
 # install app's dependencies
 $ npm install
+-- or --
+$ yarn install
 ```
 
 ## Create React App
@@ -90,6 +94,8 @@ see also:
 ``` bash
 # dev server with hot reload at http://localhost:3000
 $ npm start
+-- or --
+$ yarn start
 ```
 
 Navigate to [http://localhost:3000](http://localhost:3000). The app will automatically reload if you change any of the source files.
@@ -101,6 +107,8 @@ Run `build` to build the project. The build artifacts will be stored in the `bui
 ```bash
 # build for production with minification
 $ npm run build
+-- or --
+$ yarn build
 ```
 
 ## What's included
