@@ -46,7 +46,6 @@ const Create = () => {
         ? error.response.data.message : ERROR_MESSAGE);
     });
   };
-  console.log('cateId', price)
 
   useEffect(() => {
     // Get Activate Category

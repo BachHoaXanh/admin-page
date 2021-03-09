@@ -38,7 +38,7 @@ export class Orders {
     @Column({ default: OrdersPaymentEnum.COD })
     payment: OrdersPaymentEnum;
 
-    @Column({ default: 0 })
+    @Column('double', { default: 0 })
     totalPrice: number;
 
     @Column({ nullable: true, default: OrdersStatusEnum.PROCESSING })
