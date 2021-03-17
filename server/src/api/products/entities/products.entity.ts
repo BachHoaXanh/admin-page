@@ -2,7 +2,6 @@ import {
     Column,
     CreateDateColumn,
     Entity,
-    JoinColumn,
     PrimaryGeneratedColumn,
     UpdateDateColumn,
 } from 'typeorm';
@@ -15,7 +14,6 @@ export class Products {
     id: number;
 
     @Column({ nullable: true })
-    @JoinColumn()
     categoryId: string;
 
     @Column('text')
@@ -42,11 +40,11 @@ export class Products {
     @Column('text', { nullable: true })
     shortDescription: string;
 
-    @Column('date', { nullable: true })
-    mfg: Date;
+    @Column({ nullable: true })
+    mfg: string;
 
-    @Column('date', { nullable: true })
-    exp: Date;
+    @Column({ nullable: true })
+    exp: string;
 
     @Column('varchar', { nullable: true })
     provider: string;

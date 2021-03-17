@@ -1,18 +1,15 @@
-import React, {useState, useEffect} from 'react';
-import {useHistory} from 'react-router-dom';
-import {CButton, CCard, CCardBody, CCardHeader, CCol, CRow} from '@coreui/react';
+import React, { useState, useEffect } from 'react';
+import { CButton, CCard, CCardBody, CCardHeader, CCol, CRow } from '@coreui/react';
 import CIcon from '@coreui/icons-react';
 import axios from 'axios';
-import {API_ORDERS} from '../../../api.common';
-import {ERROR_MESSAGE} from '../../../common';
+import { API_ORDERS } from '../../../api.common';
+import { ERROR_MESSAGE } from '../../../common';
 
-const Order = ({match}) => {
-  const history = useHistory();
+const Order = (props) => {
+  const { match, history } = props;
   const [order, setOrder] = useState();
 
-  const handleEdit = () => {
-    history.push(`/managements/orders/update/${match.params.id}`);
-  };
+  const handleEdit = () => history.push(`/managements/orders/${match.params.id}/update`);
 
   const handleRemove = () => {
     axios.delete(`${API_ORDERS}/${match.params.id}`)
@@ -44,7 +41,7 @@ const Order = ({match}) => {
               </CCol>
               <CCol col="1" sm="2" md="2" xl className="mb-3 mb-xl-0"/>
               <CCol col="1" sm="2" md="2" xl className="mb-3 mb-xl-0"/>
-              <CCol col="2" sm="4" md="2" className="mb-3 mb-xl-0" style={{maxWidth: 'max-content'}}>
+              <CCol col="2" sm="4" md="2" className="mb-3 mb-xl-0" style={{ maxWidth: 'max-content' }}>
                 <CButton variant="ghost" color="success" onClick={handleEdit}>
                   <CIcon name="cil-pencil"/> Edit
                 </CButton>

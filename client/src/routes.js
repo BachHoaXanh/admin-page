@@ -103,22 +103,22 @@ const routes = [
   // Categories
   { path: '/managements/categories', exact: true, name: 'Categories', component: Categories},
   { path: '/managements/categories/create', exact: true, name: 'Create Category', component: CreateCategory },
-  { path: '/managements/categories/update/:id', exact: true, name: 'Update Category', component: UpdateCategory },
+  { path: '/managements/categories/:id/update', exact: true, name: 'Update Category', component: UpdateCategory },
   { path: '/managements/categories/:id', exact: true, name: 'Category Information', component: Category },
   // Products
   { path: '/managements/products', exact: true, name: 'Products', component: Products},
   { path: '/managements/products/create', exact: true, name: 'Create Product', component: CreateProduct },
-  { path: '/managements/products/update/:id', exact: true, name: 'Update Product', component: UpdateProduct },
+  { path: '/managements/products/:id/update', exact: true, name: 'Update Product', component: UpdateProduct },
   { path: '/managements/products/:id', exact: true, name: 'Product Information', component: Product },
   // Users
   { path: '/managements/users', exact: true, name: 'Users', component: Users},
   { path: '/managements/users/create', exact: true, name: 'Create User', component: CreateUser },
-  { path: '/managements/users/update/:id', exact: true, name: 'Update User', component: UpdateUser },
+  { path: '/managements/users/:id/update', exact: true, name: 'Update User', component: UpdateUser },
   { path: '/managements/users/:id', exact: true, name: 'User Information', component: User },
   // Orders
   { path: '/managements/orders', exact: true, name: 'Orders', component: Orders},
   { path: '/managements/orders/create', exact: true, name: 'Create Order', component: CreateOrder },
-  { path: '/managements/orders/update/:id', exact: true, name: 'Update Order', component: UpdateOrder },
+  { path: '/managements/orders/:id/update', exact: true, name: 'Update Order', component: UpdateOrder },
   { path: '/managements/orders/:id', exact: true, name: 'Order Information', component: Order },
 ];
 

@@ -11,7 +11,7 @@ import {
   CPagination, CButton, CImg,
 } from '@coreui/react';
 import axios from 'axios';
-import { ERROR_MESSAGE, LIMIT_RECORDS, totalPages } from '../../../common';
+import { ERROR_MESSAGE, LIMIT_RECORDS, showAvatar, totalPages } from '../../../common';
 import { API_USERS } from '../../../api.common';
 
 const getBadge = status => {
@@ -35,7 +35,7 @@ const Users = () => {
 
   const pageChange = page => currentPage !== page && history.push(`/users?page=${page}`);
 
-  const list = (props) => {
+  const list = () => {
     axios.get(`${API_USERS}`)
       .then((res) => {
         setUsers(res.data);
@@ -43,12 +43,8 @@ const Users = () => {
       })
       .catch(() => {
         alert(ERROR_MESSAGE);
-        props.history.push('/');
+        history.push('/');
       });
-  };
-
-  const handleRemove = () => {
-
   };
 
   useEffect((props) => {
@@ -95,20 +91,18 @@ const Users = () => {
               clickableRows
               onRowClick={(item) => history.push(`/managements/users/${item.id}`)}
               scopedSlots={{
-                'isActive':
-                  (item) => (
-                    <td>
-                      <CBadge color={getBadge(item.isActive)}>
-                        {item.isActive.toString()}
-                      </CBadge>
-                    </td>
-                  ),
-                'avatar':
-                  (item) => (
-                    <td>
-                      <CImg src={item.avatar} className="c-avatar-img" style={{ maxWidth: '4rem' }}/>
-                    </td>
-                  ),
+                'isActive': item => (
+                  <td>
+                    <CBadge color={getBadge(item.isActive)}>
+                      {item.isActive.toString()}
+                    </CBadge>
+                  </td>
+                ),
+                'avatar': item => (
+                  <td>
+                    <CImg src={showAvatar(item)} className="c-avatar-img" style={{ maxWidth: '4rem' }}/>
+                  </td>
+                ),
               }}
             />
             <CPagination

@@ -1,5 +1,5 @@
-import React, {useState, useEffect} from 'react';
-import {useHistory, useLocation} from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useHistory, useLocation } from 'react-router-dom';
 import {
   CBadge,
   CCard,
@@ -41,14 +41,14 @@ const Orders = () => {
 
   const pageChange = page => currentPage !== page && history.push(`/managements/orders?page=${page}`);
 
-  const list = (props) => {
+  const list = () => {
     axios.get(`${API_ORDERS}`)
       .then((res) => {
         setOrders(res.data);
         setPages(totalPages(res.data.length, LIMIT_RECORDS));
       }).catch(() => {
       alert(ERROR_MESSAGE);
-      props.history.push('/');
+      history.push('/');
     });
   };
 
@@ -76,7 +76,7 @@ const Orders = () => {
           <CCardHeader>
             <strong>Orders Management</strong>
             <CButton onClick={() => history.push('/managements/orders/create')}
-                     block variant="outline" color="success" className='btn-custom' style={{left: '10.4rem'}}>
+                     block variant="outline" color="success" className='btn-custom' style={{ left: '10.4rem' }}>
               +
             </CButton>
           </CCardHeader>
@@ -84,9 +84,8 @@ const Orders = () => {
             <CDataTable
               items={orders}
               fields={[
-                'images',
-                'staffId',
-                'customerId',
+                { key: 'staffId', label: 'Staff Name' },
+                { key: 'customerId', label: 'Customer Name' },
                 { key: 'totalPrice', label: 'Total Price (VND)' },
                 'status',
               ]}

@@ -35,14 +35,14 @@ const Categories = () => {
 
   const pageChange = page => currentPage !== page && history.push(`/managements/categories?page=${page}`);
 
-  const list = props => {
+  const list = () => {
     axios.get(`${API_CATEGORIES}`)
       .then(res => {
         setCategories(res.data);
         setPages(totalPages(res.data.length, LIMIT_RECORDS));
       }).catch(() => {
       alert(ERROR_MESSAGE);
-      props.history.push('/');
+      history.push('/');
     });
   };
 

@@ -12,7 +12,7 @@ import {
 } from '@coreui/react';
 
 import axios from 'axios';
-import { ERROR_MESSAGE, LIMIT_RECORDS, totalPages } from '../../../common';
+import { ERROR_MESSAGE, LIMIT_RECORDS, showAvatar, showThumbnailProduct, totalPages } from '../../../common';
 import { API_CATEGORIES, API_PRODUCTS } from '../../../api.common';
 
 const getBadge = status => {
@@ -41,7 +41,7 @@ const Products = () => {
 
   const pageChange = page => currentPage !== page && history.push(`/managements/products?page=${page}`);
 
-  const list = (props) => {
+  const list = () => {
     axios.get(`${API_PRODUCTS}`)
       .then((res) => {
         setProducts(res.data);
@@ -56,10 +56,6 @@ const Products = () => {
     axios.get(`${API_CATEGORIES}`)
       .then(res => setCategories(res.data))
       .catch(() => alert(ERROR_MESSAGE));
-  };
-
-  const handleRemove = () => {
-
   };
 
   useEffect((props) => {
@@ -112,17 +108,17 @@ const Products = () => {
               clickableRows
               onRowClick={(item) => history.push(`/managements/products/${item.id}`)}
               scopedSlots={{
-                'categoryId': (item) => (
+                'categoryId': item => (
                   <td> {getCategoryName(item.categoryId || '')} </td>
                 ),
-                'status': (item) => (
+                'status': item => (
                   <td>
                     <CBadge color={getBadge(item.status)}>{item.status}</CBadge>
                   </td>
                 ),
-                'images': (item) => (
+                'images': item => (
                   <td>
-                    <CImg src={'../server/' + item.images?.length > 0 && item.images[0]?.path} className="c-avatar-img"
+                    <CImg src={showThumbnailProduct(item)} className="c-avatar-img"
                           style={{ maxWidth: '4rem' }}/>
                   </td>
                 ),

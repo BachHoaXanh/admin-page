@@ -1,14 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
 import { CAlert, CButton, CCard, CCardBody, CCardHeader, CCol, CRow } from '@coreui/react';
 import CIcon from '@coreui/icons-react';
 
 import axios from 'axios';
 import { ERROR_MESSAGE } from '../../../common';
-import { API_USERS} from '../../../api.common';
+import { API_USERS } from '../../../api.common';
 
-const User = ({ match }) => {
-  const history = useHistory();
+const User = (props) => {
+  const { match, history } = props;
   const [user, setUser] = useState();
   const [error, setError] = useState(null);
   const [passwordUpdated, setPasswordUpdated] = useState(null);
@@ -26,9 +25,7 @@ const User = ({ match }) => {
     });
   };
 
-  const handleEdit = () => {
-    history.push(`/managements/users/update/${match.params.id}`);
-  };
+  const handleEdit = () => history.push(`/managements/users/${match.params.id}/update`);
 
   const handleRemove = () => {
     axios.delete(`${API_USERS}/${match.params.id}`)

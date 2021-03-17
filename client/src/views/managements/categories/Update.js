@@ -24,6 +24,7 @@ const Update = (props) => {
   const [slug, setSlug] = useState('');
   const [error, setError] = useState(null);
   const [isActive, setActive] = useState(false);
+  const [errorName, setErrorName] = useState(null);
 
   useEffect(() => {
     // Get Categories
@@ -35,10 +36,23 @@ const Update = (props) => {
       }).catch(() => alert(ERROR_MESSAGE));
   }, [props.match.params.id]);
 
+  const validate = (name) => {
+    resetValidation();
+
+    if (name.trim().length === 0) {
+      setErrorName('Please enter Category name');
+      return false;
+    }
+
+    return true;
+  };
+
+  const resetValidation = () => setErrorName(null);
+
   const handleSubmit = () => {
     setError(null);
 
-    axios.put(`${API_CATEGORIES}/${props.match.params.id}`, {
+    validate(name) && axios.put(`${API_CATEGORIES}/${props.match.params.id}`, {
       name,
       slug: slug !== '' ? slug : `${slugify(name)}-${new Date().getTime()}`,
       isActive: (isActive === 'true'),
@@ -63,9 +77,10 @@ const Update = (props) => {
                   <CLabel htmlFor="text-input">Name</CLabel>
                 </CCol>
                 <CCol xs="12" md="9">
-                  <CInput id="first-name" name="text-input" placeholder="Category Name" value={name}
+                  <CInput id={errorName ? 'inputIsInvalid' : 'inputIsValid'} name="text-input"
+                          className={errorName && 'is-invalid invalid'} placeholder="Category Name" value={name}
                           onChange={e => setName(e.target.value)}/>
-                  <CFormText>Please enter Category name</CFormText>
+                  {errorName && <CFormText color="danger">{errorName}</CFormText>}
                 </CCol>
               </CFormGroup>
               <CFormGroup row>
@@ -75,7 +90,6 @@ const Update = (props) => {
                 <CCol xs="12" md="9">
                   <CInput id="slug" name="text-input" placeholder="Slug" value={slug}
                           onChange={e => setSlug(e.target.value)}/>
-                  <CFormText>Please enter Category Slug</CFormText>
                 </CCol>
               </CFormGroup>
               <CFormGroup row>

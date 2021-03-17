@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
 import { CButton, CCard, CCardBody, CCardHeader, CCol, CRow } from '@coreui/react';
 import CIcon from '@coreui/icons-react';
 
@@ -7,14 +6,11 @@ import axios from 'axios';
 import { API_CATEGORIES, API_PRODUCTS } from '../../../api.common';
 import { ERROR_MESSAGE } from '../../../common';
 
-const User = ({ match }) => {
-  console.log(match);
-  const history = useHistory();
+const User = (props) => {
+  const { match, history } = props;
   const [product, setProduct] = useState();
 
-  const handleEdit = () => {
-    history.push(`/managements/products/update/${match.params.id}`);
-  };
+  const handleEdit = () => history.push(`/managements/products/${match.params.id}/update`);
 
   const handleRemove = () => {
     axios.delete(`${API_PRODUCTS}/${match.params.id}`)

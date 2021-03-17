@@ -21,8 +21,6 @@ import { SetActivationDto } from './dto/set-activation.dto';
 import { MailService } from '../../common/mailer/mail.service';
 import { UsersInterfaces } from './interfaces/users.interfaces';
 
-const getValue = (value) => value || '';
-
 const contentChangePassword = (value) => `<b>Your account has successfully changed password</b> <br/><br/>
     New Password is <p style="color: green;">${value}</p>`;
 

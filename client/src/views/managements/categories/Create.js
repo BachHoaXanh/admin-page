@@ -22,11 +22,25 @@ const Create = (props) => {
   const name = useFormInput('');
   const slug = useFormInput('');
   const [error, setError] = useState(null);
+  const [errorName, setErrorName] = useState(null);
+
+  const validate = (name) => {
+    resetValidation();
+
+    if (name.trim().length === 0) {
+      setErrorName('Please enter Category name');
+      return false;
+    }
+
+    return true;
+  };
+
+  const resetValidation = () => setErrorName(null);
 
   const handleSubmit = () => {
     setError(null);
 
-    axios.post(`${API_CATEGORIES}`, {
+    validate(name.value) && axios.post(`${API_CATEGORIES}`, {
       name: name.value,
       slug: slug.value !== '' ? slug.value : `${slugify(name.value)}-${new Date().getTime()}`,
     }).then(() => {
@@ -50,8 +64,10 @@ const Create = (props) => {
                   <CLabel htmlFor="text-input">Category Name<label style={{ color: 'red' }}>*</label></CLabel>
                 </CCol>
                 <CCol xs="12" md="9">
-                  <CInput id="first-name" name="text-input" placeholder="Category Name" {...name}/>
-                  <CFormText>Please enter Category name</CFormText>
+                  <CInput name="text-input" placeholder="Category Name"
+                          id={errorName ? 'inputIsInvalid' : 'inputIsValid'}
+                          className={errorName && 'is-invalid invalid'} {...name}/>
+                  {errorName && <CFormText color="danger">{errorName}</CFormText>}
                 </CCol>
               </CFormGroup>
               <CFormGroup row>
@@ -60,7 +76,6 @@ const Create = (props) => {
                 </CCol>
                 <CCol xs="12" md="9">
                   <CInput id="slug" name="text-input" placeholder="Category Slug" {...slug}/>
-                  <CFormText>Please enter Category Slug</CFormText>
                 </CCol>
               </CFormGroup>
             </CForm>

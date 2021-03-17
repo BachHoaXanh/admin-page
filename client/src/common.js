@@ -1,13 +1,6 @@
-import axios from 'axios';
-import React, {useState} from 'react'
+import React, { useState } from 'react';
 import { Route, Redirect } from 'react-router-dom';
-
-export default axios.create({
-  baseURL: 'http://localhost:3000/api',
-  headers: {
-    'Content-Type': 'application/json'
-  }
-})
+import { HOST } from './api.common';
 
 export const LIMIT_RECORDS = 15;
 
@@ -19,7 +12,7 @@ export const ERROR_MESSAGE = 'Something went wrong. Please try again later';
 export const getUser = () => {
   const userStr = sessionStorage.getItem('user');
   return userStr ? JSON.parse(userStr) : null;
-}
+};
 
 // return the token from the session storage
 export const getToken = () => sessionStorage.getItem('token') || null;
@@ -28,32 +21,32 @@ export const getToken = () => sessionStorage.getItem('token') || null;
 export const removeUserSession = () => {
   sessionStorage.removeItem('token');
   sessionStorage.removeItem('user');
-}
+};
 
 // set the token and user from the session storage
 export const setUserSession = (token, user) => {
   sessionStorage.setItem('token', token);
   sessionStorage.setItem('user', JSON.stringify(user));
-}
+};
 
 export const getUserSession = () => {
   return {
     user: sessionStorage.getItem('user'),
-    token: sessionStorage.getItem('token')
-  }
-}
+    token: sessionStorage.getItem('token'),
+  };
+};
 
 export const PrivateRoute = ({ component: Component, ...rest }) => (
   <Route {...rest} render={(props) => getToken()
-      ? <Component {...props} />
-      : <Redirect to={{ pathname: '/login', state: { from: props.location } }}/>}
+    ? <Component {...props} />
+    : <Redirect to={{ pathname: '/login', state: { from: props.location } }}/>}
   />
-)
+);
 
 export const PublicRoute = ({ component: Component, ...rest }) => (
   <Route {...rest} render={(props) => !getToken()
     ? <Component {...props} />
-    : <Redirect to={{ pathname: '/' }} />}
+    : <Redirect to={{ pathname: '/' }}/>}
   />
 );
 
@@ -62,15 +55,15 @@ export const totalPages = (records, limit) => Math.ceil(records / limit);
 export const useFormInput = initialValue => {
   const [value, setValue] = useState(initialValue);
   return { value, onChange: e => setValue(e.target.value) };
-}
+};
 
 export function slugify(str) {
   str = str.replace(/^\s+|\s+$/g, ''); // trim
   str = str.toLowerCase();
 
   // remove accents, swap ñ for n, etc
-  const from = "ãàáäâẽèéëêìíïîõòóöôùúüûñç·/_,:;";
-  const to = "aaaaaeeeeeiiiiooooouuuunc------";
+  const from = 'ãàáäâẽèéëêìíïîõòóöôùúüûñç·/_,:;';
+  const to = 'aaaaaeeeeeiiiiooooouuuunc------';
 
   for (let i = 0, l = from.length; i < l; i++) {
     str = str.replace(new RegExp(from.charAt(i), 'g'), to.charAt(i));
@@ -81,4 +74,18 @@ export function slugify(str) {
     .replace(/-+/g, '-'); // collapse dashes
 
   return str;    // Trim - from end of text
+}
+
+export const removePrefixUpload = path => path.replace('upload', '');
+
+export function showThumbnailProduct(item) {
+  return item?.images?.length > 0
+    ? `${HOST}/${removePrefixUpload(item.images[0].path)}`
+    : `${process.env.PUBLIC_URL}/avatars/gogouya-fruits.jpg`;
+}
+
+export function showAvatar(item) {
+  return item?.images?.length > 0
+    ? `${HOST}/${removePrefixUpload(item.images[0].path)}`
+    : `${process.env.PUBLIC_URL}/avatars/8.jpg`;
 }

@@ -1,19 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
-import { withRouter } from "react-router";
+import { withRouter } from 'react-router';
 import { CButton, CCard, CCardBody, CCardHeader, CCol, CRow } from '@coreui/react';
 import CIcon from '@coreui/icons-react';
 import axios from 'axios';
 import { API_CATEGORIES } from '../../../api.common';
 import { ERROR_MESSAGE } from '../../../common';
 
-const Category = ({ match }) => {
-  const history = useHistory();
+const Category = (props) => {
+  const { match, history } = props;
   const [category, setCategory] = useState();
 
-  const handleEdit = () => {
-    history.push(`/managements/categories/update/${match.params.id}`);
-  };
+  const handleEdit = () => history.push(`/managements/categories/${match.params.id}/update`);
 
   const handleRemove = () => {
     axios.delete(`${API_CATEGORIES}/${match.params.id}`)
