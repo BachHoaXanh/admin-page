@@ -88,7 +88,6 @@ export class ProductsController {
         CrudRequestInterceptor,
         FilesInterceptor('images', 10, {
             storage: diskStorage({
-                // TODO: new generateFolderUpload()
                 destination: './upload/products',
                 filename: editFileName,
             }),

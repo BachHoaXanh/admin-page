@@ -20,6 +20,7 @@ import { API_CATEGORIES } from '../../../api.common';
 import { ERROR_MESSAGE, slugify, SUCCESS_MESSAGE } from '../../../common';
 
 const Update = (props) => {
+  const { match, history } = props;
   const [name, setName] = useState('');
   const [slug, setSlug] = useState('');
   const [error, setError] = useState(null);
@@ -28,13 +29,13 @@ const Update = (props) => {
 
   useEffect(() => {
     // Get Categories
-    axios.get(`${API_CATEGORIES}/${props.match.params.id}`)
+    axios.get(`${API_CATEGORIES}/${match.params.id}`)
       .then((res) => {
         setName(res.data.name);
         setSlug(res.data.slug);
         setActive(res.data.isActive);
       }).catch(() => alert(ERROR_MESSAGE));
-  }, [props.match.params.id]);
+  }, [match.params.id]);
 
   const validate = (name) => {
     resetValidation();
@@ -52,13 +53,13 @@ const Update = (props) => {
   const handleSubmit = () => {
     setError(null);
 
-    validate(name) && axios.put(`${API_CATEGORIES}/${props.match.params.id}`, {
+    validate(name) && axios.put(`${API_CATEGORIES}/${match.params.id}`, {
       name,
       slug: slug !== '' ? slug : `${slugify(name)}-${new Date().getTime()}`,
       isActive: (isActive === 'true'),
     }).then(() => {
       alert(SUCCESS_MESSAGE);
-      props.history.push('/managements/categories');
+      history.push('/managements/categories');
     }).catch((error) => setError(error.response.status === 401 ? error.response.data.message : ERROR_MESSAGE));
   };
 
@@ -94,7 +95,7 @@ const Update = (props) => {
               </CFormGroup>
               <CFormGroup row>
                 <CCol md="3">
-                  <CLabel htmlFor="text-input">Name</CLabel>
+                  <CLabel htmlFor="text-input">Active</CLabel>
                 </CCol>
                 <CCol xs="12" md="9">
                   <CSelect custom name="select" id="select" value={isActive} onChange={e => setActive(e.target.value)}>

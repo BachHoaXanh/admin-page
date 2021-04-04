@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { CButton, CCard, CCardBody, CCardHeader, CCol, CRow } from '@coreui/react';
 import CIcon from '@coreui/icons-react';
-
 import axios from 'axios';
 import { API_CATEGORIES, API_PRODUCTS } from '../../../api.common';
 import { ERROR_MESSAGE } from '../../../common';
@@ -37,7 +36,7 @@ const User = (props) => {
         }
       }).catch(() => alert(ERROR_MESSAGE));
   }, [match.params.id]);
-  console.log(product);
+
   const productDetails = product ? Object.entries(product) :
     [[(<span><CIcon className="text-muted" name="cui-icon-ban"/> Not found</span>)]];
 

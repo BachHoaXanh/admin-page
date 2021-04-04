@@ -19,17 +19,14 @@ export class CreateProductDto {
     @ApiPropertyOptional()
     code: string;
 
-    @IsNumber()
     @IsOptional()
     @ApiPropertyOptional()
     price: number;
 
-    @IsNumber()
     @IsOptional()
     @ApiPropertyOptional()
     saleOff: number;
 
-    @IsNumber()
     @IsOptional()
     @ApiPropertyOptional()
     quantity:number;

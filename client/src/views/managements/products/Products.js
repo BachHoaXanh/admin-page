@@ -12,7 +12,7 @@ import {
 } from '@coreui/react';
 
 import axios from 'axios';
-import { ERROR_MESSAGE, LIMIT_RECORDS, showAvatar, showThumbnailProduct, totalPages } from '../../../common';
+import { ERROR_MESSAGE, LIMIT_RECORDS, showThumbnailProduct, totalPages } from '../../../common';
 import { API_CATEGORIES, API_PRODUCTS } from '../../../api.common';
 
 const getBadge = status => {
@@ -62,9 +62,7 @@ const Products = () => {
     getCategories();
     list(props);
 
-    const interval = setInterval(async () => {
-      await list();
-    }, 8000);
+    const interval = setInterval(async () => await list(), 8000);
 
     currentPage !== page && setPage(currentPage);
 
