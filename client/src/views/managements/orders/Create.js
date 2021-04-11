@@ -57,11 +57,11 @@ const Create = () => {
             <CForm action="" method="post" encType="multipart/form-data" className="form-horizontal">
               <CFormGroup row>
                 <CCol md="3">
-                  <CLabel htmlFor="text-input">First Name</CLabel>
+                  <CLabel htmlFor="text-input">Category Name</CLabel>
                 </CCol>
                 <CCol xs="12" md="9">
                   <CInput id="first_name" name="text-input" placeholder="First Name"/>
-                  <CFormText>Please enter your first name</CFormText>
+                  <CFormText>Please enter your Category name</CFormText>
                 </CCol>
               </CFormGroup>
               <CFormGroup row>

@@ -23,7 +23,10 @@ const Order = (props) => {
   useEffect(() => {
     // Get Categories
     axios.get(`${API_ORDERS}/${match.params.id}`)
-      .then((res) => setOrder(res.data))
+      .then((res) => {
+        const {id, staffId, customerId, createdAt, updatedAt, ...data} = res.data;
+        setOrder(data);
+      })
       .catch(() => alert(ERROR_MESSAGE));
   }, [match.params.id]);
 

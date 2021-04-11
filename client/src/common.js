@@ -84,8 +84,8 @@ export function showThumbnailProduct(item) {
     : `${process.env.PUBLIC_URL}/avatars/gogouya-fruits.jpg`;
 }
 
-export function showAvatar(item) {
-  return item?.images?.length > 0
-    ? `${HOST}/${removePrefixUpload(item.images[0].path)}`
-    : `${process.env.PUBLIC_URL}/avatars/8.jpg`;
+export function showAvatar(path) {
+  return path?.length > 0
+    ? `${HOST}/${removePrefixUpload(path)}`
+    : `https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png`;
 }

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   CButton,
   CDropdown,
@@ -8,40 +8,48 @@ import {
   CImg,
 } from '@coreui/react';
 import CIcon from '@coreui/icons-react';
-import { getToken, getUserSession, removeUserSession } from '../common';
+import { ERROR_MESSAGE, getToken, getUserSession, removeUserSession, showAvatar } from '../common';
 import axios from 'axios';
-import { HOST } from '../api.common';
+import { API_USERS, HOST } from '../api.common';
 import { useHistory } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
 
 const TheHeaderDropdown = () => {
-  function componentWillMount() {
-
-  }
   const history = useHistory();
+  const userSession = getUserSession();
+
+  const [user, setUser] = useState();
 
   const handleLogout = () => {
     axios.post(`${HOST}/auth/logout`, {
       token: getToken(),
     }).then(() => {
-      removeUserSession();
-      history.push('/login');
+      redirectLoginPage();
     });
   };
 
-  const getProfile = () => {
-    const user = getUserSession();
-    history.push(user.user ? `/managements/users/${user.user}` : '/login');
-  };
+  const redirectLoginPage = () => {
+    removeUserSession();
+    history.push('/login');
+  }
 
   const updateAvatar = () => alert('This feature is coming soon...');
+  const getProfile = () => history.push(userSession.user ? `/managements/users/${userSession.user}` : '/login');
+
+  useEffect(() => {
+    if (userSession.user) {
+      axios.get(`${API_USERS}/${userSession.user}`)
+        .then((res) => setUser(res.data))
+    } else redirectLoginPage();
+  }, [userSession.user]);
 
   return (
     <CDropdown inNav className="c-header-nav-items mx-2" direction="down">
       <CDropdownToggle className="c-header-nav-link" caret={false}>
         <div className="c-avatar">
-          <CImg src={'avatars/8.jpg'} className="c-avatar-img" alt="admin@bootstrapmaster.com"/>
+          <CImg src={showAvatar(user?.avatar.path)}
+                className="c-avatar-img" alt="admin@bootstrapmaster.com"/>
         </div>
       </CDropdownToggle>
       <CDropdownMenu className="pt-0" placement="bottom-end">

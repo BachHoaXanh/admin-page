@@ -139,7 +139,7 @@ export class UsersController {
             const oldImages = JSON.parse(JSON.stringify(user.avatar));
 
             // delete old avatar
-            removeFile(oldImages.path.replace('/\\/g', '/'));
+            if (oldImages) removeFile(oldImages.path.replace('/\\/g', '/'));
 
             newImage = {
                 originalname: file.originalname,
