@@ -36,3 +36,5 @@ yarn.lock
 
 .env
 ../.idea
+
+server/upload/
