@@ -29,6 +29,7 @@ const TheHeaderDropdown = () => {
   }
 
   const updateAvatar = () => history.push(`/managements/users/${userSession.user}/update-avatar`);
+  const changePassword = () => history.push(`/managements/users/${userSession.user}/update-password`);
   const getProfile = () => history.push(userSession.user ? `/managements/users/${userSession.user}` : '/login');
 
   useEffect(() => {
@@ -52,6 +53,11 @@ const TheHeaderDropdown = () => {
         <CDropdownItem>
           <CButton onClick={updateAvatar}>
             <CIcon name="cil-pencil" className="mfe-2"/>Update Avatar
+          </CButton>
+        </CDropdownItem>
+        <CDropdownItem>
+          <CButton onClick={changePassword}>
+            <CIcon name="cil-pencil" className="mfe-2"/>Change Password
           </CButton>
         </CDropdownItem>
         <CDropdownItem>

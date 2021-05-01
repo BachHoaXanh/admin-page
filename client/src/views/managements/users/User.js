@@ -14,6 +14,7 @@ const User = (props) => {
 
   const handleEdit = () => history.push(`/managements/users/${match.params.id}/update`);
   const updateAvatar = () => history.push(`/managements/users/${match.params.id}/update-avatar`);
+  const changePassword = () => history.push(`/managements/users/${match.params.id}/update-password`);
 
   const handleResetPassword = () => {
     setError(null);
@@ -56,7 +57,11 @@ const User = (props) => {
               <CCol col="1" sm="2" md="2" xl className="mb-3 mb-xl-0">
                 <h4><strong>User Information</strong></h4>
               </CCol>
-              <CCol col="1" sm="2" md="2" xl className="mb-3 mb-xl-0"/>
+              <CCol col="5" sm="4" md="3" className="mb-3 mb-xl-0" style={{ maxWidth: 'max-content' }}>
+                <CButton variant="ghost" color="Secondary" onClick={changePassword}>
+                  <CIcon size={'sm'} name="cilSettings"/> Change Password
+                </CButton>
+              </CCol>
               <CCol col="5" sm="4" md="3" className="mb-3 mb-xl-0" style={{ maxWidth: 'max-content' }}>
                 <CButton variant="ghost" color="Secondary" onClick={updateAvatar}>
                   <CIcon size={'sm'} name="cilSettings"/> Change Avatar

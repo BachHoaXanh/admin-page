@@ -54,6 +54,7 @@ const Users = React.lazy(() => import('./views/managements/users/Users'));
 const CreateUser = React.lazy(() => import('./views/managements/users/Create'));
 const UpdateUser = React.lazy(() => import('./views/managements/users/Update'));
 const UpdateUserAvatar = React.lazy(() => import('./views/managements/users/UploadAvatar'));
+const UpdateUserPassword = React.lazy(() => import('./views/managements/users/UpdatePassword'));
 
 // Orders
 const Order = React.lazy(() => import('./views/managements/orders/Order'));
@@ -117,6 +118,7 @@ const routes = [
   { path: '/managements/users/:id/update', exact: true, name: 'Update User', component: UpdateUser },
   { path: '/managements/users/:id', exact: true, name: 'User Information', component: User },
   { path: '/managements/users/:id/update-avatar', exact: true, name: 'Update Avatar User', component: UpdateUserAvatar},
+  { path: '/managements/users/:id/update-password', exact: true, name: 'Update Password User', component: UpdateUserPassword},
   // Orders
   { path: '/managements/orders', exact: true, name: 'Orders', component: Orders},
   { path: '/managements/orders/create', exact: true, name: 'Create Order', component: CreateOrder },
