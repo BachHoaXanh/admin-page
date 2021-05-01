@@ -8,7 +8,7 @@ import {
   CImg,
 } from '@coreui/react';
 import CIcon from '@coreui/icons-react';
-import { ERROR_MESSAGE, getToken, getUserSession, removeUserSession, showAvatar } from '../common';
+import { getToken, getUserSession, removeUserSession, showAvatar } from '../common';
 import axios from 'axios';
 import { API_USERS, HOST } from '../api.common';
 import { useHistory } from 'react-router-dom';
@@ -21,26 +21,19 @@ const TheHeaderDropdown = () => {
 
   const [user, setUser] = useState();
 
-  const handleLogout = () => {
-    axios.post(`${HOST}/auth/logout`, {
-      token: getToken(),
-    }).then(() => {
-      redirectLoginPage();
-    });
-  };
+  const handleLogout = () => axios.post(`${HOST}/auth/logout`, { token: getToken() }).then(() => redirectLoginPage());
 
   const redirectLoginPage = () => {
     removeUserSession();
     history.push('/login');
   }
 
-  const updateAvatar = () => alert('This feature is coming soon...');
+  const updateAvatar = () => history.push(`/managements/users/${userSession.user}/update-avatar`);
   const getProfile = () => history.push(userSession.user ? `/managements/users/${userSession.user}` : '/login');
 
   useEffect(() => {
     if (userSession.user) {
-      axios.get(`${API_USERS}/${userSession.user}`)
-        .then((res) => setUser(res.data))
+      axios.get(`${API_USERS}/${userSession.user}`).then((res) => setUser(res.data))
     } else redirectLoginPage();
   }, [userSession.user]);
 
@@ -69,8 +62,7 @@ const TheHeaderDropdown = () => {
         <CDropdownItem divider/>
         <CDropdownItem>
           <CButton onClick={handleLogout}>
-            <FontAwesomeIcon icon={faSignOutAlt} className="breadcrumb-arrow"
-                             style={{ marginRight: '0.5rem' }}/>
+            <FontAwesomeIcon icon={faSignOutAlt} className="breadcrumb-arrow" style={{ marginRight: '0.5rem' }}/>
             Logout
           </CButton>
         </CDropdownItem>

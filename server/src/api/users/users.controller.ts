@@ -58,19 +58,6 @@ export class UsersController {
       public mail: MailService,
     ) {}
 
-    // TODO: create getRole() from enum
-    // const content = `
-    //     <b>Your Account Information is changed Successfully.</b> <br/><br/>
-    //     Email: ${getValue(updatedUser.email)} <br/>
-    //     First Name: ${getValue(updatedUser.firstName)} <br/>
-    //     Last Name: ${getValue(updatedUser.lastName)} <br/>
-    //     Phone: ${getValue(updatedUser.phone)} <br/>
-    //     Address: ${getValue(updatedUser.address)} <br/>
-    //     Gender: ${getValue(updatedUser.gender)} <br/>
-    //     Role: ${getValue(updatedUser.role)} <br/>`;
-    //
-    // this.mail.send(updatedUser.email, 'Change Account Information', content);
-
     /**
      * Change User Password
      *

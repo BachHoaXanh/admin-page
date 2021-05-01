@@ -33,11 +33,11 @@ const Login = (props) => {
       password: password.value
     }).then((res) => {
       setLoading(false);
-      setUserSession(res.data.token, res.data.id);
+      setUserSession(res.data.token, res.data.id, res.data.role);
       props.history.push('/');
     }).catch(error => {
       setLoading(false);
-      setError(error.response.status === 401 ? error.response.data.message : ERROR_MESSAGE);
+      setError(error.response?.status === 401 ? error.response.data.message : ERROR_MESSAGE);
     });
   };
 
@@ -58,7 +58,7 @@ const Login = (props) => {
                           <CIcon name="cil-user" />
                         </CInputGroupText>
                       </CInputGroupPrepend>
-                      <CInput type="text" placeholder="Username" autoComplete="email" {...email} />
+                      <CInput type="text" placeholder="Email" autoComplete="email" {...email} />
                     </CInputGroup>
                     <CInputGroup className="mb-4">
                       <CInputGroupPrepend>

@@ -84,8 +84,11 @@ const Orders = () => {
             <CDataTable
               items={orders}
               fields={[
-                { key: 'staffId', label: 'Staff Name' },
-                { key: 'customerId', label: 'Customer Name' },
+                { key: 'name', label: 'Customer Name' },
+                { key: 'phone', label: 'Customer Phone'},
+                { key: 'email', label: 'Customer Email'},
+                { key: 'address', label: 'Customer Address'},
+                { key: 'payment', label: 'Payment'},
                 { key: 'totalPrice', label: 'Total Price (VND)' },
                 'status',
               ]}

@@ -100,7 +100,7 @@ const Users = () => {
                 ),
                 'avatar': item => (
                   <td>
-                    <CImg src={showAvatar(item?.avatar.path)} className="c-avatar-img" style={{ maxWidth: '4rem' }}/>
+                    <CImg src={showAvatar(item?.avatar?.path)} className="c-avatar-img" style={{ maxWidth: '4rem' }}/>
                   </td>
                 ),
               }}

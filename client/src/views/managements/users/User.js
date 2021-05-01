@@ -12,20 +12,20 @@ const User = (props) => {
   const [error, setError] = useState(null);
   const [passwordUpdated, setPasswordUpdated] = useState(null);
 
+  const handleEdit = () => history.push(`/managements/users/${match.params.id}/update`);
+  const updateAvatar = () => history.push(`/managements/users/${match.params.id}/update-avatar`);
+
   const handleResetPassword = () => {
     setError(null);
     setPasswordUpdated(null);
 
     axios.patch(`${API_USERS}/reset-password/${match.params.id}`)
-      .then((res) => {
-        setPasswordUpdated(`New Password is ${res?.data.newPassword}`);
-      }).catch(() => {
+      .then((res) => setPasswordUpdated(`New Password is ${res?.data.newPassword}`))
+      .catch(() => {
       setError(error.response.status === 401 ? error.response.data.message : ERROR_MESSAGE);
       alert(ERROR_MESSAGE);
     });
   };
-
-  const handleEdit = () => history.push(`/managements/users/${match.params.id}/update`);
 
   const handleRemove = () => {
     axios.delete(`${API_USERS}/${match.params.id}`)
@@ -57,7 +57,11 @@ const User = (props) => {
                 <h4><strong>User Information</strong></h4>
               </CCol>
               <CCol col="1" sm="2" md="2" xl className="mb-3 mb-xl-0"/>
-              <CCol col="1" sm="2" md="2" xl className="mb-3 mb-xl-0"/>
+              <CCol col="5" sm="4" md="3" className="mb-3 mb-xl-0" style={{ maxWidth: 'max-content' }}>
+                <CButton variant="ghost" color="Secondary" onClick={updateAvatar}>
+                  <CIcon size={'sm'} name="cilSettings"/> Change Avatar
+                </CButton>
+              </CCol>
               <CCol col="5" sm="4" md="3" className="mb-3 mb-xl-0" style={{ maxWidth: 'max-content' }}>
                 <CButton variant="ghost" color="info" onClick={handleResetPassword}>
                   <CIcon size={'sm'} name="cilSettings"/> Reset Password

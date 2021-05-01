@@ -21,18 +21,21 @@ export const getToken = () => sessionStorage.getItem('token') || null;
 export const removeUserSession = () => {
   sessionStorage.removeItem('token');
   sessionStorage.removeItem('user');
+  sessionStorage.removeItem('role');
 };
 
 // set the token and user from the session storage
-export const setUserSession = (token, user) => {
+export const setUserSession = (token, user, role) => {
   sessionStorage.setItem('token', token);
   sessionStorage.setItem('user', JSON.stringify(user));
+  sessionStorage.setItem('role', role);
 };
 
 export const getUserSession = () => {
   return {
     user: sessionStorage.getItem('user'),
     token: sessionStorage.getItem('token'),
+    role: sessionStorage.getItem('role')
   };
 };
 
